@@ -1,4 +1,4 @@
-# One Degree NDP ingestion
+# One Degree NDP and ODRS ingestion
 
 Ingestion only. Reads source-native organization bundles, archives raw bytes before
 parsing, and hands records to the HSDS transformation owner. No HSDS mapping,
@@ -7,15 +7,18 @@ resource database, AI/Bedrock calls, queue, or independent AWS infrastructure.
 ## Status and integration boundary
 
 - Phase 1 verified against both supplied samples: 20 organizations, 36 nested
-  services, zero errors. Original source files are not copied into this package.
-- Phase 2 implemented against mocked HTTP and S3. **No live API or AWS connectivity
+  services, zero errors. Supplied fixtures now live in tests/fixtures/.
+- Phase 2 implemented against mocked HTTP and S3. **No live NDP API or AWS connectivity
   has been tested.** `sample-offset` is a provisional GET/skip/take profile, inferred
   from the samples; it is not a verified NDP operation contract.
-- Repository integration: inspected hoangviet2/BEVIJEN main, feature/hsds, and
-  feature/update at commit 5972e15. All contain only empty ai/backend/frontend
-  placeholder Markdown files. This package lives under backend/ingestion; no
-  application interface or IaC existed to extend. The callback and AWS configuration
-  still require agreement with the HSDS and infrastructure owners.
+- main at 94f8365 includes all three JSON fixtures and all three project Markdown
+  documents. Only ingestion .gitignore was missing; added in this update.
+- The teammate's feature/hsds branch now implements downstream intake/storage.
+  It expects transformed HSDS, not raw envelopes. The transformation teammate must
+  bridge this callback to their {source, native_id, record} intake contract.
+  No other team's code is merged or modified here.
+- ODRS local and staging API ingestion now work; live filtered pagination passed
+  across 2 pages / 3 opportunities. Full catalog and production remain untested.
 - Before live use, obtain the authorized Export API operation URL, API version,
   exact method, auth header/token lifecycle, pagination/count semantics, rate
   limits, stable ordering/snapshot behavior, incremental filter semantics and
@@ -176,3 +179,66 @@ query forwarding, auth headers, timeouts/retries, 401, malformed pagination,
 empty datasets, max-page limits, S3 bytes/metadata/version references, S3 failure,
 and HTTP redirect refusal. HTTP and S3 tests are mocked; they do not prove live
 connectivity. See VALIDATION.md for actual supplied-file execution results.
+
+## ODRS sample and staging ingestion
+
+Run from backend/ingestion:
+
+```sh
+python3 -m ndp_ingestion --raw-dir work/raw local --format odrs \
+  tests/fixtures/BayesExport_20250729.json
+python3 -m ndp_ingestion --raw-dir work/raw local \
+  tests/fixtures/national-data-platform-sample-1.json \
+  tests/fixtures/national-data-platform-sample-2.json
+```
+
+ODRS emits one complete source opportunity per envelope with source_name=odrs,
+record_pointer=/opportunities/N, native opportunity ID and updated_at. All nested
+fields are preserved, with no HSDS mapping. NDP still defaults to source_name=ndp.
+Local files are processed as supplied; pagination metadata does not trigger HTTP
+requests or imply the fixture is a complete dataset.
+
+Configure staging using approved environment/secret injection:
+
+| Variable | Meaning |
+| --- | --- |
+| ODRS_API_ENDPOINT | Authorized HTTPS opportunities collection; staff supplied https://rbg.1degree.org:3002/v1/opportunities |
+| ODRS_API_KEY | Key injected securely; never commit it |
+| ODRS_QUERY_JSON | Optional JSON filters (e.g. ids); default {} |
+| ODRS_PAGE_SIZE | per_page; default 50 |
+| ODRS_TIMEOUT / ODRS_RETRIES / ODRS_MAX_PAGES | Default 30 seconds / 3 retries / 10000 pages |
+
+```sh
+# Once approved environment configuration is supplied:
+python3 -m ndp_ingestion --handoff team_package.transform:accept odrs-api
+```
+
+Omit --handoff for development JSONL on stdout. The client follows next_page,
+validates counts and sequential pages, rejects foreign hosts/paths/schemes, and
+keeps the configured port and credential. Staging omits :3002 in next_page;
+requests continue using the authorized configured endpoint, not the omitted port.
+Retries/timeouts reuse the existing HTTP client. Max-page truncation, count changes
+and repeated pages mark a run incomplete. Stable counts alone do not guarantee a
+snapshot. ODRS incremental filters are not documented here, so full replay is the
+default. Organizations-list ingestion is not added: opportunities carry nested
+organizations. Production connectivity has not been tested.
+
+The shared S3 flags work for both sources. RE_S3_BUCKET is accepted as a fallback
+to NDP_RAW_BUCKET to align with the teammate's AWS setup. Raw prefix remains
+separate (ingestion/raw rather than hsds). IaC, permissions and scheduler remain
+owned by the team; this package creates no AWS resources.
+
+IMPORTANT: Staging responses echo api_key inside paging URLs. Exact raw archives
+therefore contain credentials. Keep them in restricted encrypted storage; never
+commit live responses or development output. Live tests use disposable temporary
+archives. The adapter does not rewrite original raw bytes. Configure access and
+retention for the raw prefix with the infrastructure owner.
+
+TLS verification remains enabled. This workstation needed its system CA bundle:
+SSL_CERT_FILE=/etc/ssl/cert.pem. Use a trusted CA bundle appropriate to your own
+runtime, never disable verification.
+
+Latest validation: 28 automated tests pass, including actual fixtures and ODRS
+pagination/security checks. Authorized staging smoke test retrieved all 3 requested
+records over 2 pages. NDP live access, real S3 writes, full ODRS export and end-to-end
+HSDS integration remain unverified.
