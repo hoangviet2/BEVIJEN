@@ -56,7 +56,10 @@ def archive_key(source_name: str, run_id: str, page: int) -> str:
 
 
 class FileSource:
-    def __init__(self, paths: Iterable[str | Path]):
+    def __init__(self, paths: Iterable[str | Path], record_field: str = "data"):
+        if record_field not in {"data", "opportunities"}:
+            raise ValueError("Unsupported record field")
+        self.record_field = record_field
         self.paths = [Path(p) for p in paths]
 
     def fetch(self) -> Iterable[RawPayload]:
@@ -95,11 +98,11 @@ class Summary:
         return asdict(self)
 
 
-def parse_page(body: bytes) -> tuple[dict, list]:
+def parse_page(body: bytes, record_field: str = "data") -> tuple[dict, list]:
     document = json.loads(body)
-    if not isinstance(document, dict) or not isinstance(document.get("data"), list):
-        raise ValueError("Expected NDP object with a data array")
-    return document, document["data"]
+    if not isinstance(document, dict) or not isinstance(document.get(record_field), list):
+        raise ValueError("Expected source envelope with configured record array")
+    return document, document[record_field]
 
 
 def ingest(source, raw_store: RawStore, handoff: Callable[[RecordEnvelope], None],
@@ -117,10 +120,11 @@ def ingest(source, raw_store: RawStore, handoff: Callable[[RecordEnvelope], None
         for page_number, raw in enumerate(source.fetch()):
             ref = raw_store.put(raw, source_name, summary.run_id, page_number)
             summary.payloads_archived += 1
-            _, records = parse_page(raw.body)
+            record_field = getattr(source, "record_field", "data")
+            _, records = parse_page(raw.body, record_field)
             summary.records_received += len(records)
             for index, record in enumerate(records):
-                pointer = f"/data/{index}"
+                pointer = f"/{record_field}/{index}"
                 stage = "extraction"
                 reason = "invalid_record_type"
                 native_id = None
@@ -142,7 +146,7 @@ def ingest(source, raw_store: RawStore, handoff: Callable[[RecordEnvelope], None
                         continue
                     meta = record.get("meta")
                     envelope = RecordEnvelope(source_name, native_id, key, raw.retrieved_at,
-                                              ref, pointer, meta.get("lastUpdated") if isinstance(meta, dict) else None,
+                                              ref, pointer, record.get("updated_at") if record_field == "opportunities" else (meta.get("lastUpdated") if isinstance(meta, dict) else None),
                                               record)
                     stage = "handoff"
                     reason = "handoff_failed"

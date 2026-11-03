@@ -12,17 +12,19 @@ from .core import FileSource, LocalRawStore, ingest
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--source-name', default='ndp')
+    parser.add_argument('--source-name', help='Stable source identity; defaults to ndp or odrs')
     parser.add_argument('--raw-dir', default='work/raw')
-    parser.add_argument('--s3-bucket', default=os.getenv('NDP_RAW_BUCKET'))
+    parser.add_argument('--s3-bucket', default=os.getenv('NDP_RAW_BUCKET') or os.getenv('RE_S3_BUCKET'))
     parser.add_argument('--s3-prefix', default=os.getenv('NDP_RAW_PREFIX', 'ingestion/raw'))
     parser.add_argument('--handoff', help='Trusted local module:function; must accept RecordEnvelope and be idempotent')
     parser.add_argument('--output', help='Development JSONL output (exclusive create); otherwise envelopes go to stdout')
     sub = parser.add_subparsers(dest='mode', required=True)
     local = sub.add_parser('local'); local.add_argument('files', nargs='+')
+    local.add_argument('--format', choices=['ndp', 'odrs'], default='ndp')
     api = sub.add_parser('api')
     api.add_argument('--profile', choices=['sample-offset'], required=True, help='Unverified GET skip/take profile; confirm with API owner')
     api.add_argument('--since', help='Pass through using documented NDP_SINCE_PARAM; no automatic watermark advancement')
+    odrs = sub.add_parser('odrs-api')
     args = parser.parse_args()
     logging.basicConfig(level=logging.INFO, format='%(levelname)s %(message)s')
     stream = None
@@ -30,7 +32,16 @@ def main():
         if args.handoff and args.output:
             raise ValueError('Choose callback or development output')
         if args.mode == 'local':
-            source = FileSource(args.files)
+            source = FileSource(args.files, 'opportunities' if args.format == 'odrs' else 'data')
+        elif args.mode == 'odrs-api':
+            from .odrs import OdrsConfig, OdrsApiSource
+            source = OdrsApiSource(OdrsConfig(
+                endpoint=os.environ['ODRS_API_ENDPOINT'], api_key=os.environ['ODRS_API_KEY'],
+                query=json.loads(os.getenv('ODRS_QUERY_JSON', '{}')),
+                page_size=int(os.getenv('ODRS_PAGE_SIZE', '50')),
+                timeout=float(os.getenv('ODRS_TIMEOUT', '30')), retries=int(os.getenv('ODRS_RETRIES', '3')),
+                max_pages=int(os.getenv('ODRS_MAX_PAGES', '10000')),
+            ))
         else:
             from .api import ApiConfig, ApiSource
             auth_header = os.getenv('NDP_AUTH_HEADER')
@@ -62,7 +73,8 @@ def main():
             def handoff(record):
                 stream.write(json.dumps(asdict(record), ensure_ascii=False) + '\n')
                 stream.flush()
-        summary = ingest(source, store, handoff, args.source_name)
+        default_name = 'odrs' if args.mode == 'odrs-api' or (args.mode == 'local' and args.format == 'odrs') else 'ndp'
+        summary = ingest(source, store, handoff, args.source_name or default_name)
         print(json.dumps(summary.to_dict()), file=sys.stderr)
         return 0 if summary.status == 'completed' else 1
     except Exception as exc:
