@@ -1,0 +1,3288 @@
+{
+    "input": {
+        "countAvailable": 1068,
+        "countReturned": 10,
+        "lastUpdated": "1970-01-01",
+        "includeInactive": false,
+        "dataOwners": "211bayarea",
+        "skip": 10,
+        "take": 10
+    },
+    "data": [{
+        "id": "211bayarea-10595231",
+        "name": "Extra Food",
+        "alternateNames": ["FOOD RUNNERS"],
+        "description": "Nonprofit agency delivering excess food from local businesses to neighborhood food programs.",
+        "url": "http://www.extrafood.org",
+        "email": null,
+        "yearIncorporated": 2013,
+        "taxStatus": "non_profit",
+        "taxId": null,
+        "legalStatus": "non_profit",
+        "funding": null,
+        "contacts": [],
+        "phones": [{
+            "id": "8348756377389716705",
+            "name": "Phone",
+            "type": "main",
+            "number": "(415) 997-9830",
+            "extension": null,
+            "description": "Main Office",
+            "isMain": false,
+            "access": null
+        }],
+        "services": [{
+            "id": "211bayarea-10605129",
+            "idProgram": null,
+            "idOrganization": "211bayarea-10595231",
+            "name": "Food Recovery Programs",
+            "alternateNames": [],
+            "description": "<p>Accepts surplus food donations for redistribution to community partners.</p>",
+            "contacts": [],
+            "phones": [{
+                "id": "3717529042913235744",
+                "name": "Phone",
+                "type": "main",
+                "number": "(415) 997-9830",
+                "extension": null,
+                "description": "Main Number",
+                "isMain": false,
+                "access": null
+            }, {
+                "id": "9000401628493546435",
+                "name": "Phone",
+                "type": "other",
+                "number": "(415) 929-1866",
+                "extension": null,
+                "description": "Alternate Number",
+                "isMain": false,
+                "access": null
+            }],
+            "schedules": [{
+                "id": "773537389993088457",
+                "type": null,
+                "validFrom": null,
+                "validTo": null,
+                "open": [{
+                    "day": "mon",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "tue",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "wed",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "thu",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "fri",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }],
+                "description": "Mon 8am - 5pm; Tue 8am - 5pm; Wed 8am - 5pm; Thu 8am - 5pm; Fri 8am - 5pm; "
+            }],
+            "taxonomy": [{
+                "id": "1276743318490808659",
+                "taxonomyTerm": "Food Donation Programs",
+                "taxonomyCode": "TI-1800.2000",
+                "taxonomyTermLevel1": "Organizational/Community/International Services",
+                "taxonomyTermLevel2": "Donor Services",
+                "taxonomyTermLevel3": "Donated Specialty Items",
+                "taxonomyTermLevel4": "Food Donation Programs",
+                "taxonomyTermLevel5": null,
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }],
+            "applicationProcess": "Call for appointment",
+            "interpretationServices": null,
+            "email": "contact@extrafood.org",
+            "url": "http://www.extrafood.org",
+            "waitTime": null,
+            "fees": {
+                "type": null,
+                "description": "No fee"
+            },
+            "accreditations": [],
+            "licenses": [],
+            "languages": {
+                "description": "English",
+                "codes": []
+            },
+            "funding": null,
+            "eligibility": {
+                "description": "Open to all",
+                "types": []
+            },
+            "serviceAreas": [{
+                "id": "5750668112378340171",
+                "type": "county",
+                "value": "Marin",
+                "geoJson": null,
+                "geoComponents": [{
+                    "postalCode": null,
+                    "locality": null,
+                    "county": "Marin",
+                    "state": "California",
+                    "country": "United States"
+                }]
+            }, {
+                "id": "244268334112776173",
+                "type": "county",
+                "value": "San Francisco",
+                "geoJson": null,
+                "geoComponents": [{
+                    "postalCode": null,
+                    "locality": null,
+                    "county": "San Francisco",
+                    "state": "California",
+                    "country": "United States"
+                }]
+            }],
+            "documents": {
+                "description": "None",
+                "types": []
+            },
+            "locationIds": ["211bayarea-10595232"],
+            "meta": {
+                "idResource": "211bayarea-10605129",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-02-26",
+                "lastVerified": "2025-02-07",
+                "created": null,
+                "temporaryMessage": null
+            }
+        }],
+        "programs": [],
+        "locations": [{
+            "id": "211bayarea-10595232",
+            "idOrganization": "211bayarea-10595231",
+            "name": "Main Office",
+            "alternateNames": [],
+            "description": null,
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "longitude": -122.5454,
+            "latitude": 37.95361,
+            "addresses": [{
+                "id": "5511408957270030184",
+                "type": "physical",
+                "postalCode": "94904",
+                "street": "907 Sir Francis Drake Boulevard",
+                "city": "Kentfield",
+                "county": "Marin",
+                "state": "CA",
+                "country": "United States",
+                "geocode": {
+                    "type": "point",
+                    "coordinates": [-122.5454, 37.95361],
+                    "bbox": [],
+                    "properties": {
+                        "type": "address",
+                        "address": {
+                            "addressLine": null,
+                            "postalCode": null,
+                            "neighborhood": null,
+                            "locality": null,
+                            "formattedAddress": null,
+                            "state": null,
+                            "county": null,
+                            "country": null
+                        }
+                    }
+                },
+                "description": null,
+                "access": "public"
+            }, {
+                "id": "5267434199034252208",
+                "type": "mailing",
+                "postalCode": "94904",
+                "street": "907 Sir Francis Drake Boulevard",
+                "city": "Kentfield",
+                "county": null,
+                "state": "CA",
+                "country": "United States",
+                "geocode": null,
+                "description": null,
+                "access": "public"
+            }],
+            "accessibility": {
+                "description": "Potential limitations to access, call for details.",
+                "types": null
+            },
+            "transportation": null,
+            "languages": {
+                "description": null,
+                "codes": []
+            },
+            "url": null,
+            "email": null,
+            "serviceIds": ["211bayarea-10605129"],
+            "meta": {
+                "idResource": "211bayarea-10595232",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-02-26",
+                "lastVerified": "2025-02-07",
+                "created": "1993-12-15",
+                "temporaryMessage": null
+            }
+        }],
+        "servicesAtLocations": [{
+            "id": "211bayarea-56074923",
+            "idOrganization": "211bayarea-10595231",
+            "idService": "211bayarea-10605129",
+            "idLocation": "211bayarea-10595232",
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "url": null,
+            "email": null,
+            "meta": {
+                "idResource": "211bayarea-56074923",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-02-26",
+                "lastVerified": null,
+                "created": "2018-05-02",
+                "temporaryMessage": null
+            }
+        }],
+        "meta": {
+            "idResource": "211bayarea-10595231",
+            "tags": [],
+            "access": "public",
+            "status": "active",
+            "reasonInactive": null,
+            "lastUpdated": "2025-02-26",
+            "lastVerified": "2025-02-07",
+            "created": "1993-12-15",
+            "temporaryMessage": null
+        },
+        "dataOwner": "211bayarea",
+        "dataOwnerDisplayName": "211 Bay Area",
+        "dataSteward": null,
+        "dataStewardDisplayName": null
+    }, {
+        "id": "211bayarea-10595247",
+        "name": "Free The Need",
+        "alternateNames": [],
+        "description": "<p data-block-id=\"96466633-800d-439e-beb2-abed9b3b1b9a\" data-pm-slice=\"1 1 []\">Volunteer-driven nonprofit provides surplus items to individuals in the community in need.</p>",
+        "url": "http://www.freetheneed.org",
+        "email": null,
+        "yearIncorporated": 1990,
+        "taxStatus": "non_profit",
+        "taxId": "94-3127857",
+        "legalStatus": "non_profit",
+        "funding": null,
+        "contacts": [],
+        "phones": [{
+            "id": "3715834769007002759",
+            "name": "Phone",
+            "type": "main",
+            "number": "(415) 587-6685",
+            "extension": null,
+            "description": "Main Number",
+            "isMain": false,
+            "access": null
+        }],
+        "services": [{
+            "id": "211bayarea-10605143",
+            "idProgram": null,
+            "idOrganization": "211bayarea-10595247",
+            "name": "Food Day",
+            "alternateNames": [],
+            "description": "<p>Provides food boxes with produce and clothing distribution.</p>",
+            "contacts": [],
+            "phones": [{
+                "id": "8494918537374911531",
+                "name": "Phone",
+                "type": "main",
+                "number": "(415) 587-6685",
+                "extension": null,
+                "description": "Main Number",
+                "isMain": false,
+                "access": null
+            }],
+            "schedules": [{
+                "id": "2837917863116176238",
+                "type": null,
+                "validFrom": null,
+                "validTo": null,
+                "open": [{
+                    "day": "fri",
+                    "opensAt": "11:00",
+                    "closesAt": "13:30"
+                }],
+                "description": "Fri 11am - 1:30pm; "
+            }],
+            "taxonomy": [{
+                "id": "1170518759604928898",
+                "taxonomyTerm": "General Clothing Provision",
+                "taxonomyCode": "BM-6500.1500-250",
+                "taxonomyTermLevel1": "Basic Needs",
+                "taxonomyTermLevel2": "Material Goods",
+                "taxonomyTermLevel3": "Personal Goods/Services",
+                "taxonomyTermLevel4": "Clothing",
+                "taxonomyTermLevel5": "General Clothing Provision",
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }, {
+                "id": "3703799451495030717",
+                "taxonomyTerm": "Food Pantries",
+                "taxonomyCode": "BD-1800.2000",
+                "taxonomyTermLevel1": "Basic Needs",
+                "taxonomyTermLevel2": "Food",
+                "taxonomyTermLevel3": "Emergency Food",
+                "taxonomyTermLevel4": "Food Pantries",
+                "taxonomyTermLevel5": null,
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }],
+            "applicationProcess": "Check website or call for schedule and location",
+            "interpretationServices": null,
+            "email": "ftn@freetheneed.org",
+            "url": "http://www.freetheneed.org",
+            "waitTime": null,
+            "fees": {
+                "type": null,
+                "description": "No fee"
+            },
+            "accreditations": [],
+            "licenses": [],
+            "languages": {
+                "description": "English, Spanish",
+                "codes": []
+            },
+            "funding": null,
+            "eligibility": {
+                "description": "Open to all",
+                "types": []
+            },
+            "serviceAreas": [{
+                "id": "6604084063014180867",
+                "type": "county",
+                "value": "San Francisco",
+                "geoJson": null,
+                "geoComponents": [{
+                    "postalCode": null,
+                    "locality": null,
+                    "county": "San Francisco",
+                    "state": "California",
+                    "country": "United States"
+                }]
+            }],
+            "documents": {
+                "description": "None",
+                "types": []
+            },
+            "locationIds": ["211bayarea-10595248"],
+            "meta": {
+                "idResource": "211bayarea-10605143",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2026-08-17",
+                "lastVerified": "2025-01-31",
+                "created": null,
+                "temporaryMessage": null
+            }
+        }, {
+            "id": "211bayarea-10610004",
+            "idProgram": null,
+            "idOrganization": null,
+            "name": "Seasonal_ Thanksgiving Food Program",
+            "alternateNames": [],
+            "description": null,
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "taxonomy": [],
+            "applicationProcess": null,
+            "interpretationServices": null,
+            "email": null,
+            "url": null,
+            "waitTime": null,
+            "fees": {
+                "type": null,
+                "description": null
+            },
+            "accreditations": [],
+            "licenses": [],
+            "languages": {
+                "description": null,
+                "codes": []
+            },
+            "funding": null,
+            "eligibility": {
+                "description": null,
+                "types": []
+            },
+            "serviceAreas": [],
+            "documents": {
+                "description": null,
+                "types": []
+            },
+            "locationIds": [],
+            "meta": {
+                "idResource": null,
+                "tags": [],
+                "access": null,
+                "status": "inactive",
+                "reasonInactive": null,
+                "lastUpdated": null,
+                "lastVerified": null,
+                "created": null,
+                "temporaryMessage": null
+            }
+        }],
+        "programs": [],
+        "locations": [{
+            "id": "211bayarea-10595248",
+            "idOrganization": "211bayarea-10595247",
+            "name": "Various Locations",
+            "alternateNames": [],
+            "description": null,
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "longitude": -122.391974,
+            "latitude": 37.733544,
+            "addresses": [{
+                "id": "8266534294293634946",
+                "type": "physical",
+                "postalCode": null,
+                "street": "Various Locations",
+                "city": null,
+                "county": "San Francisco",
+                "state": "CA",
+                "country": "United States",
+                "geocode": {
+                    "type": "point",
+                    "coordinates": [-122.391974, 37.733544],
+                    "bbox": [],
+                    "properties": {
+                        "type": "address",
+                        "address": {
+                            "addressLine": null,
+                            "postalCode": null,
+                            "neighborhood": null,
+                            "locality": null,
+                            "formattedAddress": null,
+                            "state": null,
+                            "county": null,
+                            "country": null
+                        }
+                    }
+                },
+                "description": null,
+                "access": "public"
+            }, {
+                "id": "6815257151931360276",
+                "type": "mailing",
+                "postalCode": "94127",
+                "street": "827 Joost Avenue",
+                "city": "San Francisco",
+                "county": null,
+                "state": "CA",
+                "country": "United States",
+                "geocode": null,
+                "description": null,
+                "access": "public"
+            }],
+            "accessibility": {
+                "description": "Not Applicable.",
+                "types": null
+            },
+            "transportation": null,
+            "languages": {
+                "description": null,
+                "codes": []
+            },
+            "url": null,
+            "email": null,
+            "serviceIds": ["211bayarea-10605143", "211bayarea-10610004"],
+            "meta": {
+                "idResource": "211bayarea-10595248",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-02-03",
+                "lastVerified": "2025-01-31",
+                "created": "2000-05-11",
+                "temporaryMessage": null
+            }
+        }],
+        "servicesAtLocations": [{
+            "id": "211bayarea-59352595",
+            "idOrganization": "211bayarea-10595247",
+            "idService": "211bayarea-10605143",
+            "idLocation": "211bayarea-10595248",
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "url": null,
+            "email": null,
+            "meta": {
+                "idResource": "211bayarea-59352595",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-02-03",
+                "lastVerified": null,
+                "created": "2018-11-05",
+                "temporaryMessage": null
+            }
+        }, {
+            "id": "211bayarea-91774002",
+            "idOrganization": null,
+            "idService": null,
+            "idLocation": null,
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "url": null,
+            "email": null,
+            "meta": {
+                "idResource": null,
+                "tags": [],
+                "access": null,
+                "status": "inactive",
+                "reasonInactive": null,
+                "lastUpdated": null,
+                "lastVerified": null,
+                "created": null,
+                "temporaryMessage": null
+            }
+        }],
+        "meta": {
+            "idResource": "211bayarea-10595247",
+            "tags": [],
+            "access": "public",
+            "status": "active",
+            "reasonInactive": null,
+            "lastUpdated": "2025-02-03",
+            "lastVerified": "2025-01-31",
+            "created": "2000-05-11",
+            "temporaryMessage": null
+        },
+        "dataOwner": "211bayarea",
+        "dataOwnerDisplayName": "211 Bay Area",
+        "dataSteward": null,
+        "dataStewardDisplayName": null
+    }, {
+        "id": "211bayarea-10595252",
+        "name": "Friends Of The Urban Forest",
+        "alternateNames": [],
+        "description": "Nonprofit organization that helps individuals and neighborhood groups plant and care for street trees and sidewalk gardens in San Francisco.",
+        "url": "http://www.friendsoftheurbanforest.org",
+        "email": null,
+        "yearIncorporated": 1981,
+        "taxStatus": "non_profit",
+        "taxId": "94-2699528",
+        "legalStatus": "non_profit",
+        "funding": null,
+        "contacts": [],
+        "phones": [{
+            "id": "1564398188214007904",
+            "name": "Phone",
+            "type": "main",
+            "number": "(415) 561-6890",
+            "extension": null,
+            "description": "Main Office",
+            "isMain": false,
+            "access": null
+        }],
+        "services": [{
+            "id": "211bayarea-10605147",
+            "idProgram": null,
+            "idOrganization": "211bayarea-10595252",
+            "name": "Street Tree Planting",
+            "alternateNames": [],
+            "description": "<p>Provides youth employment program for youth to work and learn about tree planting. Offers tree pruning experience for participants to learn basic biology and botany.</p>",
+            "contacts": [],
+            "phones": [{
+                "id": "1741770382500213594",
+                "name": "Phone",
+                "type": "main",
+                "number": "(415) 561-6890",
+                "extension": null,
+                "description": "Main Number",
+                "isMain": false,
+                "access": null
+            }],
+            "schedules": [{
+                "id": "3884577770154835692",
+                "type": null,
+                "validFrom": null,
+                "validTo": null,
+                "open": [{
+                    "day": "mon",
+                    "opensAt": "09:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "tue",
+                    "opensAt": "09:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "wed",
+                    "opensAt": "09:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "thu",
+                    "opensAt": "09:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "fri",
+                    "opensAt": "09:00",
+                    "closesAt": "17:00"
+                }],
+                "description": "Mon 9am - 5pm; Tue 9am - 5pm; Wed 9am - 5pm; Thu 9am - 5pm; Fri 9am - 5pm; "
+            }],
+            "taxonomy": [{
+                "id": "7750937898520155169",
+                "taxonomyTerm": "Tree Planting Programs",
+                "taxonomyCode": "JD-2000.8500",
+                "taxonomyTermLevel1": "Environment and Public Health/Safety",
+                "taxonomyTermLevel2": "Environmental Protection and Improvement",
+                "taxonomyTermLevel3": "Environmental Beautification",
+                "taxonomyTermLevel4": "Tree Planting Programs",
+                "taxonomyTermLevel5": null,
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }],
+            "applicationProcess": "Apply online or call",
+            "interpretationServices": null,
+            "email": "info@fuf.net",
+            "url": "http://www.friendsoftheurbanforest.org",
+            "waitTime": null,
+            "fees": {
+                "type": null,
+                "description": "No fee"
+            },
+            "accreditations": [],
+            "licenses": [],
+            "languages": {
+                "description": "English, Spanish",
+                "codes": []
+            },
+            "funding": null,
+            "eligibility": {
+                "description": "Open to all",
+                "types": []
+            },
+            "serviceAreas": [{
+                "id": "1334457101627718035",
+                "type": "county",
+                "value": "San Francisco",
+                "geoJson": null,
+                "geoComponents": [{
+                    "postalCode": null,
+                    "locality": null,
+                    "county": "San Francisco",
+                    "state": "California",
+                    "country": "United States"
+                }]
+            }],
+            "documents": {
+                "description": "None",
+                "types": []
+            },
+            "locationIds": ["211bayarea-10595253"],
+            "meta": {
+                "idResource": "211bayarea-10605147",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-02-10",
+                "lastVerified": "2025-02-07",
+                "created": null,
+                "temporaryMessage": null
+            }
+        }, {
+            "id": "211bayarea-10605149",
+            "idProgram": null,
+            "idOrganization": "211bayarea-10595252",
+            "name": "Green Teens Program",
+            "alternateNames": [],
+            "description": "Provides youth employment program for youth to work and learn about tree planting. Offers tree pruning experience for participants to learn basic biology and botany.",
+            "contacts": [],
+            "phones": [{
+                "id": "8585309435788660996",
+                "name": "Phone",
+                "type": "main",
+                "number": "(415) 561-6890",
+                "extension": null,
+                "description": "Main Number",
+                "isMain": false,
+                "access": null
+            }],
+            "schedules": [{
+                "id": "7345304253980906482",
+                "type": null,
+                "validFrom": null,
+                "validTo": null,
+                "open": [{
+                    "day": "mon",
+                    "opensAt": "09:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "tue",
+                    "opensAt": "09:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "wed",
+                    "opensAt": "09:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "thu",
+                    "opensAt": "09:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "fri",
+                    "opensAt": "09:00",
+                    "closesAt": "17:00"
+                }],
+                "description": "Mon 9am - 5pm; Tue 9am - 5pm; Wed 9am - 5pm; Thu 9am - 5pm; Fri 9am - 5pm; "
+            }],
+            "taxonomy": [{
+                "id": "8209533485160402932",
+                "taxonomyTerm": "Youth Employment Programs",
+                "taxonomyCode": "ND-6500.9800",
+                "taxonomyTermLevel1": "Income Support and Employment",
+                "taxonomyTermLevel2": "Employment",
+                "taxonomyTermLevel3": "Training and Employment Programs",
+                "taxonomyTermLevel4": "Youth Employment Programs",
+                "taxonomyTermLevel5": null,
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }],
+            "applicationProcess": "Apply online or call",
+            "interpretationServices": null,
+            "email": "greenteens@fuf.net",
+            "url": "http://www.friendsoftheurbanforest.org",
+            "waitTime": null,
+            "fees": {
+                "type": null,
+                "description": "No fee"
+            },
+            "accreditations": [],
+            "licenses": [],
+            "languages": {
+                "description": "Cantonese, English, Mandarin, Spanish, Tagalog",
+                "codes": []
+            },
+            "funding": null,
+            "eligibility": {
+                "description": "Youth (age 14-19 years)",
+                "types": []
+            },
+            "serviceAreas": [{
+                "id": "2984629752782023534",
+                "type": "county",
+                "value": "San Francisco",
+                "geoJson": null,
+                "geoComponents": [{
+                    "postalCode": null,
+                    "locality": null,
+                    "county": "San Francisco",
+                    "state": "California",
+                    "country": "United States"
+                }]
+            }],
+            "documents": {
+                "description": "None",
+                "types": []
+            },
+            "locationIds": ["211bayarea-10595253"],
+            "meta": {
+                "idResource": "211bayarea-10605149",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-02-10",
+                "lastVerified": "2025-02-07",
+                "created": null,
+                "temporaryMessage": null
+            }
+        }],
+        "programs": [],
+        "locations": [{
+            "id": "211bayarea-10595253",
+            "idOrganization": "211bayarea-10595252",
+            "name": "Main Office",
+            "alternateNames": [],
+            "description": null,
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "longitude": -122.4514,
+            "latitude": 37.80095,
+            "addresses": [{
+                "id": "7970302795502309067",
+                "type": "physical",
+                "postalCode": "94129",
+                "street": "1007 General Kennedy Avenue, Suite 1",
+                "city": "San Francisco",
+                "county": "San Francisco",
+                "state": "CA",
+                "country": "United States",
+                "geocode": {
+                    "type": "point",
+                    "coordinates": [-122.4514, 37.80095],
+                    "bbox": [],
+                    "properties": {
+                        "type": "address",
+                        "address": {
+                            "addressLine": null,
+                            "postalCode": null,
+                            "neighborhood": null,
+                            "locality": null,
+                            "formattedAddress": null,
+                            "state": null,
+                            "county": null,
+                            "country": null
+                        }
+                    }
+                },
+                "description": null,
+                "access": "public"
+            }, {
+                "id": "1152669914939068753",
+                "type": "mailing",
+                "postalCode": "94129",
+                "street": "1007 General Kennedy Avenue",
+                "city": "San Francisco",
+                "county": null,
+                "state": "CA",
+                "country": "United States",
+                "geocode": null,
+                "description": null,
+                "access": "public"
+            }],
+            "accessibility": {
+                "description": "Fully accessible to individuals using mobility aids.",
+                "types": null
+            },
+            "transportation": null,
+            "languages": {
+                "description": null,
+                "codes": []
+            },
+            "url": null,
+            "email": null,
+            "serviceIds": ["211bayarea-10605149", "211bayarea-10605147"],
+            "meta": {
+                "idResource": "211bayarea-10595253",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-02-10",
+                "lastVerified": "2025-02-07",
+                "created": "1993-12-15",
+                "temporaryMessage": null
+            }
+        }],
+        "servicesAtLocations": [{
+            "id": "211bayarea-56074957",
+            "idOrganization": "211bayarea-10595252",
+            "idService": "211bayarea-10605147",
+            "idLocation": "211bayarea-10595253",
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "url": null,
+            "email": null,
+            "meta": {
+                "idResource": "211bayarea-56074957",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-02-10",
+                "lastVerified": null,
+                "created": "2018-05-02",
+                "temporaryMessage": null
+            }
+        }, {
+            "id": "211bayarea-56074954",
+            "idOrganization": "211bayarea-10595252",
+            "idService": "211bayarea-10605149",
+            "idLocation": "211bayarea-10595253",
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "url": null,
+            "email": null,
+            "meta": {
+                "idResource": "211bayarea-56074954",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-02-10",
+                "lastVerified": null,
+                "created": "2018-05-02",
+                "temporaryMessage": null
+            }
+        }],
+        "meta": {
+            "idResource": "211bayarea-10595252",
+            "tags": [],
+            "access": "public",
+            "status": "active",
+            "reasonInactive": null,
+            "lastUpdated": "2025-02-10",
+            "lastVerified": "2025-02-07",
+            "created": "1993-12-15",
+            "temporaryMessage": null
+        },
+        "dataOwner": "211bayarea",
+        "dataOwnerDisplayName": "211 Bay Area",
+        "dataSteward": null,
+        "dataStewardDisplayName": null
+    }, {
+        "id": "211bayarea-10595260",
+        "name": "Friendship House Association Of American Indians",
+        "alternateNames": [],
+        "description": "<p>Nonprofit organization providing residential treatment services.</p>",
+        "url": "http://www.friendshiphousehealing.org",
+        "email": null,
+        "yearIncorporated": null,
+        "taxStatus": "non_profit",
+        "taxId": null,
+        "legalStatus": "non_profit",
+        "funding": null,
+        "contacts": [],
+        "phones": [{
+            "id": "4635918253522839232",
+            "name": "Fax",
+            "type": "fax",
+            "number": "(415) 865-5428",
+            "extension": null,
+            "description": null,
+            "isMain": false,
+            "access": null
+        }, {
+            "id": "5989829590256460783",
+            "name": "TTY",
+            "type": "tty",
+            "number": "(415) 431-6390",
+            "extension": null,
+            "description": null,
+            "isMain": false,
+            "access": null
+        }, {
+            "id": "8929607538342984607",
+            "name": "Phone",
+            "type": "main",
+            "number": "(415) 865-0964",
+            "extension": null,
+            "description": "Main Office",
+            "isMain": false,
+            "access": null
+        }],
+        "services": [{
+            "id": "211bayarea-10605156",
+            "idProgram": null,
+            "idOrganization": "211bayarea-10595260",
+            "name": "Residential Treatment Program",
+            "alternateNames": [],
+            "description": "<p>Provides alcohol and drug addiction residential treatment programs. Offers residential substance abuse recovery and relapse prevention.</p>",
+            "contacts": [],
+            "phones": [{
+                "id": "117795867187487526",
+                "name": "Phone",
+                "type": "main",
+                "number": "(415) 865-0964",
+                "extension": null,
+                "description": "Main Number",
+                "isMain": false,
+                "access": null
+            }],
+            "schedules": [{
+                "id": "5077669748609791281",
+                "type": null,
+                "validFrom": null,
+                "validTo": null,
+                "open": [{
+                    "day": "mon",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "tue",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "wed",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "thu",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "fri",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }],
+                "description": "Mon 8am - 5pm; Tue 8am - 5pm; Wed 8am - 5pm; Thu 8am - 5pm; Fri 8am - 5pm; "
+            }],
+            "taxonomy": [{
+                "id": "6329985431339192617",
+                "taxonomyTerm": "Residential Drug Use Disorder Treatment Facilities",
+                "taxonomyCode": "RX-8450.7000-750",
+                "taxonomyTermLevel1": "Mental Health and Substance Use Disorder Services",
+                "taxonomyTermLevel2": "Substance Use Disorder Services",
+                "taxonomyTermLevel3": "Substance Use Disorder Treatment Programs",
+                "taxonomyTermLevel4": "Residential Substance Use Disorder Treatment Facilities",
+                "taxonomyTermLevel5": "Residential Drug Use Disorder Treatment Facilities",
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }, {
+                "id": "7792727895378400169",
+                "taxonomyTerm": "Residential Alcohol Use Disorder Treatment Facilities",
+                "taxonomyCode": "RX-8450.7000-700",
+                "taxonomyTermLevel1": "Mental Health and Substance Use Disorder Services",
+                "taxonomyTermLevel2": "Substance Use Disorder Services",
+                "taxonomyTermLevel3": "Substance Use Disorder Treatment Programs",
+                "taxonomyTermLevel4": "Residential Substance Use Disorder Treatment Facilities",
+                "taxonomyTermLevel5": "Residential Alcohol Use Disorder Treatment Facilities",
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }],
+            "applicationProcess": "Call for appointment",
+            "interpretationServices": null,
+            "email": "info@friendshiphousesf.org",
+            "url": "http://www.friendshiphousehealing.org",
+            "waitTime": null,
+            "fees": {
+                "type": null,
+                "description": "Services fees vary"
+            },
+            "accreditations": [],
+            "licenses": [],
+            "languages": {
+                "description": "English",
+                "codes": []
+            },
+            "funding": null,
+            "eligibility": {
+                "description": "Adults (age 18 and older)",
+                "types": []
+            },
+            "serviceAreas": [{
+                "id": "5964052507326458542",
+                "type": "county",
+                "value": "San Francisco",
+                "geoJson": null,
+                "geoComponents": [{
+                    "postalCode": null,
+                    "locality": null,
+                    "county": "San Francisco",
+                    "state": "California",
+                    "country": "United States"
+                }]
+            }],
+            "documents": {
+                "description": "None",
+                "types": []
+            },
+            "locationIds": ["211bayarea-10595261"],
+            "meta": {
+                "idResource": "211bayarea-10605156",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-02-07",
+                "lastVerified": "2025-01-30",
+                "created": null,
+                "temporaryMessage": null
+            }
+        }],
+        "programs": [],
+        "locations": [{
+            "id": "211bayarea-10595261",
+            "idOrganization": "211bayarea-10595260",
+            "name": "Main Office",
+            "alternateNames": [],
+            "description": null,
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "longitude": -122.4214,
+            "latitude": 37.76736,
+            "addresses": [{
+                "id": "6793775799247688575",
+                "type": "physical",
+                "postalCode": "94103",
+                "street": "56 Julian Avenue",
+                "city": "San Francisco",
+                "county": "San Francisco",
+                "state": "CA",
+                "country": "United States",
+                "geocode": {
+                    "type": "point",
+                    "coordinates": [-122.4214, 37.76736],
+                    "bbox": [],
+                    "properties": {
+                        "type": "address",
+                        "address": {
+                            "addressLine": null,
+                            "postalCode": null,
+                            "neighborhood": null,
+                            "locality": null,
+                            "formattedAddress": null,
+                            "state": null,
+                            "county": null,
+                            "country": null
+                        }
+                    }
+                },
+                "description": null,
+                "access": "public"
+            }, {
+                "id": "1819964616900595417",
+                "type": "mailing",
+                "postalCode": "94103",
+                "street": "56 Julian Avenue",
+                "city": "San Francisco",
+                "county": null,
+                "state": "CA",
+                "country": "United States",
+                "geocode": null,
+                "description": null,
+                "access": "public"
+            }],
+            "accessibility": {
+                "description": "Fully accessible to individuals using mobility aids.",
+                "types": null
+            },
+            "transportation": null,
+            "languages": {
+                "description": null,
+                "codes": []
+            },
+            "url": null,
+            "email": null,
+            "serviceIds": ["211bayarea-10605156"],
+            "meta": {
+                "idResource": "211bayarea-10595261",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-02-07",
+                "lastVerified": "2025-01-30",
+                "created": "1994-03-31",
+                "temporaryMessage": null
+            }
+        }],
+        "servicesAtLocations": [{
+            "id": "211bayarea-56074994",
+            "idOrganization": "211bayarea-10595260",
+            "idService": "211bayarea-10605156",
+            "idLocation": "211bayarea-10595261",
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "url": null,
+            "email": null,
+            "meta": {
+                "idResource": "211bayarea-56074994",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-02-07",
+                "lastVerified": null,
+                "created": "2018-05-02",
+                "temporaryMessage": null
+            }
+        }],
+        "meta": {
+            "idResource": "211bayarea-10595260",
+            "tags": [],
+            "access": "public",
+            "status": "active",
+            "reasonInactive": null,
+            "lastUpdated": "2025-02-07",
+            "lastVerified": "2025-02-07",
+            "created": "1994-03-31",
+            "temporaryMessage": null
+        },
+        "dataOwner": "211bayarea",
+        "dataOwnerDisplayName": "211 Bay Area",
+        "dataSteward": null,
+        "dataStewardDisplayName": null
+    }, {
+        "id": "211bayarea-10595262",
+        "name": "Friendship Missionary Baptist Church (FMBC)",
+        "alternateNames": [],
+        "description": "Faith-based organization serving those in need.",
+        "url": "http://www.friendshipvallejo.org",
+        "email": null,
+        "yearIncorporated": null,
+        "taxStatus": "non_profit",
+        "taxId": null,
+        "legalStatus": "other",
+        "funding": null,
+        "contacts": [],
+        "phones": [{
+            "id": "6593677284840457856",
+            "name": "Phone",
+            "type": "main",
+            "number": "(707) 648-2005",
+            "extension": null,
+            "description": "Main Number",
+            "isMain": false,
+            "access": null
+        }, {
+            "id": "6752114573007564506",
+            "name": "Fax",
+            "type": "fax",
+            "number": "(707) 648-1342",
+            "extension": null,
+            "description": null,
+            "isMain": false,
+            "access": null
+        }],
+        "services": [{
+            "id": "211bayarea-10605158",
+            "idProgram": null,
+            "idOrganization": "211bayarea-10595262",
+            "name": "Food Pantry",
+            "alternateNames": [],
+            "description": "<p>Provides food distribution with meat, eggs, milk, produce, and nonperishable items.</p>",
+            "contacts": [],
+            "phones": [{
+                "id": "5855862159883021744",
+                "name": "Phone",
+                "type": "main",
+                "number": "(707) 648-2005",
+                "extension": null,
+                "description": "Main Number",
+                "isMain": false,
+                "access": null
+            }],
+            "schedules": [{
+                "id": "5251269479418298964",
+                "type": null,
+                "validFrom": null,
+                "validTo": null,
+                "open": [],
+                "description": "4th Thursday of the month 10am"
+            }],
+            "taxonomy": [{
+                "id": "7024294042076375727",
+                "taxonomyTerm": "Food Pantries",
+                "taxonomyCode": "BD-1800.2000",
+                "taxonomyTermLevel1": "Basic Needs",
+                "taxonomyTermLevel2": "Food",
+                "taxonomyTermLevel3": "Emergency Food",
+                "taxonomyTermLevel4": "Food Pantries",
+                "taxonomyTermLevel5": null,
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }],
+            "applicationProcess": "Visit during program hours",
+            "interpretationServices": null,
+            "email": null,
+            "url": "http://www.friendshipvallejo.org",
+            "waitTime": null,
+            "fees": {
+                "type": null,
+                "description": "No fee"
+            },
+            "accreditations": [],
+            "licenses": [],
+            "languages": {
+                "description": "English",
+                "codes": []
+            },
+            "funding": null,
+            "eligibility": {
+                "description": "Open to all",
+                "types": []
+            },
+            "serviceAreas": [{
+                "id": "3205345099959617655",
+                "type": "county",
+                "value": "Solano",
+                "geoJson": null,
+                "geoComponents": [{
+                    "postalCode": null,
+                    "locality": null,
+                    "county": "Solano",
+                    "state": "California",
+                    "country": "United States"
+                }]
+            }],
+            "documents": {
+                "description": "None",
+                "types": []
+            },
+            "locationIds": ["211bayarea-10595263"],
+            "meta": {
+                "idResource": "211bayarea-10605158",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-02-05",
+                "lastVerified": "2025-02-05",
+                "created": null,
+                "temporaryMessage": null
+            }
+        }],
+        "programs": [],
+        "locations": [{
+            "id": "211bayarea-10595263",
+            "idOrganization": "211bayarea-10595262",
+            "name": "Church Parish",
+            "alternateNames": [],
+            "description": null,
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "longitude": -122.2362,
+            "latitude": 38.10447,
+            "addresses": [{
+                "id": "7938890372019309498",
+                "type": "physical",
+                "postalCode": "94590",
+                "street": "1905 Florida Street",
+                "city": "Vallejo",
+                "county": "Solano",
+                "state": "CA",
+                "country": "United States",
+                "geocode": {
+                    "type": "point",
+                    "coordinates": [-122.2362, 38.10447],
+                    "bbox": [],
+                    "properties": {
+                        "type": "address",
+                        "address": {
+                            "addressLine": null,
+                            "postalCode": null,
+                            "neighborhood": null,
+                            "locality": null,
+                            "formattedAddress": null,
+                            "state": null,
+                            "county": null,
+                            "country": null
+                        }
+                    }
+                },
+                "description": null,
+                "access": "public"
+            }, {
+                "id": "3459739114239974418",
+                "type": "mailing",
+                "postalCode": "94590",
+                "street": "1855 Florida Street",
+                "city": "Vallejo",
+                "county": null,
+                "state": "CA",
+                "country": "United States",
+                "geocode": null,
+                "description": null,
+                "access": "public"
+            }],
+            "accessibility": {
+                "description": "Fully accessible to individuals using mobility aids.",
+                "types": null
+            },
+            "transportation": null,
+            "languages": {
+                "description": null,
+                "codes": []
+            },
+            "url": null,
+            "email": null,
+            "serviceIds": ["211bayarea-10605158"],
+            "meta": {
+                "idResource": "211bayarea-10595263",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-02-05",
+                "lastVerified": "2025-02-05",
+                "created": "2000-03-01",
+                "temporaryMessage": null
+            }
+        }],
+        "servicesAtLocations": [{
+            "id": "211bayarea-89280711",
+            "idOrganization": "211bayarea-10595262",
+            "idService": "211bayarea-10605158",
+            "idLocation": "211bayarea-10595263",
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "url": null,
+            "email": null,
+            "meta": {
+                "idResource": "211bayarea-89280711",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-02-05",
+                "lastVerified": null,
+                "created": "2024-03-26",
+                "temporaryMessage": null
+            }
+        }],
+        "meta": {
+            "idResource": "211bayarea-10595262",
+            "tags": [],
+            "access": "public",
+            "status": "active",
+            "reasonInactive": null,
+            "lastUpdated": "2025-02-05",
+            "lastVerified": "2025-02-05",
+            "created": "2000-03-01",
+            "temporaryMessage": null
+        },
+        "dataOwner": "211bayarea",
+        "dataOwnerDisplayName": "211 Bay Area",
+        "dataSteward": null,
+        "dataStewardDisplayName": null
+    }, {
+        "id": "211bayarea-10595272",
+        "name": "Midpen Housing Corporation",
+        "alternateNames": [],
+        "description": "Nonprofit developer that builds and manages affordable housing.",
+        "url": "http://www.midpen-housing.org",
+        "email": null,
+        "yearIncorporated": null,
+        "taxStatus": "non_profit",
+        "taxId": null,
+        "legalStatus": "non_profit",
+        "funding": null,
+        "contacts": [],
+        "phones": [{
+            "id": "1944023192355268842",
+            "name": "Phone",
+            "type": "main",
+            "number": "(650) 356-2900",
+            "extension": null,
+            "description": "Main Number",
+            "isMain": false,
+            "access": null
+        }, {
+            "id": "8392477483509083581",
+            "name": "Fax",
+            "type": "fax",
+            "number": "(650) 357-9766",
+            "extension": null,
+            "description": null,
+            "isMain": false,
+            "access": null
+        }],
+        "services": [{
+            "id": "211bayarea-10613234",
+            "idProgram": null,
+            "idOrganization": "211bayarea-10595272",
+            "name": "Affordable Rental Housing",
+            "alternateNames": [],
+            "description": "Provides affordable rental housing for income eligible households. Offers studio, one, two, three, and four bedroom apartments with community amenities.",
+            "contacts": [],
+            "phones": [{
+                "id": "5565617653843249725",
+                "name": "Phone",
+                "type": "main",
+                "number": "(650) 356-2900",
+                "extension": null,
+                "description": "Main Number",
+                "isMain": false,
+                "access": null
+            }, {
+                "id": "8596858475880145911",
+                "name": "Website",
+                "type": "other",
+                "number": "www.midpen-housing.org/find-hous",
+                "extension": null,
+                "description": "MidPen Housing Corporation",
+                "isMain": false,
+                "access": null
+            }],
+            "schedules": [{
+                "id": "7482899965599368707",
+                "type": null,
+                "validFrom": null,
+                "validTo": null,
+                "open": [{
+                    "day": "mon",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "tue",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "wed",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "thu",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "fri",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }],
+                "description": "Mon 8am - 5pm; Tue 8am - 5pm; Wed 8am - 5pm; Thu 8am - 5pm; Fri 8am - 5pm; "
+            }],
+            "taxonomy": [{
+                "id": "5771461477233103430",
+                "taxonomyTerm": "Low Income/Subsidized Rental Housing",
+                "taxonomyCode": "BH-7000.4600",
+                "taxonomyTermLevel1": "Basic Needs",
+                "taxonomyTermLevel2": "Housing/Shelter",
+                "taxonomyTermLevel3": "Residential Housing Options",
+                "taxonomyTermLevel4": "Low Income/Subsidized Rental Housing",
+                "taxonomyTermLevel5": null,
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }],
+            "applicationProcess": "Search apartment properties online and call for waitlist information",
+            "interpretationServices": null,
+            "email": "info@midpen-housing.org",
+            "url": "http://www.midpen-housing.org",
+            "waitTime": null,
+            "fees": {
+                "type": null,
+                "description": "Rent fees vary by property and apartment size"
+            },
+            "accreditations": [],
+            "licenses": [],
+            "languages": {
+                "description": "English",
+                "codes": []
+            },
+            "funding": null,
+            "eligibility": {
+                "description": "Eligibility varies by household size and income, additional requirements applicable",
+                "types": []
+            },
+            "serviceAreas": [{
+                "id": "7607144332656438573",
+                "type": "county",
+                "value": "Solano",
+                "geoJson": null,
+                "geoComponents": [{
+                    "postalCode": null,
+                    "locality": null,
+                    "county": "Solano",
+                    "state": "California",
+                    "country": "United States"
+                }]
+            }, {
+                "id": "8479985824064404392",
+                "type": "county",
+                "value": "Santa Cruz",
+                "geoJson": null,
+                "geoComponents": [{
+                    "postalCode": null,
+                    "locality": null,
+                    "county": "Santa Cruz",
+                    "state": "California",
+                    "country": "United States"
+                }]
+            }, {
+                "id": "8546876221407681289",
+                "type": "county",
+                "value": "San Mateo",
+                "geoJson": null,
+                "geoComponents": [{
+                    "postalCode": null,
+                    "locality": null,
+                    "county": "San Mateo",
+                    "state": "California",
+                    "country": "United States"
+                }]
+            }, {
+                "id": "6580857586994367570",
+                "type": "county",
+                "value": "San Francisco",
+                "geoJson": null,
+                "geoComponents": [{
+                    "postalCode": null,
+                    "locality": null,
+                    "county": "San Francisco",
+                    "state": "California",
+                    "country": "United States"
+                }]
+            }, {
+                "id": "3558046307240516531",
+                "type": "county",
+                "value": "Marin",
+                "geoJson": null,
+                "geoComponents": [{
+                    "postalCode": null,
+                    "locality": null,
+                    "county": "Marin",
+                    "state": "California",
+                    "country": "United States"
+                }]
+            }, {
+                "id": "803926037889047677",
+                "type": "county",
+                "value": "Napa",
+                "geoJson": null,
+                "geoComponents": [{
+                    "postalCode": null,
+                    "locality": null,
+                    "county": "Napa",
+                    "state": "California",
+                    "country": "United States"
+                }]
+            }],
+            "documents": {
+                "description": "Photo identification, income information",
+                "types": []
+            },
+            "locationIds": ["211bayarea-10595273"],
+            "meta": {
+                "idResource": "211bayarea-10613234",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-03-10",
+                "lastVerified": "2025-02-28",
+                "created": null,
+                "temporaryMessage": null
+            }
+        }],
+        "programs": [],
+        "locations": [{
+            "id": "211bayarea-10595273",
+            "idOrganization": "211bayarea-10595272",
+            "name": "Main Office",
+            "alternateNames": [],
+            "description": null,
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "longitude": -122.277,
+            "latitude": 37.56758,
+            "addresses": [{
+                "id": "2377750469505464597",
+                "type": "physical",
+                "postalCode": "94404",
+                "street": "303 Vintage Park Drive, Suite 250",
+                "city": "Foster City",
+                "county": "San Mateo",
+                "state": "CA",
+                "country": "United States",
+                "geocode": {
+                    "type": "point",
+                    "coordinates": [-122.277, 37.56758],
+                    "bbox": [],
+                    "properties": {
+                        "type": "address",
+                        "address": {
+                            "addressLine": null,
+                            "postalCode": null,
+                            "neighborhood": null,
+                            "locality": null,
+                            "formattedAddress": null,
+                            "state": null,
+                            "county": null,
+                            "country": null
+                        }
+                    }
+                },
+                "description": null,
+                "access": "public"
+            }, {
+                "id": "5172457510428445299",
+                "type": "mailing",
+                "postalCode": "94404",
+                "street": "303 Vintage Park Drive",
+                "city": "Foster City",
+                "county": null,
+                "state": "CA",
+                "country": "United States",
+                "geocode": null,
+                "description": null,
+                "access": "public"
+            }],
+            "accessibility": {
+                "description": "Fully accessible to individuals using mobility aids.",
+                "types": null
+            },
+            "transportation": null,
+            "languages": {
+                "description": null,
+                "codes": []
+            },
+            "url": null,
+            "email": null,
+            "serviceIds": ["211bayarea-10613234"],
+            "meta": {
+                "idResource": "211bayarea-10595273",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-02-28",
+                "lastVerified": "2025-02-28",
+                "created": "2010-08-25",
+                "temporaryMessage": null
+            }
+        }],
+        "servicesAtLocations": [{
+            "id": "211bayarea-55980265",
+            "idOrganization": "211bayarea-10595272",
+            "idService": "211bayarea-10613234",
+            "idLocation": "211bayarea-10595273",
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "url": null,
+            "email": null,
+            "meta": {
+                "idResource": "211bayarea-55980265",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-02-28",
+                "lastVerified": null,
+                "created": "2018-04-26",
+                "temporaryMessage": null
+            }
+        }],
+        "meta": {
+            "idResource": "211bayarea-10595272",
+            "tags": [],
+            "access": "public",
+            "status": "active",
+            "reasonInactive": null,
+            "lastUpdated": "2025-02-28",
+            "lastVerified": "2025-02-28",
+            "created": "2010-08-25",
+            "temporaryMessage": null
+        },
+        "dataOwner": "211bayarea",
+        "dataOwnerDisplayName": "211 Bay Area",
+        "dataSteward": null,
+        "dataStewardDisplayName": null
+    }, {
+        "id": "211bayarea-10595291",
+        "name": "County Of San Mateo - Planning And Building Department",
+        "alternateNames": ["SAN MATEO COUNTY PLANNING AND BUILDING DEPARTMENT"],
+        "description": "County department overseeing zoning, building, construction, land use permitting, and code compliance.",
+        "url": "http://www.smcgov.org/planning",
+        "email": null,
+        "yearIncorporated": null,
+        "taxStatus": "none_or_unknown",
+        "taxId": null,
+        "legalStatus": "government",
+        "funding": null,
+        "contacts": [],
+        "phones": [{
+            "id": "2689831355053209721",
+            "name": "Phone",
+            "type": "main",
+            "number": "(650) 363-1827",
+            "extension": null,
+            "description": "Main Number",
+            "isMain": false,
+            "access": null
+        }],
+        "services": [{
+            "id": "211bayarea-10612491",
+            "idProgram": null,
+            "idOrganization": "211bayarea-10595291",
+            "name": "Building And Safety",
+            "alternateNames": [],
+            "description": "Provides building and safety code permitting and inspections.",
+            "contacts": [],
+            "phones": [{
+                "id": "6285267040475505724",
+                "name": "Phone",
+                "type": "other",
+                "number": "(650) 363-4161",
+                "extension": null,
+                "description": "Alternate Number",
+                "isMain": false,
+                "access": null
+            }, {
+                "id": "9124223063728193302",
+                "name": "Phone",
+                "type": "main",
+                "number": "(650) 599-7310",
+                "extension": null,
+                "description": "Main Number",
+                "isMain": false,
+                "access": null
+            }],
+            "schedules": [{
+                "id": "8716141974766020951",
+                "type": null,
+                "validFrom": null,
+                "validTo": null,
+                "open": [{
+                    "day": "mon",
+                    "opensAt": "08:00",
+                    "closesAt": "16:00"
+                }, {
+                    "day": "tue",
+                    "opensAt": "08:00",
+                    "closesAt": "16:00"
+                }, {
+                    "day": "wed",
+                    "opensAt": "08:00",
+                    "closesAt": "16:00"
+                }, {
+                    "day": "thu",
+                    "opensAt": "08:00",
+                    "closesAt": "16:00"
+                }],
+                "description": "Mon 8am - 4pm; Tue 8am - 4pm; Wed 8am - 4pm; Thu 8am - 4pm; "
+            }],
+            "taxonomy": [{
+                "id": "6903502196805456166",
+                "taxonomyTerm": "Building and Safety",
+                "taxonomyCode": "TE-1000",
+                "taxonomyTermLevel1": "Organizational/Community/International Services",
+                "taxonomyTermLevel2": "Community Planning and Public Works",
+                "taxonomyTermLevel3": "Building and Safety",
+                "taxonomyTermLevel4": null,
+                "taxonomyTermLevel5": null,
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }],
+            "applicationProcess": "Call for appointment",
+            "interpretationServices": null,
+            "email": "buildingcounter@smcgov.org",
+            "url": "http://www.smcgov.org/planning",
+            "waitTime": null,
+            "fees": {
+                "type": null,
+                "description": "No fee"
+            },
+            "accreditations": [],
+            "licenses": [],
+            "languages": {
+                "description": "English, Spanish",
+                "codes": []
+            },
+            "funding": null,
+            "eligibility": {
+                "description": "Open to all",
+                "types": []
+            },
+            "serviceAreas": [{
+                "id": "9064997720958647063",
+                "type": "county",
+                "value": "San Mateo",
+                "geoJson": null,
+                "geoComponents": [{
+                    "postalCode": null,
+                    "locality": null,
+                    "county": "San Mateo",
+                    "state": "California",
+                    "country": "United States"
+                }]
+            }],
+            "documents": {
+                "description": "None",
+                "types": []
+            },
+            "locationIds": ["211bayarea-10595292"],
+            "meta": {
+                "idResource": "211bayarea-10612491",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-07-29",
+                "lastVerified": "2025-07-29",
+                "created": null,
+                "temporaryMessage": null
+            }
+        }, {
+            "id": "211bayarea-10613254",
+            "idProgram": null,
+            "idOrganization": "211bayarea-10595291",
+            "name": "Land Use Planning",
+            "alternateNames": [],
+            "description": "Provides land use planning and regulation services.",
+            "contacts": [],
+            "phones": [{
+                "id": "7043287521280460949",
+                "name": "Phone",
+                "type": "main",
+                "number": "(650) 363-1825",
+                "extension": null,
+                "description": "Main Number",
+                "isMain": false,
+                "access": null
+            }, {
+                "id": "8974056285520788521",
+                "name": "Phone",
+                "type": "other",
+                "number": "(650) 363-4161",
+                "extension": null,
+                "description": "Alternate Number",
+                "isMain": false,
+                "access": null
+            }],
+            "schedules": [{
+                "id": "572432001404785480",
+                "type": null,
+                "validFrom": null,
+                "validTo": null,
+                "open": [{
+                    "day": "mon",
+                    "opensAt": "08:00",
+                    "closesAt": "16:00"
+                }, {
+                    "day": "tue",
+                    "opensAt": "08:00",
+                    "closesAt": "16:00"
+                }, {
+                    "day": "wed",
+                    "opensAt": "08:00",
+                    "closesAt": "16:00"
+                }, {
+                    "day": "thu",
+                    "opensAt": "08:00",
+                    "closesAt": "16:00"
+                }],
+                "description": "Mon 8am - 4pm; Tue 8am - 4pm; Wed 8am - 4pm; Thu 8am - 4pm; "
+            }],
+            "taxonomy": [{
+                "id": "2881946774896070730",
+                "taxonomyTerm": "Land Use Planning and Regulation Services",
+                "taxonomyCode": "TE-4525",
+                "taxonomyTermLevel1": "Organizational/Community/International Services",
+                "taxonomyTermLevel2": "Community Planning and Public Works",
+                "taxonomyTermLevel3": "Land Use Planning and Regulation Services",
+                "taxonomyTermLevel4": null,
+                "taxonomyTermLevel5": null,
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }],
+            "applicationProcess": "Call for appointment",
+            "interpretationServices": null,
+            "email": "planningprojects@smcgov.org",
+            "url": "http://www.smcgov.org/planning",
+            "waitTime": null,
+            "fees": {
+                "type": null,
+                "description": "No fee"
+            },
+            "accreditations": [],
+            "licenses": [],
+            "languages": {
+                "description": "English, Spanish",
+                "codes": []
+            },
+            "funding": null,
+            "eligibility": {
+                "description": "Open to all",
+                "types": []
+            },
+            "serviceAreas": [{
+                "id": "1432058500040423566",
+                "type": "county",
+                "value": "San Mateo",
+                "geoJson": null,
+                "geoComponents": [{
+                    "postalCode": null,
+                    "locality": null,
+                    "county": "San Mateo",
+                    "state": "California",
+                    "country": "United States"
+                }]
+            }],
+            "documents": {
+                "description": "None",
+                "types": []
+            },
+            "locationIds": ["211bayarea-10595292"],
+            "meta": {
+                "idResource": "211bayarea-10613254",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-07-29",
+                "lastVerified": "2025-07-29",
+                "created": null,
+                "temporaryMessage": null
+            }
+        }],
+        "programs": [],
+        "locations": [{
+            "id": "211bayarea-10595292",
+            "idOrganization": "211bayarea-10595291",
+            "name": "Main Office",
+            "alternateNames": [],
+            "description": null,
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "longitude": -122.2308,
+            "latitude": 37.48888,
+            "addresses": [{
+                "id": "6401750041574279927",
+                "type": "physical",
+                "postalCode": "94063",
+                "street": "455 County Center, Second Floor",
+                "city": "Redwood City",
+                "county": "San Mateo",
+                "state": "CA",
+                "country": "United States",
+                "geocode": {
+                    "type": "point",
+                    "coordinates": [-122.2308, 37.48888],
+                    "bbox": [],
+                    "properties": {
+                        "type": "address",
+                        "address": {
+                            "addressLine": null,
+                            "postalCode": null,
+                            "neighborhood": null,
+                            "locality": null,
+                            "formattedAddress": null,
+                            "state": null,
+                            "county": null,
+                            "country": null
+                        }
+                    }
+                },
+                "description": null,
+                "access": "public"
+            }, {
+                "id": "6519656955460620976",
+                "type": "mailing",
+                "postalCode": "94063",
+                "street": "455 County Center",
+                "city": "Redwood City",
+                "county": null,
+                "state": "CA",
+                "country": "United States",
+                "geocode": null,
+                "description": null,
+                "access": "public"
+            }],
+            "accessibility": {
+                "description": "Fully accessible to individuals using mobility aids.",
+                "types": null
+            },
+            "transportation": null,
+            "languages": {
+                "description": null,
+                "codes": []
+            },
+            "url": null,
+            "email": null,
+            "serviceIds": ["211bayarea-10613254", "211bayarea-10612491"],
+            "meta": {
+                "idResource": "211bayarea-10595292",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-07-29",
+                "lastVerified": "2025-07-29",
+                "created": "2010-09-02",
+                "temporaryMessage": null
+            }
+        }],
+        "servicesAtLocations": [{
+            "id": "211bayarea-56022650",
+            "idOrganization": "211bayarea-10595291",
+            "idService": "211bayarea-10612491",
+            "idLocation": "211bayarea-10595292",
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "url": null,
+            "email": null,
+            "meta": {
+                "idResource": "211bayarea-56022650",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-07-29",
+                "lastVerified": null,
+                "created": "2018-04-28",
+                "temporaryMessage": null
+            }
+        }, {
+            "id": "211bayarea-45640613",
+            "idOrganization": "211bayarea-10595291",
+            "idService": "211bayarea-10613254",
+            "idLocation": "211bayarea-10595292",
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "url": null,
+            "email": null,
+            "meta": {
+                "idResource": "211bayarea-45640613",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-07-29",
+                "lastVerified": null,
+                "created": "2017-02-11",
+                "temporaryMessage": null
+            }
+        }],
+        "meta": {
+            "idResource": "211bayarea-10595291",
+            "tags": [],
+            "access": "public",
+            "status": "active",
+            "reasonInactive": null,
+            "lastUpdated": "2025-07-29",
+            "lastVerified": "2025-07-29",
+            "created": "2010-09-02",
+            "temporaryMessage": null
+        },
+        "dataOwner": "211bayarea",
+        "dataOwnerDisplayName": "211 Bay Area",
+        "dataSteward": null,
+        "dataStewardDisplayName": null
+    }, {
+        "id": "211bayarea-10595293",
+        "name": "Coastside Hope",
+        "alternateNames": ["COASTSIDE OPPORTUNITY CENTER"],
+        "description": "<p>Nonprofit organization providing food distribution, housing resources, and immigration services.</p>",
+        "url": "http://www.coastsidehope.org",
+        "email": null,
+        "yearIncorporated": 1976,
+        "taxStatus": "non_profit",
+        "taxId": null,
+        "legalStatus": "non_profit",
+        "funding": null,
+        "contacts": [],
+        "phones": [{
+            "id": "2979130044563211374",
+            "name": "Phone",
+            "type": "main",
+            "number": "(650) 726-9071",
+            "extension": null,
+            "description": "Main Number",
+            "isMain": false,
+            "access": null
+        }, {
+            "id": "3873183352852329492",
+            "name": "Fax",
+            "type": "fax",
+            "number": "(650) 726-9076",
+            "extension": null,
+            "description": null,
+            "isMain": false,
+            "access": null
+        }],
+        "services": [{
+            "id": "211bayarea-10613258",
+            "idProgram": null,
+            "idOrganization": "211bayarea-10595293",
+            "name": "Rent Utility Assistance",
+            "alternateNames": [],
+            "description": "<p>Distributes financial assistance when funding is available. Provides rent payment and security deposit assistance. Offers utility assistance for gas, electric, and water services.</p>",
+            "contacts": [],
+            "phones": [{
+                "id": "8831878417236276327",
+                "name": "Phone",
+                "type": "main",
+                "number": "(650) 726-9071",
+                "extension": null,
+                "description": "Main Number",
+                "isMain": false,
+                "access": null
+            }],
+            "schedules": [{
+                "id": "3578239720321552649",
+                "type": null,
+                "validFrom": null,
+                "validTo": null,
+                "open": [{
+                    "day": "mon",
+                    "opensAt": "08:30",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "tue",
+                    "opensAt": "08:30",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "wed",
+                    "opensAt": "13:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "thu",
+                    "opensAt": "08:30",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "fri",
+                    "opensAt": "08:30",
+                    "closesAt": "17:00"
+                }],
+                "description": "Mon 8:30am - 5pm; Tue 8:30am - 5pm; Wed 1pm - 5pm; Thu 8:30am - 5pm; Fri 8:30am - 5pm; "
+            }],
+            "taxonomy": [{
+                "id": "726505235124686606",
+                "taxonomyTerm": "Gas Service Payment Assistance",
+                "taxonomyCode": "BV-8900.9300-250",
+                "taxonomyTermLevel1": "Basic Needs",
+                "taxonomyTermLevel2": "Utilities",
+                "taxonomyTermLevel3": "Utility Assistance",
+                "taxonomyTermLevel4": "Utility Service Payment Assistance",
+                "taxonomyTermLevel5": "Gas Service Payment Assistance",
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }, {
+                "id": "2959097614907827578",
+                "taxonomyTerm": "Electric Service Payment Assistance",
+                "taxonomyCode": "BV-8900.9300-180",
+                "taxonomyTermLevel1": "Basic Needs",
+                "taxonomyTermLevel2": "Utilities",
+                "taxonomyTermLevel3": "Utility Assistance",
+                "taxonomyTermLevel4": "Utility Service Payment Assistance",
+                "taxonomyTermLevel5": "Electric Service Payment Assistance",
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }, {
+                "id": "3908184952698667540",
+                "taxonomyTerm": "Water Service Payment Assistance",
+                "taxonomyCode": "BV-8900.9300-950",
+                "taxonomyTermLevel1": "Basic Needs",
+                "taxonomyTermLevel2": "Utilities",
+                "taxonomyTermLevel3": "Utility Assistance",
+                "taxonomyTermLevel4": "Utility Service Payment Assistance",
+                "taxonomyTermLevel5": "Water Service Payment Assistance",
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }, {
+                "id": "4658377762037242070",
+                "taxonomyTerm": "Rental Deposit Assistance",
+                "taxonomyCode": "BH-3800.7250",
+                "taxonomyTermLevel1": "Basic Needs",
+                "taxonomyTermLevel2": "Housing/Shelter",
+                "taxonomyTermLevel3": "Housing Expense Assistance",
+                "taxonomyTermLevel4": "Rental Deposit Assistance",
+                "taxonomyTermLevel5": null,
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }, {
+                "id": "6359922254568513763",
+                "taxonomyTerm": "Rent Payment Assistance",
+                "taxonomyCode": "BH-3800.7000",
+                "taxonomyTermLevel1": "Basic Needs",
+                "taxonomyTermLevel2": "Housing/Shelter",
+                "taxonomyTermLevel3": "Housing Expense Assistance",
+                "taxonomyTermLevel4": "Rent Payment Assistance",
+                "taxonomyTermLevel5": null,
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }],
+            "applicationProcess": "Call for appointment",
+            "interpretationServices": null,
+            "email": "admin@coastsidehope.org",
+            "url": "http://www.coastsidehope.org",
+            "waitTime": null,
+            "fees": {
+                "type": null,
+                "description": "No fee"
+            },
+            "accreditations": [],
+            "licenses": [],
+            "languages": {
+                "description": "English, Spanish",
+                "codes": []
+            },
+            "funding": null,
+            "eligibility": {
+                "description": "El Granda, Half Moon Bay, Montara, and Moss Beach income eligible residents",
+                "types": []
+            },
+            "serviceAreas": [{
+                "id": "3929730058183066993",
+                "type": "locality",
+                "value": "El Granada",
+                "geoJson": null,
+                "geoComponents": [{
+                    "postalCode": null,
+                    "locality": "El Granada",
+                    "county": "San Mateo",
+                    "state": "California",
+                    "country": "United States"
+                }]
+            }, {
+                "id": "354574626597334184",
+                "type": "locality",
+                "value": "Moss Beach",
+                "geoJson": null,
+                "geoComponents": [{
+                    "postalCode": null,
+                    "locality": "Moss Beach",
+                    "county": "San Mateo",
+                    "state": "California",
+                    "country": "United States"
+                }]
+            }, {
+                "id": "6573550668048995737",
+                "type": "locality",
+                "value": "Montara",
+                "geoJson": null,
+                "geoComponents": [{
+                    "postalCode": null,
+                    "locality": "Montara",
+                    "county": "San Mateo",
+                    "state": "California",
+                    "country": "United States"
+                }]
+            }, {
+                "id": "4281852309189892100",
+                "type": "locality",
+                "value": "Half Moon Bay",
+                "geoJson": null,
+                "geoComponents": [{
+                    "postalCode": null,
+                    "locality": "Half Moon Bay",
+                    "county": "San Mateo",
+                    "state": "California",
+                    "country": "United States"
+                }]
+            }],
+            "documents": {
+                "description": "Photo identification, proof of address, income information",
+                "types": []
+            },
+            "locationIds": ["211bayarea-10595294"],
+            "meta": {
+                "idResource": "211bayarea-10613258",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-08-01",
+                "lastVerified": "2025-08-01",
+                "created": null,
+                "temporaryMessage": null
+            }
+        }, {
+            "id": "211bayarea-18668768",
+            "idProgram": null,
+            "idOrganization": "211bayarea-10595293",
+            "name": "Coordinated Entry System (CES)",
+            "alternateNames": [],
+            "description": "<p>Provides coordinated entry services to people experiencing homelessness and referrals for homeless shelters.</p>",
+            "contacts": [],
+            "phones": [{
+                "id": "8572926152681878077",
+                "name": "Phone",
+                "type": "main",
+                "number": "(650) 726-9071",
+                "extension": null,
+                "description": "Main Number",
+                "isMain": false,
+                "access": null
+            }],
+            "schedules": [{
+                "id": "8661256739493612817",
+                "type": null,
+                "validFrom": null,
+                "validTo": null,
+                "open": [{
+                    "day": "mon",
+                    "opensAt": "08:30",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "tue",
+                    "opensAt": "08:30",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "wed",
+                    "opensAt": "13:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "thu",
+                    "opensAt": "08:30",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "fri",
+                    "opensAt": "08:30",
+                    "closesAt": "17:00"
+                }],
+                "description": "Mon 8:30am - 5pm; Tue 8:30am - 5pm; Wed 1pm - 5pm; Thu 8:30am - 5pm; Fri 8:30am - 5pm; "
+            }],
+            "taxonomy": [{
+                "id": "9187486314563241134",
+                "taxonomyTerm": "Homeless Shelter",
+                "taxonomyCode": "BH-1800.8500",
+                "taxonomyTermLevel1": "Basic Needs",
+                "taxonomyTermLevel2": "Housing/Shelter",
+                "taxonomyTermLevel3": "Emergency Shelter",
+                "taxonomyTermLevel4": "Homeless Shelter",
+                "taxonomyTermLevel5": null,
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }],
+            "applicationProcess": "Call for appointment",
+            "interpretationServices": null,
+            "email": "admin@coastsidehope.org",
+            "url": "http://www.coastsidehope.org",
+            "waitTime": null,
+            "fees": {
+                "type": null,
+                "description": "No fee"
+            },
+            "accreditations": [],
+            "licenses": [],
+            "languages": {
+                "description": "English, Spanish",
+                "codes": []
+            },
+            "funding": null,
+            "eligibility": {
+                "description": "People experiencing homelessness",
+                "types": []
+            },
+            "serviceAreas": [{
+                "id": "5384694497196746186",
+                "type": "county",
+                "value": "San Mateo",
+                "geoJson": null,
+                "geoComponents": [{
+                    "postalCode": null,
+                    "locality": null,
+                    "county": "San Mateo",
+                    "state": "California",
+                    "country": "United States"
+                }]
+            }],
+            "documents": {
+                "description": "None",
+                "types": []
+            },
+            "locationIds": ["211bayarea-10595294"],
+            "meta": {
+                "idResource": "211bayarea-18668768",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-08-01",
+                "lastVerified": "2025-08-01",
+                "created": "2014-05-19",
+                "temporaryMessage": null
+            }
+        }, {
+            "id": "211bayarea-10610062",
+            "idProgram": null,
+            "idOrganization": null,
+            "name": "Seasonal_ Thanksgiving Program",
+            "alternateNames": [],
+            "description": null,
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "taxonomy": [],
+            "applicationProcess": null,
+            "interpretationServices": null,
+            "email": null,
+            "url": null,
+            "waitTime": null,
+            "fees": {
+                "type": null,
+                "description": null
+            },
+            "accreditations": [],
+            "licenses": [],
+            "languages": {
+                "description": null,
+                "codes": []
+            },
+            "funding": null,
+            "eligibility": {
+                "description": null,
+                "types": []
+            },
+            "serviceAreas": [],
+            "documents": {
+                "description": null,
+                "types": []
+            },
+            "locationIds": [],
+            "meta": {
+                "idResource": null,
+                "tags": [],
+                "access": null,
+                "status": "inactive",
+                "reasonInactive": null,
+                "lastUpdated": null,
+                "lastVerified": null,
+                "created": null,
+                "temporaryMessage": null
+            }
+        }, {
+            "id": "211bayarea-10613256",
+            "idProgram": null,
+            "idOrganization": null,
+            "name": "Z_ Food Pantry",
+            "alternateNames": [],
+            "description": null,
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "taxonomy": [],
+            "applicationProcess": null,
+            "interpretationServices": null,
+            "email": null,
+            "url": null,
+            "waitTime": null,
+            "fees": {
+                "type": null,
+                "description": null
+            },
+            "accreditations": [],
+            "licenses": [],
+            "languages": {
+                "description": null,
+                "codes": []
+            },
+            "funding": null,
+            "eligibility": {
+                "description": null,
+                "types": []
+            },
+            "serviceAreas": [],
+            "documents": {
+                "description": null,
+                "types": []
+            },
+            "locationIds": [],
+            "meta": {
+                "idResource": null,
+                "tags": [],
+                "access": null,
+                "status": "inactive",
+                "reasonInactive": null,
+                "lastUpdated": null,
+                "lastVerified": null,
+                "created": null,
+                "temporaryMessage": null
+            }
+        }],
+        "programs": [],
+        "locations": [{
+            "id": "211bayarea-10595294",
+            "idOrganization": "211bayarea-10595293",
+            "name": "Main Office",
+            "alternateNames": [],
+            "description": null,
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "longitude": -122.4298,
+            "latitude": 37.46706,
+            "addresses": [{
+                "id": "6552024821345709760",
+                "type": "physical",
+                "postalCode": "94019",
+                "street": "248 Main Street, Suite 200",
+                "city": "Half Moon Bay",
+                "county": "San Mateo",
+                "state": "CA",
+                "country": "United States",
+                "geocode": {
+                    "type": "point",
+                    "coordinates": [-122.4298, 37.46706],
+                    "bbox": [],
+                    "properties": {
+                        "type": "address",
+                        "address": {
+                            "addressLine": null,
+                            "postalCode": null,
+                            "neighborhood": null,
+                            "locality": null,
+                            "formattedAddress": null,
+                            "state": null,
+                            "county": null,
+                            "country": null
+                        }
+                    }
+                },
+                "description": null,
+                "access": "public"
+            }, {
+                "id": "8820385009226434893",
+                "type": "mailing",
+                "postalCode": "94018",
+                "street": "PO Box 1089",
+                "city": "El Granada",
+                "county": null,
+                "state": "CA",
+                "country": "United States",
+                "geocode": null,
+                "description": null,
+                "access": "public"
+            }],
+            "accessibility": {
+                "description": "Fully accessible to individuals using mobility aids.",
+                "types": null
+            },
+            "transportation": null,
+            "languages": {
+                "description": null,
+                "codes": []
+            },
+            "url": null,
+            "email": null,
+            "serviceIds": ["211bayarea-18668768", "211bayarea-10613258", "211bayarea-10610062", "211bayarea-10613256"],
+            "meta": {
+                "idResource": "211bayarea-10595294",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-08-01",
+                "lastVerified": "2025-08-01",
+                "created": "2010-09-02",
+                "temporaryMessage": null
+            }
+        }],
+        "servicesAtLocations": [{
+            "id": "211bayarea-91306397",
+            "idOrganization": "211bayarea-10595293",
+            "idService": "211bayarea-10613258",
+            "idLocation": "211bayarea-10595294",
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "url": null,
+            "email": null,
+            "meta": {
+                "idResource": "211bayarea-91306397",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-08-01",
+                "lastVerified": null,
+                "created": "2024-08-27",
+                "temporaryMessage": null
+            }
+        }, {
+            "id": "211bayarea-56211886",
+            "idOrganization": "211bayarea-10595293",
+            "idService": "211bayarea-18668768",
+            "idLocation": "211bayarea-10595294",
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "url": null,
+            "email": null,
+            "meta": {
+                "idResource": "211bayarea-56211886",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-08-01",
+                "lastVerified": null,
+                "created": "2018-05-09",
+                "temporaryMessage": null
+            }
+        }, {
+            "id": "211bayarea-91862548",
+            "idOrganization": null,
+            "idService": null,
+            "idLocation": null,
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "url": null,
+            "email": null,
+            "meta": {
+                "idResource": null,
+                "tags": [],
+                "access": null,
+                "status": "inactive",
+                "reasonInactive": null,
+                "lastUpdated": null,
+                "lastVerified": null,
+                "created": null,
+                "temporaryMessage": null
+            }
+        }, {
+            "id": "211bayarea-95339237",
+            "idOrganization": null,
+            "idService": null,
+            "idLocation": null,
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "url": null,
+            "email": null,
+            "meta": {
+                "idResource": null,
+                "tags": [],
+                "access": null,
+                "status": "inactive",
+                "reasonInactive": null,
+                "lastUpdated": null,
+                "lastVerified": null,
+                "created": null,
+                "temporaryMessage": null
+            }
+        }],
+        "meta": {
+            "idResource": "211bayarea-10595293",
+            "tags": [],
+            "access": "public",
+            "status": "active",
+            "reasonInactive": null,
+            "lastUpdated": "2025-08-01",
+            "lastVerified": "2025-08-01",
+            "created": "2010-09-02",
+            "temporaryMessage": null
+        },
+        "dataOwner": "211bayarea",
+        "dataOwnerDisplayName": "211 Bay Area",
+        "dataSteward": null,
+        "dataStewardDisplayName": null
+    }, {
+        "id": "211bayarea-10595311",
+        "name": "Nar Anon Northern California Region",
+        "alternateNames": [],
+        "description": "Nonprofit organization which maintains a clearinghouse of 12-step support group meetings in San Mateo County for family and friends of drug addicts.",
+        "url": "http://www.naranonnorcal.org",
+        "email": null,
+        "yearIncorporated": null,
+        "taxStatus": "non_profit",
+        "taxId": null,
+        "legalStatus": "non_profit",
+        "funding": null,
+        "contacts": [],
+        "phones": [{
+            "id": "1286763036576738325",
+            "name": "Phone",
+            "type": "main",
+            "number": "(800) 773-3068",
+            "extension": null,
+            "description": "Main Number",
+            "isMain": false,
+            "access": null
+        }],
+        "services": [{
+            "id": "211bayarea-10613276",
+            "idProgram": null,
+            "idOrganization": "211bayarea-10595311",
+            "name": "Na Family Groups",
+            "alternateNames": [],
+            "description": "<p>Hosts anonymous twelve step support groups for families of people with substance addiction.</p>",
+            "contacts": [],
+            "phones": [{
+                "id": "7889769752165365887",
+                "name": "Phone",
+                "type": "main",
+                "number": "(800) 773-3068",
+                "extension": null,
+                "description": "Main Number",
+                "isMain": false,
+                "access": null
+            }],
+            "schedules": [{
+                "id": "406182618388449507",
+                "type": null,
+                "validFrom": null,
+                "validTo": null,
+                "open": [],
+                "description": "Call for schedule"
+            }],
+            "taxonomy": [{
+                "id": "8696941115600334151",
+                "taxonomyTerm": "Families/Friends of Individuals With a Drug Use Disorder Support Groups",
+                "taxonomyCode": "PN-8100.2000-235",
+                "taxonomyTermLevel1": "Individual and Family Life",
+                "taxonomyTermLevel2": "Mutual Support",
+                "taxonomyTermLevel3": "Support Groups",
+                "taxonomyTermLevel4": "Families/Friends Support Groups",
+                "taxonomyTermLevel5": "Families/Friends of Individuals With a Drug Use Disorder Support Groups",
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }],
+            "applicationProcess": "Check website or call for schedule and location",
+            "interpretationServices": null,
+            "email": "info@naranonnorcal.org",
+            "url": "http://www.naranonnorcal.org",
+            "waitTime": null,
+            "fees": {
+                "type": null,
+                "description": "No fee"
+            },
+            "accreditations": [],
+            "licenses": [],
+            "languages": {
+                "description": "English",
+                "codes": []
+            },
+            "funding": null,
+            "eligibility": {
+                "description": "Open to all",
+                "types": []
+            },
+            "serviceAreas": [{
+                "id": "5143902614484642665",
+                "type": "county",
+                "value": "Marin",
+                "geoJson": null,
+                "geoComponents": [{
+                    "postalCode": null,
+                    "locality": null,
+                    "county": "Marin",
+                    "state": "California",
+                    "country": "United States"
+                }]
+            }, {
+                "id": "2400089042166525212",
+                "type": "county",
+                "value": "San Francisco",
+                "geoJson": null,
+                "geoComponents": [{
+                    "postalCode": null,
+                    "locality": null,
+                    "county": "San Francisco",
+                    "state": "California",
+                    "country": "United States"
+                }]
+            }, {
+                "id": "9193417201473988606",
+                "type": "county",
+                "value": "San Mateo",
+                "geoJson": null,
+                "geoComponents": [{
+                    "postalCode": null,
+                    "locality": null,
+                    "county": "San Mateo",
+                    "state": "California",
+                    "country": "United States"
+                }]
+            }],
+            "documents": {
+                "description": "None",
+                "types": []
+            },
+            "locationIds": ["211bayarea-10595312"],
+            "meta": {
+                "idResource": "211bayarea-10613276",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-06-12",
+                "lastVerified": "2025-06-12",
+                "created": null,
+                "temporaryMessage": null
+            }
+        }],
+        "programs": [],
+        "locations": [{
+            "id": "211bayarea-10595312",
+            "idOrganization": "211bayarea-10595311",
+            "name": "Various Locations",
+            "alternateNames": [],
+            "description": null,
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "longitude": -122.2575,
+            "latitude": 37.43955,
+            "addresses": [{
+                "id": "4302109155220258927",
+                "type": "physical",
+                "postalCode": null,
+                "street": "Various Locations",
+                "city": null,
+                "county": "San Mateo",
+                "state": "CA",
+                "country": "United States",
+                "geocode": {
+                    "type": "point",
+                    "coordinates": [-122.2575, 37.43955],
+                    "bbox": [],
+                    "properties": {
+                        "type": "address",
+                        "address": {
+                            "addressLine": null,
+                            "postalCode": null,
+                            "neighborhood": null,
+                            "locality": null,
+                            "formattedAddress": null,
+                            "state": null,
+                            "county": null,
+                            "country": null
+                        }
+                    }
+                },
+                "description": null,
+                "access": "public"
+            }, {
+                "id": "6703241069243021512",
+                "type": "mailing",
+                "postalCode": "94402",
+                "street": "PO Box 5333",
+                "city": "San Mateo",
+                "county": null,
+                "state": "CA",
+                "country": "United States",
+                "geocode": null,
+                "description": null,
+                "access": "public"
+            }],
+            "accessibility": {
+                "description": "Not Applicable.",
+                "types": null
+            },
+            "transportation": null,
+            "languages": {
+                "description": null,
+                "codes": []
+            },
+            "url": null,
+            "email": null,
+            "serviceIds": ["211bayarea-10613276"],
+            "meta": {
+                "idResource": "211bayarea-10595312",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-06-12",
+                "lastVerified": "2025-06-12",
+                "created": "2010-09-02",
+                "temporaryMessage": null
+            }
+        }],
+        "servicesAtLocations": [{
+            "id": "211bayarea-56000322",
+            "idOrganization": "211bayarea-10595311",
+            "idService": "211bayarea-10613276",
+            "idLocation": "211bayarea-10595312",
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "url": null,
+            "email": null,
+            "meta": {
+                "idResource": "211bayarea-56000322",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-06-12",
+                "lastVerified": null,
+                "created": "2018-04-27",
+                "temporaryMessage": null
+            }
+        }],
+        "meta": {
+            "idResource": "211bayarea-10595311",
+            "tags": [],
+            "access": "public",
+            "status": "active",
+            "reasonInactive": null,
+            "lastUpdated": "2025-06-12",
+            "lastVerified": "2025-06-12",
+            "created": "2010-09-02",
+            "temporaryMessage": null
+        },
+        "dataOwner": "211bayarea",
+        "dataOwnerDisplayName": "211 Bay Area",
+        "dataSteward": null,
+        "dataStewardDisplayName": null
+    }, {
+        "id": "211bayarea-10595323",
+        "name": "Sequoia District Adult School",
+        "alternateNames": ["SEQUOIA ADULT SCHOOL"],
+        "description": "<p>Sequoia District Adult School is part of Sequoia Union High School District.</p>",
+        "url": "http://www.seqsas.org",
+        "email": null,
+        "yearIncorporated": null,
+        "taxStatus": "none_or_unknown",
+        "taxId": null,
+        "legalStatus": "other",
+        "funding": null,
+        "contacts": [],
+        "phones": [{
+            "id": "3267051842717418429",
+            "name": "Phone",
+            "type": "main",
+            "number": "(650) 306-8866",
+            "extension": null,
+            "description": "Main Number",
+            "isMain": false,
+            "access": null
+        }, {
+            "id": "7372514189477512637",
+            "name": "Fax",
+            "type": "fax",
+            "number": "(650) 365-2420",
+            "extension": null,
+            "description": null,
+            "isMain": false,
+            "access": null
+        }],
+        "services": [{
+            "id": "211bayarea-10613286",
+            "idProgram": null,
+            "idOrganization": "211bayarea-10595323",
+            "name": "Adult High School Diploma Programs",
+            "alternateNames": [],
+            "description": "Provides adult high school diploma classes.",
+            "contacts": [],
+            "phones": [{
+                "id": "3521005530059925327",
+                "name": "Phone",
+                "type": "main",
+                "number": "(650) 306-8866",
+                "extension": null,
+                "description": "Main Number",
+                "isMain": false,
+                "access": null
+            }],
+            "schedules": [{
+                "id": "4557451844712257594",
+                "type": null,
+                "validFrom": null,
+                "validTo": null,
+                "open": [{
+                    "day": "mon",
+                    "opensAt": "08:15",
+                    "closesAt": "20:15"
+                }, {
+                    "day": "tue",
+                    "opensAt": "08:15",
+                    "closesAt": "20:15"
+                }, {
+                    "day": "wed",
+                    "opensAt": "08:15",
+                    "closesAt": "20:15"
+                }, {
+                    "day": "thu",
+                    "opensAt": "08:15",
+                    "closesAt": "20:15"
+                }, {
+                    "day": "fri",
+                    "opensAt": "08:15",
+                    "closesAt": "16:15"
+                }],
+                "description": "Mon 8:15am - 8:15pm; Tue 8:15am - 8:15pm; Wed 8:15am - 8:15pm; Thu 8:15am - 8:15pm; Fri 8:15am - 4:15pm; "
+            }],
+            "taxonomy": [{
+                "id": "5046040331618649707",
+                "taxonomyTerm": "Adult High School Diploma Programs",
+                "taxonomyCode": "HH-0500.2500-050",
+                "taxonomyTermLevel1": "Education",
+                "taxonomyTermLevel2": "Educational Programs",
+                "taxonomyTermLevel3": "Adult Education",
+                "taxonomyTermLevel4": "Graduation Requirements Programs",
+                "taxonomyTermLevel5": "Adult High School Diploma Programs",
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }],
+            "applicationProcess": "Register online or call",
+            "interpretationServices": null,
+            "email": null,
+            "url": "http://www.seqsas.org",
+            "waitTime": null,
+            "fees": {
+                "type": null,
+                "description": "No fee"
+            },
+            "accreditations": [],
+            "licenses": [],
+            "languages": {
+                "description": "English",
+                "codes": []
+            },
+            "funding": null,
+            "eligibility": {
+                "description": "Adults (age 18 and older)",
+                "types": []
+            },
+            "serviceAreas": [{
+                "id": "7737502023517321642",
+                "type": "county",
+                "value": "San Mateo",
+                "geoJson": null,
+                "geoComponents": [{
+                    "postalCode": null,
+                    "locality": null,
+                    "county": "San Mateo",
+                    "state": "California",
+                    "country": "United States"
+                }]
+            }],
+            "documents": {
+                "description": "High school transcripts if applicable",
+                "types": []
+            },
+            "locationIds": ["211bayarea-10595324"],
+            "meta": {
+                "idResource": "211bayarea-10613286",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-02-07",
+                "lastVerified": "2025-02-06",
+                "created": null,
+                "temporaryMessage": null
+            }
+        }],
+        "programs": [],
+        "locations": [{
+            "id": "211bayarea-10595324",
+            "idOrganization": "211bayarea-10595323",
+            "name": "Main Office",
+            "alternateNames": [],
+            "description": null,
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "longitude": -122.2031,
+            "latitude": 37.47152,
+            "addresses": [{
+                "id": "3453990512662267332",
+                "type": "physical",
+                "postalCode": "94025",
+                "street": "3247 Middlefield Road",
+                "city": "Menlo Park",
+                "county": "San Mateo",
+                "state": "CA",
+                "country": "United States",
+                "geocode": {
+                    "type": "point",
+                    "coordinates": [-122.2031, 37.47152],
+                    "bbox": [],
+                    "properties": {
+                        "type": "address",
+                        "address": {
+                            "addressLine": null,
+                            "postalCode": null,
+                            "neighborhood": null,
+                            "locality": null,
+                            "formattedAddress": null,
+                            "state": null,
+                            "county": null,
+                            "country": null
+                        }
+                    }
+                },
+                "description": null,
+                "access": "public"
+            }, {
+                "id": "459270003112424454",
+                "type": "mailing",
+                "postalCode": "94025",
+                "street": "3247 Middlefield Road",
+                "city": "Menlo Park",
+                "county": null,
+                "state": "CA",
+                "country": "United States",
+                "geocode": null,
+                "description": null,
+                "access": "public"
+            }],
+            "accessibility": {
+                "description": "Fully accessible to individuals using mobility aids.",
+                "types": null
+            },
+            "transportation": null,
+            "languages": {
+                "description": null,
+                "codes": []
+            },
+            "url": null,
+            "email": null,
+            "serviceIds": ["211bayarea-10613286"],
+            "meta": {
+                "idResource": "211bayarea-10595324",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-02-07",
+                "lastVerified": "2025-02-06",
+                "created": "2010-09-02",
+                "temporaryMessage": null
+            }
+        }],
+        "servicesAtLocations": [{
+            "id": "211bayarea-55923824",
+            "idOrganization": "211bayarea-10595323",
+            "idService": "211bayarea-10613286",
+            "idLocation": "211bayarea-10595324",
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "url": null,
+            "email": null,
+            "meta": {
+                "idResource": "211bayarea-55923824",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2023-02-22",
+                "lastVerified": null,
+                "created": "2018-04-22",
+                "temporaryMessage": null
+            }
+        }],
+        "meta": {
+            "idResource": "211bayarea-10595323",
+            "tags": [],
+            "access": "public",
+            "status": "active",
+            "reasonInactive": null,
+            "lastUpdated": "2025-05-05",
+            "lastVerified": "2025-02-06",
+            "created": "2010-09-02",
+            "temporaryMessage": null
+        },
+        "dataOwner": "211bayarea",
+        "dataOwnerDisplayName": "211 Bay Area",
+        "dataSteward": null,
+        "dataStewardDisplayName": null
+    }]
+}
+
