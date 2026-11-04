@@ -1,0 +1,35 @@
+{
+  "TableName": "resource-engine-index",
+  "BillingMode": "PAY_PER_REQUEST",
+  "AttributeDefinitions": [
+    { "AttributeName": "service_id", "AttributeType": "S" },
+    { "AttributeName": "hash_pk", "AttributeType": "S" },
+    { "AttributeName": "match_pk", "AttributeType": "S" },
+    { "AttributeName": "status_pk", "AttributeType": "S" },
+    { "AttributeName": "last_seen_at", "AttributeType": "S" }
+  ],
+  "KeySchema": [
+    { "AttributeName": "service_id", "KeyType": "HASH" }
+  ],
+  "GlobalSecondaryIndexes": [
+    {
+      "IndexName": "content-hash-index",
+      "KeySchema": [{ "AttributeName": "hash_pk", "KeyType": "HASH" }],
+      "Projection": { "ProjectionType": "ALL" }
+    },
+    {
+      "IndexName": "match-key-index",
+      "KeySchema": [{ "AttributeName": "match_pk", "KeyType": "HASH" }],
+      "Projection": { "ProjectionType": "ALL" }
+    },
+    {
+      "IndexName": "status-index",
+      "KeySchema": [
+        { "AttributeName": "status_pk", "KeyType": "HASH" },
+        { "AttributeName": "last_seen_at", "KeyType": "RANGE" }
+      ],
+      "Projection": { "ProjectionType": "ALL" }
+    }
+  ],
+  "SSESpecification": { "Enabled": true }
+}
