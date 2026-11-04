@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "one-degree-hsds-transform"
+version = "0.1.0"
+requires-python = ">=3.11"
+description = "Convert files of any common format into Open Referral HSDS 3.2.3"
+dependencies = []
+
+[project.optional-dependencies]
+pdf = ["pypdf>=4"]
+yaml = ["pyyaml>=6"]
+xls = ["xlrd>=2"]
+
+[project.scripts]
+hsds-convert = "hsds_transform.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["hsds_transform*"]
+
+[tool.setuptools.package-data]
+hsds_transform = ["schema/*.json", "schema/LICENSE", "schema/SOURCE.txt"]
