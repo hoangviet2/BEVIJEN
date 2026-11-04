@@ -1,0 +1,4 @@
+-r requirements.txt
+pytest==9.2.0
+httpx==0.28.1
+moto[dynamodb,s3,sqs,secretsmanager]==5.2.5

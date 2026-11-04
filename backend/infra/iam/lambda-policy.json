@@ -1,0 +1,10 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {"Sid": "Logs", "Effect": "Allow", "Action": ["logs:CreateLogGroup","logs:CreateLogStream","logs:PutLogEvents"], "Resource": "*"},
+    {"Sid": "Cache", "Effect": "Allow", "Action": ["s3:GetObject","s3:PutObject"],
+     "Resource": ["arn:aws:s3:::__BUCKET__/webcache/*","arn:aws:s3:::__BUCKET__/samples/*","arn:aws:s3:::__BUCKET__/evidence/*"]},
+    {"Sid": "Textract", "Effect": "Allow", "Action": ["textract:StartDocumentTextDetection","textract:GetDocumentTextDetection"], "Resource": "*"},
+    {"Sid": "Location", "Effect": "Allow", "Action": ["geo-places:Geocode","geo-places:SearchText","geo-places:ReverseGeocode"], "Resource": "arn:aws:geo-places:__REGION__::provider/default"}
+  ]
+}

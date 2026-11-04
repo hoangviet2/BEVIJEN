@@ -56,7 +56,10 @@ def _strip_volatile(value: Any) -> Any:
             if k not in _VOLATILE_KEYS
         }
     if isinstance(value, list):
-        return [_strip_volatile(v) for v in value]
+        # Order-insensitive: the store may return child rows in a different
+        # order than the source sent them.
+        items = [_strip_volatile(v) for v in value]
+        return sorted(items, key=lambda v: json.dumps(v, sort_keys=True, default=str))
     return value
 
 

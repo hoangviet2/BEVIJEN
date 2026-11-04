@@ -1,0 +1,11 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {"Sid": "InvokeGateway", "Effect": "Allow", "Action": "bedrock-agentcore:InvokeGateway", "Resource": "arn:aws:bedrock-agentcore:__REGION__:__ACCOUNT_ID__:gateway/*"},
+    {"Sid": "InvokeWebSearch", "Effect": "Allow", "Action": "bedrock-agentcore:InvokeWebSearch", "Resource": "arn:aws:bedrock-agentcore:__REGION__:aws:tool/web-search.v1"},
+    {"Sid": "WebTools", "Effect": "Allow", "Action": "lambda:InvokeFunction", "Resource": "arn:aws:lambda:__REGION__:__ACCOUNT_ID__:function:re-web-tools"},
+    {"Sid": "OpenApi", "Effect": "Allow", "Action": "s3:GetObject", "Resource": "arn:aws:s3:::__BUCKET__/gateway/*"},
+    {"Sid": "ToolKey", "Effect": "Allow", "Action": ["bedrock-agentcore:GetResourceApiKey","bedrock-agentcore:GetWorkloadAccessToken"], "Resource": "*"},
+    {"Sid": "ToolKeySecret", "Effect": "Allow", "Action": "secretsmanager:GetSecretValue", "Resource": "arn:aws:secretsmanager:__REGION__:__ACCOUNT_ID__:secret:bedrock-agentcore-identity!*"}
+  ]
+}

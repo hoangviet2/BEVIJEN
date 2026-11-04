@@ -1,0 +1,8 @@
+{
+  "mcp": {
+    "connector": {
+      "source": { "connectorId": "web-search" },
+      "configurations": [ { "name": "WebSearch", "parameterValues": {} } ]
+    }
+  }
+}

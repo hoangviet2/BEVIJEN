@@ -1,0 +1,8 @@
+# Agent runtime (AgentCore Runtime container, or the server with AGENT_MODE=inprocess).
+# Pinned to the versions this code was written against; check on day one (AGENT.md §5).
+strands-agents==1.63.0
+bedrock-agentcore==1.25.3
+mcp==2.3.0
+httpx>=0.28
+boto3>=1.43
+playwright>=1.48   # AgentCore Browser (browse tool); run `playwright install chromium` locally

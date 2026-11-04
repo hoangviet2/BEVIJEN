@@ -1,0 +1,5 @@
+{
+  "Arn": "arn:aws:sqs:__REGION__:__ACCOUNT_ID__:re-jobs",
+  "RoleArn": "arn:aws:iam::__ACCOUNT_ID__:role/re-scheduler-role",
+  "Input": "{\"type\":\"ingest\",\"source\":\"ndp\"}"
+}

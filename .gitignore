@@ -64,3 +64,24 @@ out/
 *.log
 tmp/
 .tmp/
+
+# Resource Engine — deploy state and generated output
+backend/infra/.state.json
+backend/infra/.env*
+backend/infra/dynamodb/*.tmp
+*.zip
+backend/transform/work/
+backend/ingestion/work/
+backend/work/
+
+# AgentCore / LocalStack / CDK tooling
+.bedrock_agentcore/
+.bedrock_agentcore.yaml
+.agentcore/
+agentcore.json.local
+.localstack/
+cdk.out/
+
+# Playwright (AgentCore Browser local runs)
+playwright-report/
+test-results/

@@ -1,0 +1,1036 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Resource Engine agent tools",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://RE_HOST"
+    }
+  ],
+  "paths": {
+    "/tools/records/{service_id}": {
+      "get": {
+        "tags": [
+          "Agent tools"
+        ],
+        "summary": "HSDS service + open findings + memory notes for one record",
+        "operationId": "get_record",
+        "parameters": [
+          {
+            "name": "service_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Service Id"
+            }
+          },
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "",
+              "title": "X-Api-Key"
+            }
+          },
+          {
+            "name": "x-re-agent",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "",
+              "title": "X-Re-Agent"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tools/records/match": {
+      "post": {
+        "tags": [
+          "Agent tools"
+        ],
+        "summary": "Candidate duplicates for a facility (name, phone, address, website domain)",
+        "operationId": "match_existing",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "",
+              "title": "X-Api-Key"
+            }
+          },
+          {
+            "name": "x-re-agent",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "",
+              "title": "X-Re-Agent"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ToolMatch"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tools/records": {
+      "post": {
+        "tags": [
+          "Agent tools"
+        ],
+        "summary": "Create a NEW HSDS service record (discovery-agent only); held until verified",
+        "operationId": "create_record",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "",
+              "title": "X-Api-Key"
+            }
+          },
+          {
+            "name": "x-re-agent",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "",
+              "title": "X-Re-Agent"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ToolCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tools/findings": {
+      "post": {
+        "tags": [
+          "Agent tools"
+        ],
+        "summary": "Record one evidence-backed finding (writes re-findings, never HSDS)",
+        "operationId": "record_finding",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "",
+              "title": "X-Api-Key"
+            }
+          },
+          {
+            "name": "x-re-agent",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "",
+              "title": "X-Re-Agent"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ToolFinding"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tools/flags": {
+      "post": {
+        "tags": [
+          "Agent tools"
+        ],
+        "summary": "Ask a specialist to check something that can't be settled online",
+        "operationId": "flag_for_specialist",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "",
+              "title": "X-Api-Key"
+            }
+          },
+          {
+            "name": "x-re-agent",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "",
+              "title": "X-Re-Agent"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ToolFlag"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tools/schedules/parse": {
+      "post": {
+        "tags": [
+          "Agent tools"
+        ],
+        "summary": "Free-text hours -> HSDS schedule rows (RFC 5545 freq/byday, local HH:MM)",
+        "operationId": "parse_schedule",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "",
+              "title": "X-Api-Key"
+            }
+          },
+          {
+            "name": "x-re-agent",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "",
+              "title": "X-Re-Agent"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ToolSchedule"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AssignTask": {
+        "properties": {
+          "assignee": {
+            "type": "string",
+            "title": "Assignee"
+          }
+        },
+        "type": "object",
+        "required": [
+          "assignee"
+        ],
+        "title": "AssignTask"
+      },
+      "BatchIntakeRequest": {
+        "properties": {
+          "source": {
+            "type": "string",
+            "title": "Source"
+          },
+          "records": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Records",
+            "description": "HSDS services; each carries its own 'id'."
+          }
+        },
+        "type": "object",
+        "required": [
+          "source",
+          "records"
+        ],
+        "title": "BatchIntakeRequest"
+      },
+      "BatchIntakeResult": {
+        "properties": {
+          "received": {
+            "type": "integer",
+            "title": "Received"
+          },
+          "stored": {
+            "type": "integer",
+            "title": "Stored"
+          },
+          "quarantined": {
+            "type": "integer",
+            "title": "Quarantined"
+          },
+          "results": {
+            "items": {
+              "$ref": "#/components/schemas/IntakeResult"
+            },
+            "type": "array",
+            "title": "Results"
+          }
+        },
+        "type": "object",
+        "required": [
+          "received",
+          "stored",
+          "quarantined",
+          "results"
+        ],
+        "title": "BatchIntakeResult",
+        "description": "R1.7: received = stored + quarantined."
+      },
+      "Body_ingest_ndp_upload_ingest_ndp_upload_post": {
+        "properties": {
+          "file": {
+            "type": "string",
+            "contentMediaType": "application/octet-stream",
+            "title": "File"
+          }
+        },
+        "type": "object",
+        "required": [
+          "file"
+        ],
+        "title": "Body_ingest_ndp_upload_ingest_ndp_upload_post"
+      },
+      "DiscoveryRunRequest": {
+        "properties": {
+          "zip": {
+            "title": "Zip",
+            "type": "string",
+            "nullable": true
+          },
+          "county": {
+            "title": "County",
+            "type": "string",
+            "nullable": true
+          },
+          "categories": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Categories"
+          }
+        },
+        "type": "object",
+        "title": "DiscoveryRunRequest"
+      },
+      "Evidence": {
+        "properties": {
+          "url": {
+            "type": "string",
+            "title": "Url"
+          },
+          "snippet": {
+            "type": "string",
+            "maxLength": 2000,
+            "title": "Snippet"
+          },
+          "fetched_at": {
+            "title": "Fetched At",
+            "type": "string",
+            "nullable": true
+          },
+          "s3_key": {
+            "title": "S3 Key",
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "url",
+          "snippet"
+        ],
+        "title": "Evidence"
+      },
+      "FindingDismiss": {
+        "properties": {
+          "reason": {
+            "type": "string",
+            "title": "Reason",
+            "default": "dismissed"
+          }
+        },
+        "type": "object",
+        "title": "FindingDismiss"
+      },
+      "FindingEdit": {
+        "properties": {
+          "value": {
+            "title": "Value"
+          }
+        },
+        "type": "object",
+        "required": [
+          "value"
+        ],
+        "title": "FindingEdit"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "IngestNdpRequest": {
+        "properties": {
+          "mode": {
+            "type": "string",
+            "pattern": "^(sample|mock)$",
+            "title": "Mode",
+            "default": "sample"
+          },
+          "s3_key": {
+            "title": "S3 Key",
+            "description": "sample mode: object key of the NDP sample in RE_S3_BUCKET",
+            "type": "string",
+            "nullable": true
+          },
+          "url": {
+            "title": "Url",
+            "description": "mock mode: NDP mock API URL (default NDP_MOCK_URL)",
+            "type": "string",
+            "nullable": true
+          },
+          "since": {
+            "title": "Since",
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "type": "object",
+        "title": "IngestNdpRequest"
+      },
+      "IngestOdrsRequest": {
+        "properties": {
+          "since": {
+            "title": "Since",
+            "type": "string",
+            "nullable": true
+          },
+          "max_pages": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Max Pages",
+            "default": 10000
+          }
+        },
+        "type": "object",
+        "title": "IngestOdrsRequest"
+      },
+      "IntakeRequest": {
+        "properties": {
+          "source": {
+            "type": "string",
+            "title": "Source",
+            "description": "Stable source identifier, e.g. 'odrs' or 'ndp'."
+          },
+          "native_id": {
+            "type": "string",
+            "title": "Native Id",
+            "description": "The source's own id; drives the deterministic service id."
+          },
+          "record": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Record",
+            "description": "One HSDS 3.2.3 service with nested organization."
+          }
+        },
+        "type": "object",
+        "required": [
+          "source",
+          "native_id",
+          "record"
+        ],
+        "title": "IntakeRequest"
+      },
+      "IntakeResult": {
+        "properties": {
+          "outcome": {
+            "$ref": "#/components/schemas/Outcome"
+          },
+          "service_id": {
+            "title": "Service Id",
+            "type": "string",
+            "nullable": true
+          },
+          "verification_status": {
+            "$ref": "#/components/schemas/VerificationStatus",
+            "nullable": true
+          },
+          "unverified_reason": {
+            "$ref": "#/components/schemas/UnverifiedReason",
+            "nullable": true
+          },
+          "missing_fields": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Missing Fields"
+          },
+          "errors": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Errors"
+          },
+          "duplicate_of": {
+            "title": "Duplicate Of",
+            "type": "string",
+            "nullable": true
+          },
+          "s3_key": {
+            "title": "S3 Key",
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "outcome"
+        ],
+        "title": "IntakeResult"
+      },
+      "Outcome": {
+        "type": "string",
+        "enum": [
+          "inserted",
+          "updated",
+          "skipped_duplicate",
+          "possible_duplicate",
+          "quarantined"
+        ],
+        "title": "Outcome"
+      },
+      "ResolveFinding": {
+        "properties": {
+          "finding_id": {
+            "type": "string",
+            "title": "Finding Id"
+          },
+          "outcome": {
+            "type": "string",
+            "pattern": "^(confirmed|apply|edit|dismiss|closed|unreachable)$",
+            "title": "Outcome"
+          },
+          "value": {
+            "title": "Value"
+          },
+          "reason": {
+            "title": "Reason",
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "finding_id",
+          "outcome"
+        ],
+        "title": "ResolveFinding"
+      },
+      "ResolveTask": {
+        "properties": {
+          "method": {
+            "type": "string",
+            "pattern": "^(phone|visit|email|web)$",
+            "title": "Method"
+          },
+          "notes": {
+            "type": "string",
+            "title": "Notes",
+            "default": ""
+          },
+          "findings": {
+            "items": {
+              "$ref": "#/components/schemas/ResolveFinding"
+            },
+            "type": "array",
+            "title": "Findings"
+          }
+        },
+        "type": "object",
+        "required": [
+          "method",
+          "findings"
+        ],
+        "title": "ResolveTask"
+      },
+      "SnoozeTask": {
+        "properties": {
+          "days": {
+            "type": "integer",
+            "maximum": 90.0,
+            "minimum": 1.0,
+            "title": "Days",
+            "default": 3
+          },
+          "reason": {
+            "type": "string",
+            "title": "Reason",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "SnoozeTask"
+      },
+      "ToolCreate": {
+        "properties": {
+          "run_id": {
+            "type": "string",
+            "title": "Run Id"
+          },
+          "hsds": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Hsds"
+          },
+          "evidence": {
+            "items": {
+              "$ref": "#/components/schemas/Evidence"
+            },
+            "type": "array",
+            "title": "Evidence"
+          }
+        },
+        "type": "object",
+        "required": [
+          "run_id",
+          "hsds",
+          "evidence"
+        ],
+        "title": "ToolCreate"
+      },
+      "ToolFinding": {
+        "properties": {
+          "service_id": {
+            "type": "string",
+            "title": "Service Id"
+          },
+          "category": {
+            "type": "string",
+            "title": "Category"
+          },
+          "field": {
+            "type": "string",
+            "title": "Field",
+            "default": ""
+          },
+          "current_value": {
+            "title": "Current Value"
+          },
+          "proposed_value": {
+            "title": "Proposed Value"
+          },
+          "evidence": {
+            "items": {
+              "$ref": "#/components/schemas/Evidence"
+            },
+            "type": "array",
+            "title": "Evidence"
+          },
+          "confidence": {
+            "type": "string",
+            "pattern": "^(high|medium|low)$",
+            "title": "Confidence",
+            "default": "medium"
+          },
+          "model_id": {
+            "type": "string",
+            "title": "Model Id",
+            "default": ""
+          },
+          "agent_session_id": {
+            "type": "string",
+            "title": "Agent Session Id",
+            "default": ""
+          },
+          "what_to_ask": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "What To Ask"
+          },
+          "ai_generated": {
+            "type": "boolean",
+            "title": "Ai Generated",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "service_id",
+          "category"
+        ],
+        "title": "ToolFinding"
+      },
+      "ToolFlag": {
+        "properties": {
+          "service_id": {
+            "type": "string",
+            "title": "Service Id"
+          },
+          "reason": {
+            "type": "string",
+            "title": "Reason"
+          },
+          "what_to_ask": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "maxItems": 4,
+            "title": "What To Ask"
+          },
+          "model_id": {
+            "type": "string",
+            "title": "Model Id",
+            "default": ""
+          },
+          "agent_session_id": {
+            "type": "string",
+            "title": "Agent Session Id",
+            "default": ""
+          },
+          "evidence": {
+            "items": {
+              "$ref": "#/components/schemas/Evidence"
+            },
+            "type": "array",
+            "title": "Evidence"
+          }
+        },
+        "type": "object",
+        "required": [
+          "service_id",
+          "reason"
+        ],
+        "title": "ToolFlag"
+      },
+      "ToolMatch": {
+        "properties": {
+          "name": {
+            "title": "Name",
+            "type": "string",
+            "nullable": true
+          },
+          "phone": {
+            "title": "Phone",
+            "type": "string",
+            "nullable": true
+          },
+          "address": {
+            "title": "Address",
+            "type": "string",
+            "nullable": true
+          },
+          "domain": {
+            "title": "Domain",
+            "type": "string",
+            "nullable": true
+          },
+          "zip": {
+            "title": "Zip",
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "type": "object",
+        "title": "ToolMatch"
+      },
+      "ToolSchedule": {
+        "properties": {
+          "text": {
+            "type": "string",
+            "maxLength": 4000,
+            "title": "Text"
+          }
+        },
+        "type": "object",
+        "required": [
+          "text"
+        ],
+        "title": "ToolSchedule"
+      },
+      "UnverifiedReason": {
+        "type": "string",
+        "enum": [
+          "possible_duplicate",
+          "missing_information",
+          "discrepancy",
+          "actively_bad",
+          "check_failed",
+          "needs_manual",
+          "agent_discovered",
+          "stale",
+          "clash",
+          "new_facility"
+        ],
+        "title": "UnverifiedReason",
+        "description": "Why a record is unverified (handoff values + design \u00a74.4 extensions)."
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "VerificationStatus": {
+        "type": "string",
+        "enum": [
+          "verified",
+          "unverified"
+        ],
+        "title": "VerificationStatus"
+      },
+      "VerifyBatchRequest": {
+        "properties": {
+          "source": {
+            "title": "Source",
+            "type": "string",
+            "nullable": true
+          },
+          "zip": {
+            "title": "Zip",
+            "type": "string",
+            "nullable": true
+          },
+          "older_than_days": {
+            "title": "Older Than Days",
+            "type": "integer",
+            "minimum": 0.0,
+            "nullable": true
+          }
+        },
+        "type": "object",
+        "title": "VerifyBatchRequest"
+      }
+    },
+    "securitySchemes": {
+      "ToolKey": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-api-key"
+      }
+    }
+  },
+  "security": [
+    {
+      "ToolKey": []
+    }
+  ]
+}

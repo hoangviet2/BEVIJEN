@@ -1,0 +1,30 @@
+# EC2: IMAGE=<ecr uri> docker compose up -d   (env from /opt/re/.env, written by infra/deploy.sh)
+# Local: STORE_BACKEND=memory AUTH_MODE=dev AGENT_MODE=off docker compose up --build
+services:
+  api:
+    image: ${IMAGE:-resource-engine:dev}
+    build: .
+    env_file: [{path: .env, required: false}]
+    environment:
+      STORE_BACKEND: ${STORE_BACKEND:-aws}
+      AUTH_MODE: ${AUTH_MODE:-cognito}
+      AGENT_MODE: ${AGENT_MODE:-agentcore}
+      # single-process memory mode needs the worker inside the API process
+      RUN_WORKERS: ${RUN_WORKERS:-false}
+    ports: ["8000:8000"]
+    restart: unless-stopped
+  worker:
+    image: ${IMAGE:-resource-engine:dev}
+    env_file: [{path: .env, required: false}]
+    command: ["python", "-m", "app.cli", "worker"]
+    restart: unless-stopped
+    profiles: ["aws"]   # needs SQS; with STORE_BACKEND=memory use RUN_WORKERS=true on api instead
+  caddy:
+    image: caddy:2
+    command: caddy reverse-proxy --from ${RE_DOMAIN:-localhost} --to api:8000
+    ports: ["443:443", "80:80"]
+    volumes: [caddy_data:/data]
+    restart: unless-stopped
+    profiles: ["aws"]
+volumes:
+  caddy_data: {}

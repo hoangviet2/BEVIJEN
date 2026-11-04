@@ -1,0 +1,7 @@
+{
+  "mcp": {
+    "openApiSchema": {
+      "s3": { "uri": "s3://__BUCKET__/gateway/openapi-tools.json" }
+    }
+  }
+}

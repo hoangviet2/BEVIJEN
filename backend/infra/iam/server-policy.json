@@ -1,0 +1,26 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {"Sid": "Tables", "Effect": "Allow",
+     "Action": ["dynamodb:GetItem","dynamodb:PutItem","dynamodb:DeleteItem","dynamodb:UpdateItem","dynamodb:Query","dynamodb:Scan",
+                "dynamodb:BatchWriteItem","dynamodb:BatchGetItem","dynamodb:TransactWriteItems","dynamodb:DescribeTable"],
+     "Resource": ["arn:aws:dynamodb:__REGION__:__ACCOUNT_ID__:table/re-*", "arn:aws:dynamodb:__REGION__:__ACCOUNT_ID__:table/re-*/index/*",
+                  "arn:aws:dynamodb:__REGION__:__ACCOUNT_ID__:table/__INDEX_TABLE__", "arn:aws:dynamodb:__REGION__:__ACCOUNT_ID__:table/__INDEX_TABLE__/index/*"]},
+    {"Sid": "Bucket", "Effect": "Allow", "Action": ["s3:GetObject","s3:PutObject","s3:GetObjectVersion"], "Resource": "arn:aws:s3:::__BUCKET__/*"},
+    {"Sid": "BucketList", "Effect": "Allow", "Action": ["s3:ListBucket","s3:ListBucketVersions"], "Resource": "arn:aws:s3:::__BUCKET__"},
+    {"Sid": "Queues", "Effect": "Allow", "Action": ["sqs:SendMessage","sqs:ReceiveMessage","sqs:DeleteMessage","sqs:ChangeMessageVisibility","sqs:GetQueueAttributes"],
+     "Resource": "arn:aws:sqs:__REGION__:__ACCOUNT_ID__:re-*"},
+    {"Sid": "Secrets", "Effect": "Allow", "Action": "secretsmanager:GetSecretValue", "Resource": "arn:aws:secretsmanager:__REGION__:__ACCOUNT_ID__:secret:re/*"},
+    {"Sid": "Kms", "Effect": "Allow", "Action": ["kms:Decrypt","kms:GenerateDataKey","kms:Encrypt"], "Resource": "__KMS_KEY_ARN__"},
+    {"Sid": "Bedrock", "Effect": "Allow", "Action": ["bedrock:InvokeModel","bedrock:InvokeModelWithResponseStream","bedrock:Converse"], "Resource": "*"},
+    {"Sid": "Agents", "Effect": "Allow", "Action": ["bedrock-agentcore:InvokeAgentRuntime"],
+     "Resource": "arn:aws:bedrock-agentcore:__REGION__:__ACCOUNT_ID__:runtime/*"},
+    {"Sid": "Memory", "Effect": "Allow", "Action": ["bedrock-agentcore:BatchCreateMemoryRecords","bedrock-agentcore:ListMemoryRecords","bedrock-agentcore:RetrieveMemoryRecords"],
+     "Resource": "arn:aws:bedrock-agentcore:__REGION__:__ACCOUNT_ID__:memory/*"},
+    {"Sid": "Location", "Effect": "Allow", "Action": ["geo-places:ReverseGeocode","geo-places:Geocode"], "Resource": "arn:aws:geo-places:__REGION__::provider/default"},
+    {"Sid": "Metrics", "Effect": "Allow", "Action": "cloudwatch:PutMetricData", "Resource": "*", "Condition": {"StringEquals": {"cloudwatch:namespace": "ResourceEngine"}}},
+    {"Sid": "Search", "Effect": "Allow", "Action": ["es:ESHttpGet","es:ESHttpPut","es:ESHttpPost","es:ESHttpDelete"], "Resource": "arn:aws:es:__REGION__:__ACCOUNT_ID__:domain/re-search/*"},
+    {"Sid": "Logs", "Effect": "Allow", "Action": ["logs:CreateLogGroup","logs:CreateLogStream","logs:PutLogEvents"], "Resource": "arn:aws:logs:__REGION__:__ACCOUNT_ID__:log-group:/re/*"},
+    {"Sid": "Pull", "Effect": "Allow", "Action": ["ecr:GetAuthorizationToken","ecr:BatchGetImage","ecr:GetDownloadUrlForLayer"], "Resource": "*"}
+  ]
+}

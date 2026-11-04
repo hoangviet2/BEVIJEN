@@ -1,6 +1,11 @@
-fastapi==0.115.5
-uvicorn[standard]==0.32.1
-pydantic==2.10.3
-boto3==1.35.76
-pytest==8.3.4
-httpx==0.28.1
+# Resource Engine server (Python 3.12)
+fastapi==0.162.0
+uvicorn[standard]==0.54.0
+pydantic==2.14.2
+python-multipart==0.0.33
+boto3==1.43.123
+jsonschema==4.26.0
+pyjwt[crypto]==2.15.1
+# in-repo packages: raw ingestion and HSDS mapping
+-e ./transform
+-e ./ingestion

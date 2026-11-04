@@ -1,0 +1,19 @@
+{
+  "TableName": "re-api-keys",
+  "BillingMode": "PAY_PER_REQUEST",
+  "AttributeDefinitions": [
+    {
+      "AttributeName": "PK",
+      "AttributeType": "S"
+    }
+  ],
+  "KeySchema": [
+    {
+      "AttributeName": "PK",
+      "KeyType": "HASH"
+    }
+  ],
+  "SSESpecification": {
+    "Enabled": true
+  }
+}

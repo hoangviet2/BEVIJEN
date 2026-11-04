@@ -1,0 +1,65 @@
+{
+  "TableName": "re-tasks",
+  "BillingMode": "PAY_PER_REQUEST",
+  "AttributeDefinitions": [
+    {
+      "AttributeName": "PK",
+      "AttributeType": "S"
+    },
+    {
+      "AttributeName": "assignee",
+      "AttributeType": "S"
+    },
+    {
+      "AttributeName": "sort",
+      "AttributeType": "S"
+    },
+    {
+      "AttributeName": "zip_status",
+      "AttributeType": "S"
+    }
+  ],
+  "KeySchema": [
+    {
+      "AttributeName": "PK",
+      "KeyType": "HASH"
+    }
+  ],
+  "SSESpecification": {
+    "Enabled": true
+  },
+  "GlobalSecondaryIndexes": [
+    {
+      "IndexName": "zip-index",
+      "KeySchema": [
+        {
+          "AttributeName": "zip_status",
+          "KeyType": "HASH"
+        },
+        {
+          "AttributeName": "sort",
+          "KeyType": "RANGE"
+        }
+      ],
+      "Projection": {
+        "ProjectionType": "ALL"
+      }
+    },
+    {
+      "IndexName": "assignee-index",
+      "KeySchema": [
+        {
+          "AttributeName": "assignee",
+          "KeyType": "HASH"
+        },
+        {
+          "AttributeName": "sort",
+          "KeyType": "RANGE"
+        }
+      ],
+      "Projection": {
+        "ProjectionType": "ALL"
+      }
+    }
+  ]
+}
