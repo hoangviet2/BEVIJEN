@@ -14,6 +14,8 @@ import threading
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
+from pathlib import Path
+from fastapi.staticfiles import StaticFiles
 
 from .context import get_context
 from .routers import hsds_api, internal, ops, tools, work
@@ -44,7 +46,8 @@ def create_app() -> FastAPI:
     app.include_router(internal.router)
     app.include_router(work.router)
     app.include_router(tools.router)
+    app.mount("/ui", StaticFiles(directory=Path(__file__).parent / "ui", html=True), name="ui")
     return app
-
+   
 
 app = create_app()
