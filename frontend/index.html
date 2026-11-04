@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data Management · Resource Engine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #F4F6F8; font-family: Inter, system-ui, sans-serif; color: #101828; }
+  button, input, select { font-family: inherit; }
+  .page { padding: 40px 24px 64px; }
+  .wrap { max-width: 1180px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px; }
+  .card { background: #fff; border: 1px solid #E4E7EC; border-radius: 16px; }
+  header.card { padding: 28px 32px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 24px; }
+  .eyebrow { margin: 0; font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: #475467; }
+  h1 { margin: 8px 0; font-size: 32px; line-height: 1.2; }
+  .sub { margin: 0; font-size: 15px; line-height: 1.5; color: #475467; }
+  .stats { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
+  .stat { display: flex; align-items: baseline; gap: 8px; padding: 10px 16px; border-radius: 10px; }
+  .stat span:first-child { font-size: 14px; }
+  .stat b { font-size: 20px; }
+  .stat.unv { background: #FEF0C7; color: #93370D; }
+  .stat.ver { background: #E3F4EA; color: #05603A; }
+  .right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+  .muted { margin: 0; font-size: 13px; color: #475467; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 18px; border: 1px solid #D0D5DD; border-radius: 10px; background: #fff; font-weight: 600; font-size: 15px; color: #101828; cursor: pointer; }
+  .btn:hover { background: #F2F4F7; }
+  .btn.sm { min-height: 40px; padding: 0 14px; font-size: 14px; }
+  .btn.primary { background: #1D4ED8; border-color: #1D4ED8; color: #fff; }
+  .btn.primary:hover { background: #1E40AF; }
+  .toolbar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 12px; padding: 12px 16px 0; border-bottom: 1px solid #E4E7EC; }
+  .tabs { display: flex; gap: 4px; }
+  .tab { min-height: 44px; padding: 0 16px; border: none; background: none; font-weight: 600; font-size: 15px; color: #475467; border-bottom: 2px solid transparent; margin-bottom: -1px; cursor: pointer; }
+  .tab.on { color: #1D4ED8; border-bottom-color: #1D4ED8; }
+  .tools { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding-bottom: 10px; }
+  .pop-anchor { position: relative; }
+  .pop { position: absolute; right: 0; top: 48px; z-index: 5; width: 360px; max-width: calc(100vw - 48px); padding: 18px; background: #fff; border: 1px solid #E4E7EC; border-radius: 12px; box-shadow: 0 16px 32px rgba(16,24,40,.14); display: flex; flex-direction: column; gap: 16px; }
+  .pop[hidden] { display: none; }
+  .label { margin: 0; font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: #475467; }
+  .check { display: flex; gap: 10px; align-items: flex-start; cursor: pointer; }
+  .check input { width: 18px; height: 18px; margin: 2px 0 0; flex: none; }
+  .check small { display: block; margin-top: 4px; font-size: 13px; line-height: 1.4; color: #475467; }
+  .dates { display: flex; gap: 8px; align-items: center; }
+  .dates input, select { min-height: 40px; padding: 0 8px; border: 1px solid #D0D5DD; border-radius: 8px; font-size: 14px; background: #fff; color: #101828; }
+  .dates input { flex: 1; min-width: 0; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .scroll { overflow-x: auto; }
+  .table { min-width: 820px; }
+  .grid { flex: 1; display: grid; grid-template-columns: 190px minmax(0,1.3fr) minmax(0,1.3fr) 200px; gap: 16px; align-items: center; padding: 0 8px; }
+  .thead { display: flex; align-items: center; padding: 12px 16px; background: #F9FAFB; border-bottom: 1px solid #E4E7EC; font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: #475467; }
+  .thead .act { width: 44px; text-align: center; }
+  .row { display: flex; align-items: center; padding: 4px 16px; border-bottom: 1px solid #F2F4F7; }
+  .row-main { padding: 12px 8px; border: none; border-radius: 10px; background: none; text-align: left; font: inherit; color: inherit; cursor: pointer; }
+  .row-main:hover { background: #F8FAFC; }
+  .id { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #344054; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .org b { display: block; font-size: 15px; }
+  .org span, .small { font-size: 13px; color: #475467; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 6px; }
+  .tag { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+  .tag.ok { background: #E3F4EA; color: #05603A; }
+  .tag.disc { background: #FEF0C7; color: #93370D; }
+  .tag.bad { background: #FDECEA; color: #912018; }
+  .tag.fail { background: #EAECF0; color: #344054; }
+  .tag.miss { background: #E0EAFF; color: #1E3A8A; }
+  .checked { font-size: 14px; color: #344054; display: block; }
+  .icon-btn { width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border: none; border-radius: 10px; background: none; color: #344054; cursor: pointer; flex: none; }
+  .icon-btn:hover { background: #EEF2F6; }
+  .empty { padding: 56px 24px; text-align: center; }
+  .empty b { font-size: 17px; }
+  .overlay { position: fixed; inset: 0; z-index: 10; background: rgba(16,24,40,.45); display: flex; align-items: flex-start; justify-content: center; padding: 40px 16px; overflow-y: auto; }
+  .overlay[hidden] { display: none; }
+  .dialog { width: 100%; max-width: 660px; background: #fff; border-radius: 16px; box-shadow: 0 24px 48px rgba(16,24,40,.18); }
+  .d-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; padding: 24px 24px 16px; border-bottom: 1px solid #E4E7EC; }
+  .d-head h2 { margin: 10px 0 4px; font-size: 22px; line-height: 1.3; }
+  .d-body { display: flex; flex-direction: column; gap: 20px; padding: 20px 24px; }
+  .two { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; }
+  .box { display: flex; flex-direction: column; gap: 4px; padding: 12px 14px; border-radius: 10px; background: #F9FAFB; }
+  .box span { font-size: 12px; color: #475467; }
+  .mono { font-family: 'IBM Plex Mono', monospace; font-size: 13px; }
+  .desc { padding: 14px; border: 1px solid #E4E7EC; border-radius: 10px; }
+  .desc p { margin: 6px 0 0; font-size: 15px; line-height: 1.55; }
+  .issue-head { display: flex; align-items: center; gap: 10px; }
+  .issue-tip { margin: 6px 0 10px; font-size: 13px; line-height: 1.45; color: #475467; }
+  .cmp { display: flex; flex-direction: column; gap: 6px; padding: 14px; border: 1px solid #E4E7EC; border-radius: 10px; }
+  .cmp span { font-size: 12px; color: #475467; }
+  .cmp div { font-size: 15px; line-height: 1.45; color: #344054; }
+  .cmp.new { border-color: #93C5FD; background: #EFF6FF; }
+  .cmp.new span { color: #1E40AF; }
+  .cmp.new div { font-weight: 600; color: #101828; }
+  .fields div { display: flex; gap: 16px; font-size: 14px; padding: 6px 0; border-bottom: 1px solid #F2F4F7; }
+  .fields div:last-child { border-bottom: none; }
+  .fields span { width: 120px; flex: none; color: #475467; }
+  .impact { display: flex; gap: 12px; padding: 14px; border-radius: 10px; background: #F5F3FF; font-size: 14px; line-height: 1.5; color: #3B0764; }
+  .done { padding: 14px; border-radius: 10px; background: #E3F4EA; font-size: 14px; line-height: 1.5; color: #05603A; }
+  .d-foot { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 12px; padding: 16px 24px 24px; border-top: 1px solid #E4E7EC; }
+</style>
+</head>
+<body>
+<div class="page"><div class="wrap">
+
+  <header class="card">
+    <div style="flex: 1 1 420px; min-width: 0">
+      <p class="eyebrow">One Degree · Resource Engine</p>
+      <h1>Data Management</h1>
+      <p class="sub">AI checks each record against the agency’s website. Review what it flagged and confirm the change.</p>
+      <div class="stats">
+        <div class="stat unv"><span>Unverified</span><b id="unvCount">0</b></div>
+        <div class="stat ver"><span>Verified</span><b id="verCount">0</b></div>
+      </div>
+    </div>
+    <div class="right">
+      <button class="btn" id="recheckAll">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>
+        <span id="recheckAllLabel">Re-check all</span>
+      </button>
+      <p class="muted">Last AI check: <span id="lastRun"></span></p>
+    </div>
+  </header>
+
+  <section class="card">
+    <div class="toolbar">
+      <div class="tabs" role="tablist">
+        <button class="tab on" role="tab" data-tab="unverified" id="tabUnv">Unverified</button>
+        <button class="tab" role="tab" data-tab="verified" id="tabVer">Verified</button>
+      </div>
+      <div class="tools">
+        <div class="pop-anchor">
+          <button class="btn sm" id="filterBtn" aria-expanded="false">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 5h18"/><path d="M6 12h12"/><path d="M10 19h4"/></svg>
+            <span id="filterLabel">Filter</span>
+          </button>
+          <div class="pop" id="filterPop" hidden>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <p class="label">Feature</p>
+              <div id="catOptions" style="display:flex;flex-direction:column;gap:10px"></div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <p class="label">Last edited between</p>
+              <div class="dates">
+                <label for="from" class="sr">From</label><input id="from" type="date">
+                <span class="small">to</span>
+                <label for="to" class="sr">To</label><input id="to" type="date">
+              </div>
+            </div>
+            <div style="display:flex;justify-content:space-between">
+              <button class="btn sm" id="clearFilter">Clear</button>
+              <button class="btn sm primary" id="doneFilter">Done</button>
+            </div>
+          </div>
+        </div>
+        <label for="sort" class="small">Sort</label>
+        <select id="sort">
+          <option value="checked_desc">Last checked · newest</option>
+          <option value="checked_asc">Last checked · oldest</option>
+          <option value="org_asc">Organization · A–Z</option>
+          <option value="org_desc">Organization · Z–A</option>
+          <option value="id_asc">ID · A–Z</option>
+          <option value="id_desc">ID · Z–A</option>
+        </select>
+      </div>
+    </div>
+    <div class="scroll"><div class="table">
+      <div class="thead">
+        <div class="grid"><span>ID</span><span>Organization</span><span>Feature</span><span>Last checked</span></div>
+        <span class="act">Action</span>
+      </div>
+      <div id="rows"></div>
+    </div></div>
+  </section>
+
+  <p class="muted">Records: 211 Bay Area sample (NDP). Website values and editor names are test data.</p>
+</div></div>
+
+<div class="overlay" id="overlay" hidden>
+  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="dTitle" id="dialog"></div>
+</div>
+
+<script>
+/* =========================================================================
+   DATA
+   This sample list stands in for the database.
+   To connect the real backend, replace loadRecords() below with a call to
+   the team's API, e.g.:
+     async function loadRecords() {
+       const res = await fetch(API_URL + '/findings', { headers: { Authorization: 'Bearer ' + API_KEY } });
+       return await res.json();
+     }
+   Each record must keep the same shape as the objects below.
+   ========================================================================= */
+const SAMPLE_RECORDS = [
+  { id: '211bayarea-10605158', org: 'Friendship Missionary Baptist Church', service: 'Food Pantry', zip: '94590',
+    desc: 'Provides food distribution with meat, eggs, milk, produce, and nonperishable items.',
+    issues: [{ cat: 'bad', field: 'Website', current: 'friendshipvallejo.org (active)', proposed: 'Page not found (404) on every visit' }],
+    other: [{ label: 'Address', value: '1905 Florida St, Vallejo, CA 94590' }, { label: 'Phone', value: '(707) 648-2005' }, { label: 'Hours', value: '4th Thursday of the month, 10am' }],
+    storedDate: 'Feb 5, 2025', checked: '2026-11-03T13:00', edited: '2025-02-05T10:12', editedBy: 'D. Nguyen', status: 'unverified' },
+  { id: '211bayarea-10613162', org: 'Catholic Worker Hospitality House', service: 'Dining Room', zip: '94066',
+    desc: 'Serves prepared breakfast and packed meals. Provides access to shower facilities.',
+    issues: [{ cat: 'disc', field: 'Hours', current: 'Mon–Fri 6:00–8:30 AM', proposed: 'Mon–Fri 7:00–9:00 AM' },
+             { cat: 'miss', field: 'Accessibility', current: '(empty)', proposed: 'Wheelchair accessible entrance on Second Ave' }],
+    other: [{ label: 'Address', value: '555 W San Bruno Ave, San Bruno, CA 94066' }, { label: 'Phone', value: '(650) 827-0706' }, { label: 'Eligibility', value: 'People experiencing homelessness' }],
+    storedDate: 'Aug 19, 2026', checked: '2026-11-03T13:00', edited: '2026-09-08T14:30', editedBy: 'M. Chen', status: 'unverified' },
+  { id: '211bayarea-10613192', org: 'Puente De La Costa Sur', service: 'Financial Assistance Program', zip: '94060',
+    desc: 'Distributes financial assistance to income eligible residents when funding is available, including rent, deposits, utilities and medical expenses.',
+    issues: [{ cat: 'disc', field: 'Area served', current: 'La Honda, Loma Mar, Pescadero, San Gregorio', proposed: 'La Honda, Loma Mar, Pescadero, San Gregorio, Half Moon Bay' }],
+    other: [{ label: 'Address', value: '620 North St, Pescadero, CA 94060' }, { label: 'Phone', value: '(650) 879-1691' }, { label: 'Languages', value: 'English, Spanish' }],
+    storedDate: 'Apr 7, 2025', checked: '2026-11-02T09:15', edited: '2026-08-17T11:05', editedBy: 'A. Ramos', status: 'unverified' },
+  { id: '211bayarea-10605147', org: 'Friends Of The Urban Forest', service: 'Street Tree Planting', zip: '94129',
+    desc: 'Provides youth employment program for youth to work and learn about tree planting.',
+    issues: [{ cat: 'disc', field: 'Description', current: 'Provides youth employment program for youth to work and learn about tree planting.', proposed: 'Helps neighbors plant and care for street trees and sidewalk gardens in San Francisco.' }],
+    other: [{ label: 'Address', value: '1007 General Kennedy Ave, San Francisco, CA 94129' }, { label: 'Phone', value: '(415) 561-6890' }, { label: 'Hours', value: 'Mon–Fri 9am–5pm' }],
+    storedDate: 'Feb 7, 2025', checked: '2026-10-29T16:40', edited: '2025-02-10T09:20', editedBy: 'D. Nguyen', status: 'unverified' },
+  { id: '211bayarea-10605143', org: 'Free The Need', service: 'Food Day', zip: '94127',
+    desc: 'Provides food boxes with produce and clothing distribution.',
+    issues: [{ cat: 'miss', field: 'Address', current: 'Various Locations (no city or ZIP)', proposed: '827 Joost Ave, San Francisco, CA 94127' }],
+    other: [{ label: 'Phone', value: '(415) 587-6685' }, { label: 'Hours', value: 'Fri 11am–1:30pm' }, { label: 'Eligibility', value: 'Open to all' }],
+    storedDate: 'Jan 31, 2025', checked: '2026-10-31T10:05', edited: '2026-08-17T15:45', editedBy: 'M. Chen', status: 'unverified' },
+  { id: '211bayarea-10613176', org: 'Stanford Community Law Clinic', service: 'Legal Assistance', zip: '94063',
+    desc: 'Provides legal assistance with eviction defense, record expungement, and Social Security disability benefits.',
+    issues: [{ cat: 'disc', field: 'Languages', current: 'English, Spanish', proposed: 'English, Spanish, Vietnamese' }],
+    other: [{ label: 'Address', value: '585 Broadway, Redwood City, CA 94063' }, { label: 'Phone', value: '(650) 725-9200' }, { label: 'Eligibility', value: 'San Mateo County, income eligible' }],
+    storedDate: 'Apr 15, 2025', checked: '2026-11-01T08:30', edited: '2025-04-16T13:10', editedBy: 'A. Ramos', status: 'unverified' },
+  { id: '211bayarea-10613234', org: 'Midpen Housing Corporation', service: 'Affordable Rental Housing', zip: '94404',
+    desc: 'Provides affordable rental housing for income eligible households, from studios to four-bedroom apartments.',
+    issues: [{ cat: 'fail', field: 'Website link', current: 'www.midpen-housing.org/find-hous', proposed: 'Page could not be read — link looks cut off' }],
+    other: [{ label: 'Address', value: '303 Vintage Park Dr, Foster City, CA 94404' }, { label: 'Phone', value: '(650) 356-2900' }, { label: 'Hours', value: 'Mon–Fri 8am–5pm' }],
+    storedDate: 'Feb 28, 2025', checked: '2026-11-03T13:00', edited: '2025-03-10T10:00', editedBy: 'D. Nguyen', status: 'unverified' },
+  { id: '211bayarea-10613152', org: 'Pacifica School District', service: 'Public School Education', zip: '94044',
+    desc: 'Provides public elementary and middle school education.', issues: [],
+    other: [{ label: 'Address', value: '375 Reina Del Mar, Pacifica, CA 94044' }, { label: 'Phone', value: '(650) 738-6600' }],
+    storedDate: 'Jun 13, 2025', checked: '2026-11-03T13:00', edited: '2026-10-21T09:40', editedBy: 'M. Chen', status: 'verified', resolution: 'Matches the agency website.' },
+  { id: '211bayarea-10605129', org: 'Extra Food', service: 'Food Recovery Programs', zip: '94904',
+    desc: 'Accepts surplus food donations for redistribution to community partners.', issues: [],
+    other: [{ label: 'Address', value: '907 Sir Francis Drake Blvd, Kentfield, CA 94904' }, { label: 'Phone', value: '(415) 997-9830' }],
+    storedDate: 'Feb 7, 2025', checked: '2026-10-30T12:20', edited: '2026-10-14T16:05', editedBy: 'A. Ramos', status: 'verified', resolution: 'Matches the agency website.' },
+  { id: '211bayarea-10605156', org: 'Friendship House Assoc. of American Indians', service: 'Residential Treatment Program', zip: '94103',
+    desc: 'Provides alcohol and drug addiction residential treatment programs, including recovery and relapse prevention.', issues: [],
+    other: [{ label: 'Address', value: '56 Julian Ave, San Francisco, CA 94103' }, { label: 'Phone', value: '(415) 865-0964' }],
+    storedDate: 'Jan 30, 2025', checked: '2026-11-02T09:15', edited: '2026-10-02T11:30', editedBy: 'D. Nguyen', status: 'verified', resolution: 'Matches the agency website.' }
+];
+
+async function loadRecords() { return SAMPLE_RECORDS; }
+
+/* Name written into the change log when a specialist saves. */
+const CURRENT_USER = 'Ian L.';
+
+/* =========================================================================
+   APP
+   ========================================================================= */
+const CATS = {
+  ok:   { label: 'Verified', tip: 'Our record matches the agency website.' },
+  disc: { label: 'Discrepancy', tip: 'Both sides list it, but the content doesn’t match.' },
+  bad:  { label: 'Actively bad', tip: 'Site won’t load, the agency looks closed, or its certificate expired. The service may no longer exist.' },
+  fail: { label: 'Check failed', tip: 'AI couldn’t reach the site or the check errored. This is not proof the data is wrong.' },
+  miss: { label: 'Missing information', tip: 'Our record is missing a field.' }
+};
+const CAT_ORDER = ['bad', 'disc', 'miss', 'fail', 'ok'];
+const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const RECHECK_SVG = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>';
+
+const state = {
+  items: [], tab: 'unverified', openId: null, checking: {}, allChecking: false,
+  lastRun: '2026-11-03T13:00', cats: { ok: true, disc: true, bad: true, fail: true, miss: true },
+  from: '', to: '', sort: 'checked_desc'
+};
+
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const pad = (n) => (n < 10 ? '0' : '') + n;
+function nowIso() { const d = new Date(); return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + 'T' + pad(d.getHours()) + ':' + pad(d.getMinutes()); }
+function show(iso) {
+  let h = +iso.slice(11, 13); const ap = h >= 12 ? 'PM' : 'AM'; h = h % 12 || 12;
+  return MON[+iso.slice(5, 7) - 1] + ' ' + (+iso.slice(8, 10)) + ', ' + iso.slice(0, 4) + ' · ' + h + ':' + iso.slice(14, 16) + ' ' + ap;
+}
+const catsOf = (i) => (i.issues.length ? i.issues.map((x) => x.cat) : ['ok']);
+function tagsHtml(i) {
+  const c = catsOf(i);
+  return CAT_ORDER.filter((k) => c.includes(k)).map((k) => '<span class="tag ' + k + '" title="' + esc(CATS[k].tip) + '">' + esc(CATS[k].label) + '</span>').join('');
+}
+
+function visibleRows() {
+  let list = state.items.filter((i) => i.status === state.tab).filter((i) => {
+    const d = i.edited.slice(0, 10);
+    return catsOf(i).some((k) => state.cats[k]) && (!state.from || d >= state.from) && (!state.to || d <= state.to);
+  });
+  const [key, dirWord] = state.sort.split('_'); const dir = dirWord === 'asc' ? 1 : -1;
+  const val = (i) => (key === 'checked' ? i.checked : key === 'org' ? i.org.toLowerCase() : i.id);
+  return list.slice().sort((a, b) => (val(a) < val(b) ? -dir : val(a) > val(b) ? dir : 0));
+}
+
+function render() {
+  const unv = state.items.filter((i) => i.status === 'unverified').length;
+  const ver = state.items.length - unv;
+  $('unvCount').textContent = unv; $('verCount').textContent = ver;
+  $('tabUnv').textContent = 'Unverified (' + unv + ')'; $('tabVer').textContent = 'Verified (' + ver + ')';
+  $('tabUnv').classList.toggle('on', state.tab === 'unverified'); $('tabVer').classList.toggle('on', state.tab === 'verified');
+  $('lastRun').textContent = state.allChecking ? 'running…' : show(state.lastRun);
+  $('recheckAllLabel').textContent = state.allChecking ? 'Checking all…' : 'Re-check all';
+  const active = CAT_ORDER.filter((k) => !state.cats[k]).length + (state.from ? 1 : 0) + (state.to ? 1 : 0);
+  $('filterLabel').textContent = active ? 'Filter (' + active + ')' : 'Filter';
+
+  const rows = visibleRows();
+  $('rows').innerHTML = rows.length ? rows.map((i) =>
+    '<div class="row">' +
+      '<button class="row-main grid" data-open="' + esc(i.id) + '">' +
+        '<span class="id">' + esc(i.id) + '</span>' +
+        '<span class="org"><b>' + esc(i.org) + '</b><span>' + esc(i.service) + '</span></span>' +
+        '<span><span class="tags">' + tagsHtml(i) + '</span><span class="small">' +
+          esc(i.issues.length ? i.issues.map((x) => x.field).join(' · ') : 'All checked fields match') + '</span></span>' +
+        '<span><span class="checked">' + esc(state.checking[i.id] ? 'Checking…' : show(i.checked)) + '</span><span class="small">Edited by ' + esc(i.editedBy) + '</span></span>' +
+      '</button>' +
+      '<button class="icon-btn" data-recheck="' + esc(i.id) + '" aria-label="Re-check ' + esc(i.org) + '" title="Re-check now">' + RECHECK_SVG + '</button>' +
+    '</div>').join('')
+    : '<div class="empty"><b>Nothing to show</b><p class="muted">No records match this tab and filter.</p></div>';
+
+  renderDialog();
+}
+
+function renderDialog() {
+  const i = state.items.find((x) => x.id === state.openId);
+  $('overlay').hidden = !i;
+  if (!i) return;
+  const open = i.status === 'unverified';
+  $('dialog').innerHTML =
+    '<div class="d-head"><div>' +
+      '<div class="tags">' + tagsHtml(i) + '</div>' +
+      '<h2 id="dTitle">' + esc(i.org) + '</h2><p class="sub">' + esc(i.service) + '</p></div>' +
+      '<button class="icon-btn" data-close aria-label="Close"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12"/><path d="M18 6L6 18"/></svg></button>' +
+    '</div>' +
+    '<div class="d-body">' +
+      '<div class="two"><div class="box"><span>ID</span><b class="mono">' + esc(i.id) + '</b></div><div class="box"><span>ZIP code</span><b class="mono">' + esc(i.zip) + '</b></div></div>' +
+      '<div class="desc"><p class="label">Description</p><p>' + esc(i.desc) + '</p></div>' +
+      i.issues.map((x) =>
+        '<div><div class="issue-head"><span class="tag ' + x.cat + '">' + esc(CATS[x.cat].label) + '</span><span class="label">' + esc(x.field) + '</span></div>' +
+        '<p class="issue-tip">' + esc(CATS[x.cat].tip) + '</p>' +
+        '<div class="two"><div class="cmp"><span>Our record · ' + esc(i.storedDate) + '</span><div>' + esc(x.current) + '</div></div>' +
+        '<div class="cmp new"><span>Agency website · ' + esc(show(i.checked)) + '</span><div>' + esc(x.proposed) + '</div></div></div></div>').join('') +
+      '<div><p class="label" style="margin-bottom:8px">Other fields (no change)</p><div class="fields">' +
+        i.other.map((f) => '<div><span>' + esc(f.label) + '</span>' + esc(f.value) + '</div>').join('') +
+        '<div><span>Last edited</span>' + esc(i.editedBy + ' · ' + show(i.edited)) + '</div></div></div>' +
+      (open
+        ? '<div class="impact"><b>Impact:</b>&nbsp;This will update ' + esc(i.issues.map((x) => x.field.toLowerCase()).join(' and ')) + ' for ' + esc(i.service) + ' to match the agency website, and log the change under your name.</div>'
+        : '<div class="done">' + esc(i.resolution) + '</div>') +
+    '</div>' +
+    (open ? '<div class="d-foot"><button class="btn" data-keep>Keep current</button><button class="btn primary" data-update>Update record</button></div>' : '');
+}
+
+function recheck(ids, all) {
+  ids.forEach((id) => (state.checking[id] = true));
+  if (all) state.allChecking = true;
+  render();
+  setTimeout(() => {
+    const now = nowIso();
+    state.items.forEach((i) => { if (ids.includes(i.id)) { i.checked = now; state.checking[i.id] = false; } });
+    if (all) { state.allChecking = false; state.lastRun = now; }
+    render();
+  }, all ? 1800 : 1200);
+}
+
+function resolve(kind) {
+  const i = state.items.find((x) => x.id === state.openId); if (!i) return;
+  const now = nowIso();
+  const fields = i.issues.map((x) => x.field.toLowerCase()).join(', ');
+  if (kind === 'update') i.issues.forEach((x) => { if (x.field === 'Description') i.desc = x.proposed; });
+  Object.assign(i, {
+    status: 'verified', issues: [], edited: now, editedBy: CURRENT_USER, checked: now,
+    resolution: (kind === 'update' ? 'Updated ' + fields + ' to match the agency website' : 'Kept current ' + fields) + ' — ' + CURRENT_USER + ', ' + show(now) + '.'
+  });
+  state.openId = null;
+  render();
+}
+
+/* ---- events ---- */
+document.addEventListener('click', (e) => {
+  const t = e.target.closest('button'); if (!t) return;
+  if (t.dataset.open) { state.openId = t.dataset.open; $('filterPop').hidden = true; render(); }
+  else if (t.dataset.recheck) recheck([t.dataset.recheck], false);
+  else if (t.dataset.tab) { state.tab = t.dataset.tab; render(); }
+  else if ('close' in t.dataset) { state.openId = null; render(); }
+  else if ('keep' in t.dataset) resolve('keep');
+  else if ('update' in t.dataset) resolve('update');
+});
+$('overlay').addEventListener('click', (e) => { if (e.target.id === 'overlay') { state.openId = null; render(); } });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && state.openId) { state.openId = null; render(); } });
+$('recheckAll').addEventListener('click', () => { if (!state.allChecking) recheck(state.items.map((i) => i.id), true); });
+$('filterBtn').addEventListener('click', () => { const p = $('filterPop'); p.hidden = !p.hidden; $('filterBtn').setAttribute('aria-expanded', String(!p.hidden)); });
+$('doneFilter').addEventListener('click', () => { $('filterPop').hidden = true; $('filterBtn').setAttribute('aria-expanded', 'false'); });
+$('clearFilter').addEventListener('click', () => {
+  state.cats = { ok: true, disc: true, bad: true, fail: true, miss: true }; state.from = ''; state.to = '';
+  $('from').value = ''; $('to').value = ''; buildCatOptions(); render();
+});
+$('from').addEventListener('change', (e) => { state.from = e.target.value; render(); });
+$('to').addEventListener('change', (e) => { state.to = e.target.value; render(); });
+$('sort').addEventListener('change', (e) => { state.sort = e.target.value; render(); });
+
+function buildCatOptions() {
+  $('catOptions').innerHTML = CAT_ORDER.map((k) =>
+    '<label class="check"><input type="checkbox" data-cat="' + k + '"' + (state.cats[k] ? ' checked' : '') + '>' +
+    '<span><span class="tag ' + k + '">' + esc(CATS[k].label) + '</span><small>' + esc(CATS[k].tip) + '</small></span></label>').join('');
+}
+$('catOptions').addEventListener('change', (e) => { const k = e.target.dataset.cat; if (k) { state.cats[k] = e.target.checked; render(); } });
+
+/* ---- start ---- */
+(async function start() {
+  state.items = JSON.parse(JSON.stringify(await loadRecords()));
+  buildCatOptions();
+  render();
+})();
+</script>
+</body>
+</html>
