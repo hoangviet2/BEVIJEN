@@ -1,0 +1,1867 @@
+{
+  "name": "hsds-converted",
+  "profile": "tabular-data-package",
+  "hsds_version": "3.2.3",
+  "resources": [
+    {
+      "name": "organization",
+      "path": "organizations.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "profile": "tabular-data-resource",
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "alternate_name",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "description",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "email",
+            "type": "string",
+            "format": "email",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "website",
+            "type": "string",
+            "format": "uri",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "tax_status",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "tax_id",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "year_incorporated",
+            "type": "number",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "legal_status",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "logo",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "uri",
+            "type": "string",
+            "format": "uri",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "parent_organization_id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": false
+            }
+          }
+        ],
+        "missingValues": [
+          "NA"
+        ]
+      }
+    },
+    {
+      "name": "program",
+      "path": "programs.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "profile": "tabular-data-resource",
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "organization_id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "alternate_name",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "description",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          }
+        ],
+        "missingValues": [
+          "NA"
+        ]
+      }
+    },
+    {
+      "name": "service",
+      "path": "services.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "profile": "tabular-data-resource",
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "organization_id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "program_id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "alternate_name",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "description",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "url",
+            "type": "string",
+            "format": "uri",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "email",
+            "type": "string",
+            "format": "email",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "status",
+            "type": "string",
+            "constraints": {
+              "required": true,
+              "enum": [
+                "active",
+                "inactive",
+                "defunct",
+                "temporarily closed"
+              ]
+            }
+          },
+          {
+            "name": "interpretation_services",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "application_process",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "fees_description",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "wait_time",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "fees",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "accreditations",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "eligibility_description",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "minimum_age",
+            "type": "number",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "maximum_age",
+            "type": "number",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "assured_date",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "assurer_email",
+            "type": "string",
+            "format": "email",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "licenses",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "alert",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "last_modified",
+            "type": "string",
+            "format": "date-time",
+            "constraints": {
+              "required": false
+            }
+          }
+        ],
+        "missingValues": [
+          "NA"
+        ]
+      }
+    },
+    {
+      "name": "attribute",
+      "path": "attributes.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "profile": "tabular-data-resource",
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "link_id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "taxonomy_term_id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "link_type",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "link_entity",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "value",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "label",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          }
+        ],
+        "missingValues": [
+          "NA"
+        ]
+      }
+    },
+    {
+      "name": "service_at_location",
+      "path": "service_at_location.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "profile": "tabular-data-resource",
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "service_id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "location_id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "description",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          }
+        ],
+        "missingValues": [
+          "NA"
+        ]
+      }
+    },
+    {
+      "name": "location",
+      "path": "locations.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "profile": "tabular-data-resource",
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "location_type",
+            "type": "string",
+            "constraints": {
+              "required": true,
+              "enum": [
+                "physical",
+                "postal",
+                "virtual"
+              ]
+            }
+          },
+          {
+            "name": "url",
+            "type": "string",
+            "format": "uri",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "organization_id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "alternate_name",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "description",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "transportation",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "latitude",
+            "type": "number",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "longitude",
+            "type": "number",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "external_identifier",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "external_identifier_type",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          }
+        ],
+        "missingValues": [
+          "NA"
+        ]
+      }
+    },
+    {
+      "name": "phone",
+      "path": "phones.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "profile": "tabular-data-resource",
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "location_id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "service_id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "organization_id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "contact_id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "service_at_location_id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "number",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "extension",
+            "type": "number",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "type",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "description",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          }
+        ],
+        "missingValues": [
+          "NA"
+        ]
+      }
+    },
+    {
+      "name": "contact",
+      "path": "contacts.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "profile": "tabular-data-resource",
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "organization_id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "service_id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "service_at_location_id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "location_id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "title",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "department",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "email",
+            "type": "string",
+            "format": "email",
+            "constraints": {
+              "required": false
+            }
+          }
+        ],
+        "missingValues": [
+          "NA"
+        ]
+      }
+    },
+    {
+      "name": "address",
+      "path": "addresses.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "profile": "tabular-data-resource",
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "location_id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "attention",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "address_1",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "address_2",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "city",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "region",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "state_province",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "postal_code",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "country",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "address_type",
+            "type": "string",
+            "constraints": {
+              "required": true,
+              "enum": [
+                "physical",
+                "postal",
+                "virtual"
+              ]
+            }
+          }
+        ],
+        "missingValues": [
+          "NA"
+        ]
+      }
+    },
+    {
+      "name": "schedule",
+      "path": "schedules.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "profile": "tabular-data-resource",
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "service_id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "location_id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "service_at_location_id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "valid_from",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "valid_to",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "dtstart",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "timezone",
+            "type": "number",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "until",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "count",
+            "type": "number",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "wkst",
+            "type": "string",
+            "constraints": {
+              "required": false,
+              "enum": [
+                "MO",
+                "TU",
+                "WE",
+                "TH",
+                "FR",
+                "SA",
+                "SU"
+              ]
+            }
+          },
+          {
+            "name": "freq",
+            "type": "string",
+            "constraints": {
+              "required": false,
+              "enum": [
+                "WEEKLY",
+                "MONTHLY"
+              ]
+            }
+          },
+          {
+            "name": "interval",
+            "type": "number",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "byday",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "byweekno",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "bymonthday",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "byyearday",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "description",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "opens_at",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "closes_at",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "schedule_link",
+            "type": "string",
+            "format": "uri",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "attending_type",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "notes",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          }
+        ],
+        "missingValues": [
+          "NA"
+        ]
+      }
+    },
+    {
+      "name": "funding",
+      "path": "funding.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "profile": "tabular-data-resource",
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "organization_id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "service_id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "source",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          }
+        ],
+        "missingValues": [
+          "NA"
+        ]
+      }
+    },
+    {
+      "name": "service_area",
+      "path": "service_areas.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "profile": "tabular-data-resource",
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "service_id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "service_at_location_id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "description",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "extent",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "extent_type",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "uri",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          }
+        ],
+        "missingValues": [
+          "NA"
+        ]
+      }
+    },
+    {
+      "name": "required_document",
+      "path": "required_documents.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "profile": "tabular-data-resource",
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "service_id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "document",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "uri",
+            "type": "string",
+            "format": "uri",
+            "constraints": {
+              "required": false
+            }
+          }
+        ],
+        "missingValues": [
+          "NA"
+        ]
+      }
+    },
+    {
+      "name": "language",
+      "path": "languages.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "profile": "tabular-data-resource",
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "service_id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "location_id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "phone_id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "code",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "note",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          }
+        ],
+        "missingValues": [
+          "NA"
+        ]
+      }
+    },
+    {
+      "name": "accessibility",
+      "path": "accessibility.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "profile": "tabular-data-resource",
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "location_id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "description",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "details",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "url",
+            "type": "string",
+            "format": "uri",
+            "constraints": {
+              "required": false
+            }
+          }
+        ],
+        "missingValues": [
+          "NA"
+        ]
+      }
+    },
+    {
+      "name": "taxonomy_term",
+      "path": "taxonomy_terms.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "profile": "tabular-data-resource",
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "code",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "description",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "parent_id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "taxonomy",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "language",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "taxonomy_id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "term_uri",
+            "type": "string",
+            "format": "uri",
+            "constraints": {
+              "required": false
+            }
+          }
+        ],
+        "missingValues": [
+          "NA"
+        ]
+      }
+    },
+    {
+      "name": "metadata",
+      "path": "metadata.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "profile": "tabular-data-resource",
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "resource_id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "resource_type",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "last_action_date",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "last_action_type",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "field_name",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "previous_value",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "replacement_value",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "updated_by",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          }
+        ],
+        "missingValues": [
+          "NA"
+        ]
+      }
+    },
+    {
+      "name": "meta_table_description",
+      "path": "meta_table_descriptions.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "profile": "tabular-data-resource",
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "language",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "character_set",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          }
+        ],
+        "missingValues": [
+          "NA"
+        ]
+      }
+    },
+    {
+      "name": "cost_option",
+      "path": "cost_options.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "profile": "tabular-data-resource",
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "service_id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "valid_from",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "valid_to",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "option",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "currency",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "amount",
+            "type": "number",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "amount_description",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          }
+        ],
+        "missingValues": [
+          "NA"
+        ]
+      }
+    },
+    {
+      "name": "organization_identifier",
+      "path": "organization_identifiers.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "profile": "tabular-data-resource",
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "organization_id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "identifier_scheme",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "identifier_type",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "identifier",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          }
+        ],
+        "missingValues": [
+          "NA"
+        ]
+      }
+    },
+    {
+      "name": "taxonomy",
+      "path": "taxonomies.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "profile": "tabular-data-resource",
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "description",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "uri",
+            "type": "string",
+            "format": "uri",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "version",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          }
+        ],
+        "missingValues": [
+          "NA"
+        ]
+      }
+    },
+    {
+      "name": "service_capacity",
+      "path": "service_capacities.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "profile": "tabular-data-resource",
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "service_id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "unit_id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "available",
+            "type": "number",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "maximum",
+            "type": "number",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "description",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "updated",
+            "type": "string",
+            "format": "date-time",
+            "constraints": {
+              "required": true
+            }
+          }
+        ],
+        "missingValues": [
+          "NA"
+        ]
+      }
+    },
+    {
+      "name": "unit",
+      "path": "units.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "profile": "tabular-data-resource",
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "scheme",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "identifier",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "uri",
+            "type": "string",
+            "format": "uri",
+            "constraints": {
+              "required": false
+            }
+          }
+        ],
+        "missingValues": [
+          "NA"
+        ]
+      }
+    },
+    {
+      "name": "url",
+      "path": "urls.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "profile": "tabular-data-resource",
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "label",
+            "type": "string",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "url",
+            "type": "string",
+            "format": "uri",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "organization_id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": false
+            }
+          },
+          {
+            "name": "service_id",
+            "type": "string",
+            "format": "uuid",
+            "constraints": {
+              "required": false
+            }
+          }
+        ],
+        "missingValues": [
+          "NA"
+        ]
+      }
+    }
+  ]
+}

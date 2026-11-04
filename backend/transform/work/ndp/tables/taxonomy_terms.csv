@@ -1,0 +1,46 @@
+id,code,name,description,parent_id,taxonomy,language,taxonomy_id,term_uri
+72579fde-7ed6-5bf4-bcb8-4cfdbb8978d7,HD-8200,School Districts,NA,NA,taxonomy,NA,b5813b2d-cccc-53a3-90c8-b03d3d4d85f8,NA
+392f3e89-070c-5e3f-8c66-bd64a112276f,HD-8000.1800,Elementary Schools,NA,NA,taxonomy,NA,b5813b2d-cccc-53a3-90c8-b03d3d4d85f8,NA
+796ec56d-eaf1-5eb0-90e6-da0e94b6fea2,BD-1800.6400,Packed Lunches/Dinners,NA,NA,taxonomy,NA,b5813b2d-cccc-53a3-90c8-b03d3d4d85f8,NA
+773ab79d-013d-57ff-874a-2d94bfb53bac,BD-5000.8300,Soup Kitchens,NA,NA,taxonomy,NA,b5813b2d-cccc-53a3-90c8-b03d3d4d85f8,NA
+d3247b73-37c7-545f-a39f-e02f55bf3b8a,BM-6500.6500-710,Public Showers/Baths,NA,NA,taxonomy,NA,b5813b2d-cccc-53a3-90c8-b03d3d4d85f8,NA
+1a2d8b05-ba06-5331-8a3c-dab001fa6b67,BH-1800.8500,Homeless Shelter,NA,NA,taxonomy,NA,b5813b2d-cccc-53a3-90c8-b03d3d4d85f8,NA
+f7725745-ce8f-51ab-ad0a-f75fa4ccc2c5,FT-1000.9500,Welfare Rights Assistance,NA,NA,taxonomy,NA,b5813b2d-cccc-53a3-90c8-b03d3d4d85f8,NA
+716e2f7a-9896-5078-9568-8dcbea8c6a50,FT-4500.1800,Eviction Prevention Assistance,NA,NA,taxonomy,NA,b5813b2d-cccc-53a3-90c8-b03d3d4d85f8,NA
+86eaacb2-14f2-5fab-8591-35bf9bfd5770,FT-2800.1500,Criminal Record Expungement Assistance,NA,NA,taxonomy,NA,b5813b2d-cccc-53a3-90c8-b03d3d4d85f8,NA
+4ff853a1-99fb-50e8-8a6e-f9cb1394e591,PH-2360.2400,Family Resource Centers/Outreach,NA,NA,taxonomy,NA,b5813b2d-cccc-53a3-90c8-b03d3d4d85f8,NA
+a0e835a6-9b9e-5780-818e-426f91b389c4,PH-3500.4500,Language Interpretation,NA,NA,taxonomy,NA,b5813b2d-cccc-53a3-90c8-b03d3d4d85f8,NA
+9874bd2a-3d0b-5c6d-ad16-4b8f385c850a,FT-6100,Notary Public Services,NA,NA,taxonomy,NA,b5813b2d-cccc-53a3-90c8-b03d3d4d85f8,NA
+8c766d34-b7f5-5f7d-9627-d3fef36a9d7e,BV-8900.9300-180,Electric Service Payment Assistance,NA,NA,taxonomy,NA,b5813b2d-cccc-53a3-90c8-b03d3d4d85f8,NA
+b6dccbeb-6bbb-5ae2-a51f-4d61b73f0801,BV-8900.9300-250,Gas Service Payment Assistance,NA,NA,taxonomy,NA,b5813b2d-cccc-53a3-90c8-b03d3d4d85f8,NA
+0867996c-771a-57ea-ada9-0e027a32cbbb,BH-3800.7000,Rent Payment Assistance,NA,NA,taxonomy,NA,b5813b2d-cccc-53a3-90c8-b03d3d4d85f8,NA
+f0d8cf1b-89ef-5f9e-a8ca-a4c74a1c9a06,LH-5100.5000,Medical Care Expense Assistance,NA,NA,taxonomy,NA,b5813b2d-cccc-53a3-90c8-b03d3d4d85f8,NA
+a840aff6-4102-56b6-ac54-17e68d952ed9,BH-3800.7250,Rental Deposit Assistance,NA,NA,taxonomy,NA,b5813b2d-cccc-53a3-90c8-b03d3d4d85f8,NA
+93448cac-e409-57b8-a944-3a65353f069d,FT-1020,Certificates/Forms Assistance,NA,NA,taxonomy,NA,b5813b2d-cccc-53a3-90c8-b03d3d4d85f8,NA
+c21c3ad4-028f-53f4-a978-9cd8881f6b4d,BT-4500.4500-153,Carpooling Programs,NA,NA,taxonomy,NA,b5813b2d-cccc-53a3-90c8-b03d3d4d85f8,NA
+7ec6ba99-88d3-54ed-9459-da845d6a5b34,BT-8500.1000-180,Discount Transit Passes,NA,NA,taxonomy,NA,b5813b2d-cccc-53a3-90c8-b03d3d4d85f8,NA
+20819af3-4911-501b-a567-4564f2c933b3,BT-4500.6500-250,Emergency Transportation for Commuters,NA,NA,taxonomy,NA,b5813b2d-cccc-53a3-90c8-b03d3d4d85f8,NA
+097505da-0359-5cfd-ac58-b831930aad68,BM-6500.1500-120,Children's Clothing,NA,NA,taxonomy,NA,b5813b2d-cccc-53a3-90c8-b03d3d4d85f8,NA
+42f7ae44-3ed6-5226-b506-fba9125476de,BM-6500.1500-100,Baby Clothing,NA,NA,taxonomy,NA,b5813b2d-cccc-53a3-90c8-b03d3d4d85f8,NA
+c6a94594-041c-57c1-a91b-1c8523cecb56,BM-6500.1500-250,General Clothing Provision,NA,NA,taxonomy,NA,b5813b2d-cccc-53a3-90c8-b03d3d4d85f8,NA
+ccfcd874-ed9c-580a-af85-bc5850db166b,BM-6500.6500-450,Laundry Facilities,NA,NA,taxonomy,NA,b5813b2d-cccc-53a3-90c8-b03d3d4d85f8,NA
+5cc393c9-02f2-5af6-a3c3-eac7de29b756,BD-1800.2000,Food Pantries,NA,NA,taxonomy,NA,b5813b2d-cccc-53a3-90c8-b03d3d4d85f8,NA
+a12914f8-290f-5365-981c-0998f8481528,PL-7400.0500,Arts and Crafts Instruction,NA,NA,taxonomy,NA,b5813b2d-cccc-53a3-90c8-b03d3d4d85f8,NA
+a20ad147-6b8d-5e13-b43f-0fc943d68c3a,LH-2700.2500,General Health Education Programs,NA,NA,taxonomy,NA,b5813b2d-cccc-53a3-90c8-b03d3d4d85f8,NA
+51739878-c20d-545e-bb72-377895cb2710,TC-5500.8000,Senior Centers,NA,NA,taxonomy,NA,b5813b2d-cccc-53a3-90c8-b03d3d4d85f8,NA
+c0e51f0f-da8f-5039-9520-d2c2369bd64b,PL-6600.1800,Exercise Classes/Groups,NA,NA,taxonomy,NA,b5813b2d-cccc-53a3-90c8-b03d3d4d85f8,NA
+a0031232-a1d9-50e5-87ee-eda506c8f914,PL-7400.1500,Computer Literacy Training Programs,NA,NA,taxonomy,NA,b5813b2d-cccc-53a3-90c8-b03d3d4d85f8,NA
+244bd11c-faeb-57fe-a763-e10c1d3384b0,BD-5000.1500,Congregate Meals/Nutrition Sites,NA,NA,taxonomy,NA,b5813b2d-cccc-53a3-90c8-b03d3d4d85f8,NA
+f66d0b93-81db-5407-80db-ebe01ff1a2d1,BD-1875.2000,Food Banks/Food Distribution Warehouses,NA,NA,taxonomy,NA,b5813b2d-cccc-53a3-90c8-b03d3d4d85f8,NA
+3e68a684-639c-5b22-b8e2-2361912e9996,BD-1800.8200-900,Vegetarian Food,NA,NA,taxonomy,NA,b5813b2d-cccc-53a3-90c8-b03d3d4d85f8,NA
+b7ce1ff5-3aed-5462-abf4-95105e01b284,TI-1800.2000,Food Donation Programs,NA,NA,taxonomy,NA,b5813b2d-cccc-53a3-90c8-b03d3d4d85f8,NA
+e8839e31-fa45-5c4e-8ef7-1abd6bebb82a,JD-2000.8500,Tree Planting Programs,NA,NA,taxonomy,NA,b5813b2d-cccc-53a3-90c8-b03d3d4d85f8,NA
+d9d5fb4b-c7a8-5a0f-9167-a303488aa06b,ND-6500.9800,Youth Employment Programs,NA,NA,taxonomy,NA,b5813b2d-cccc-53a3-90c8-b03d3d4d85f8,NA
+e8c27fc6-06dd-5ff5-92f5-8432f3bceecd,RX-8450.7000-750,Residential Drug Use Disorder Treatment Facilities,NA,NA,taxonomy,NA,b5813b2d-cccc-53a3-90c8-b03d3d4d85f8,NA
+c966f621-c9e9-5aa6-a2ca-78a10088def5,RX-8450.7000-700,Residential Alcohol Use Disorder Treatment Facilities,NA,NA,taxonomy,NA,b5813b2d-cccc-53a3-90c8-b03d3d4d85f8,NA
+9f7461d9-0ecc-5653-ac51-65c2627cad3c,BH-7000.4600,Low Income/Subsidized Rental Housing,NA,NA,taxonomy,NA,b5813b2d-cccc-53a3-90c8-b03d3d4d85f8,NA
+2182c6c1-184d-5142-b378-7053763395b6,TE-1000,Building and Safety,NA,NA,taxonomy,NA,b5813b2d-cccc-53a3-90c8-b03d3d4d85f8,NA
+eefb2dce-173e-5fc2-8551-05de54754a2d,TE-4525,Land Use Planning and Regulation Services,NA,NA,taxonomy,NA,b5813b2d-cccc-53a3-90c8-b03d3d4d85f8,NA
+2fb2a294-2072-55e5-be0e-82d15d37268d,BV-8900.9300-950,Water Service Payment Assistance,NA,NA,taxonomy,NA,b5813b2d-cccc-53a3-90c8-b03d3d4d85f8,NA
+9807fc5d-a3fa-5766-80e9-ed67927679ab,PN-8100.2000-235,Families/Friends of Individuals With a Drug Use Disorder Support Groups,NA,NA,taxonomy,NA,b5813b2d-cccc-53a3-90c8-b03d3d4d85f8,NA
+4cb03a0d-dffe-5cf9-b875-5eb8dad24f8d,HH-0500.2500-050,Adult High School Diploma Programs,NA,NA,taxonomy,NA,b5813b2d-cccc-53a3-90c8-b03d3d4d85f8,NA
