@@ -566,10 +566,11 @@ function renderDialog() {
   }).join('');
 
   const decided = i.issues.filter((x) => decisionFor(x).choice);
-  const allDecided = i.issues.length > 0 && decided.length === i.issues.length;
-  const impactText = !decided.length ? 'Pick what to do for each problem. Not sure yet? Press Back — the record stays in Unverified.'
+  const hasDecisions = decided.length > 0;
+  const remaining = i.issues.length - decided.length;
+  const impactText = !decided.length ? 'Choose at least one item to review. You can leave other items for later.'
     : decided.map((x) => { const d = decisionFor(x), l = (LABELS[x.k] || x.field).toLowerCase();
-        return d.choice === 'web' ? 'use the new ' + l : d.choice === 'edit' ? 'set ' + l + ' to “' + (d.text != null ? d.text : text(x.use) || x.current) + '”' : x.cat === 'stale' ? 'mark the record as checked today' : 'keep the current ' + l; }).join('; ') + '. Confirm moves the record to Verified and logs the change under your name.';
+        return d.choice === 'web' ? 'use the new ' + l : d.choice === 'edit' ? 'set ' + l + ' to “' + (d.text != null ? d.text : text(x.use) || x.current) + '”' : x.cat === 'stale' ? 'mark the record as checked today' : 'keep the current ' + l; }).join('; ') + '. Confirm saves your choices.' + (remaining ? ' Unselected items remain open.' : ' The list refreshes after saving.');
 
   $('dialog').innerHTML =
     '<div class="d-head"><div>' +
@@ -596,8 +597,8 @@ function renderDialog() {
     (open && !loading ? '<div class="d-foot" style="justify-content:space-between">' +
       '<button class="btn" data-close' + (state.saving ? ' disabled' : '') + '>← Back</button>' +
       '<span style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">' +
-      (allDecided ? '' : '<span class="small">Choose an option for every problem to confirm.</span>') +
-      '<button class="btn primary" data-save' + (state.saving || !allDecided ? ' disabled' : '') + '>' + (state.saving ? 'Saving…' : 'Confirm') + '</button></span></div>' : '');
+      (hasDecisions ? '' : '<span class="small">Choose at least one item to confirm.</span>') +
+      '<button class="btn primary" data-save' + (state.saving || !hasDecisions ? ' disabled' : '') + '>' + (state.saving ? 'Saving…' : 'Confirm') + '</button></span></div>' : '');
 }
 
 /* =========================================================================
