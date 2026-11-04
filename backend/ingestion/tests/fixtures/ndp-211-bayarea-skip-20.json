@@ -1,0 +1,4136 @@
+{
+    "input": {
+        "countAvailable": 1068,
+        "countReturned": 10,
+        "lastUpdated": "1970-01-01",
+        "includeInactive": false,
+        "dataOwners": "211bayarea",
+        "skip": 20,
+        "take": 10
+    },
+    "data": [{
+        "id": "211bayarea-10595353",
+        "name": "La Costa Adult School",
+        "alternateNames": [],
+        "description": "<p>La Costa Adult School is part of Cabrillo Unified School District.</p>",
+        "url": "http://lcas.cabrillo.k12.ca.us",
+        "email": null,
+        "yearIncorporated": null,
+        "taxStatus": "none_or_unknown",
+        "taxId": null,
+        "legalStatus": "government",
+        "funding": null,
+        "contacts": [],
+        "phones": [{
+            "id": "6684142056363997452",
+            "name": "Phone",
+            "type": "main",
+            "number": "(650) 712-7140",
+            "extension": null,
+            "description": "Main Office",
+            "isMain": false,
+            "access": null
+        }],
+        "services": [{
+            "id": "211bayarea-10613316",
+            "idProgram": null,
+            "idOrganization": "211bayarea-10595353",
+            "name": "Adult High School Diploma Programs",
+            "alternateNames": [],
+            "description": "<p>Provides adult high school diploma classes.</p>",
+            "contacts": [],
+            "phones": [{
+                "id": "8997770396746057253",
+                "name": "Phone",
+                "type": "main",
+                "number": "(650) 712-7140",
+                "extension": null,
+                "description": "Main Number",
+                "isMain": false,
+                "access": null
+            }],
+            "schedules": [{
+                "id": "8677597709516197939",
+                "type": null,
+                "validFrom": null,
+                "validTo": null,
+                "open": [{
+                    "day": "mon",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "tue",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "wed",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "thu",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "fri",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }],
+                "description": "Mon 8am - 5pm; Tue 8am - 5pm; Wed 8am - 5pm; Thu 8am - 5pm; Fri 8am - 5pm; "
+            }],
+            "taxonomy": [{
+                "id": "8299257797583898810",
+                "taxonomyTerm": "Adult High School Diploma Programs",
+                "taxonomyCode": "HH-0500.2500-050",
+                "taxonomyTermLevel1": "Education",
+                "taxonomyTermLevel2": "Educational Programs",
+                "taxonomyTermLevel3": "Adult Education",
+                "taxonomyTermLevel4": "Graduation Requirements Programs",
+                "taxonomyTermLevel5": "Adult High School Diploma Programs",
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }],
+            "applicationProcess": "Enroll online or call",
+            "interpretationServices": null,
+            "email": null,
+            "url": "http://lcas.cabrillo.k12.ca.us",
+            "waitTime": null,
+            "fees": {
+                "type": null,
+                "description": "No fee"
+            },
+            "accreditations": [],
+            "licenses": [],
+            "languages": {
+                "description": "English",
+                "codes": []
+            },
+            "funding": null,
+            "eligibility": {
+                "description": "Adults (age 18 and older)",
+                "types": []
+            },
+            "serviceAreas": [{
+                "id": "1577893445735595294",
+                "type": "county",
+                "value": "San Mateo",
+                "geoJson": null,
+                "geoComponents": [{
+                    "postalCode": null,
+                    "locality": null,
+                    "county": "San Mateo",
+                    "state": "California",
+                    "country": "United States"
+                }]
+            }],
+            "documents": {
+                "description": "None",
+                "types": []
+            },
+            "locationIds": ["211bayarea-10595354"],
+            "meta": {
+                "idResource": "211bayarea-10613316",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-07-15",
+                "lastVerified": "2025-07-15",
+                "created": null,
+                "temporaryMessage": null
+            }
+        }],
+        "programs": [],
+        "locations": [{
+            "id": "211bayarea-10595354",
+            "idOrganization": "211bayarea-10595353",
+            "name": "Main Office",
+            "alternateNames": [],
+            "description": null,
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "longitude": -122.435,
+            "latitude": 37.46377,
+            "addresses": [{
+                "id": "529437359178425922",
+                "type": "physical",
+                "postalCode": "94019",
+                "street": "498 Kelly Avenue",
+                "city": "Half Moon Bay",
+                "county": "San Mateo",
+                "state": "CA",
+                "country": "United States",
+                "geocode": {
+                    "type": "point",
+                    "coordinates": [-122.435, 37.46377],
+                    "bbox": [],
+                    "properties": {
+                        "type": "address",
+                        "address": {
+                            "addressLine": null,
+                            "postalCode": null,
+                            "neighborhood": null,
+                            "locality": null,
+                            "formattedAddress": null,
+                            "state": null,
+                            "county": null,
+                            "country": null
+                        }
+                    }
+                },
+                "description": null,
+                "access": "public"
+            }, {
+                "id": "3815040779795002876",
+                "type": "mailing",
+                "postalCode": "94019",
+                "street": "498 Kelly Avenue",
+                "city": "Half Moon Bay",
+                "county": null,
+                "state": "CA",
+                "country": "United States",
+                "geocode": null,
+                "description": null,
+                "access": "public"
+            }],
+            "accessibility": {
+                "description": "Fully accessible to individuals using mobility aids.",
+                "types": null
+            },
+            "transportation": null,
+            "languages": {
+                "description": null,
+                "codes": []
+            },
+            "url": null,
+            "email": null,
+            "serviceIds": ["211bayarea-10613316"],
+            "meta": {
+                "idResource": "211bayarea-10595354",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-07-01",
+                "lastVerified": "2025-07-01",
+                "created": "2010-09-02",
+                "temporaryMessage": null
+            }
+        }],
+        "servicesAtLocations": [{
+            "id": "211bayarea-94285441",
+            "idOrganization": "211bayarea-10595353",
+            "idService": "211bayarea-10613316",
+            "idLocation": "211bayarea-10595354",
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "url": null,
+            "email": null,
+            "meta": {
+                "idResource": "211bayarea-94285441",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-07-15",
+                "lastVerified": null,
+                "created": "2025-05-05",
+                "temporaryMessage": null
+            }
+        }],
+        "meta": {
+            "idResource": "211bayarea-10595353",
+            "tags": [],
+            "access": "public",
+            "status": "active",
+            "reasonInactive": null,
+            "lastUpdated": "2025-07-01",
+            "lastVerified": "2025-07-01",
+            "created": "2010-09-02",
+            "temporaryMessage": null
+        },
+        "dataOwner": "211bayarea",
+        "dataOwnerDisplayName": "211 Bay Area",
+        "dataSteward": null,
+        "dataStewardDisplayName": null
+    }, {
+        "id": "211bayarea-10595383",
+        "name": "City Of Half Moon Bay",
+        "alternateNames": [],
+        "description": "City government agency staffed by elected officials and City staff.",
+        "url": "http://www.half-moon-bay.ca.us",
+        "email": null,
+        "yearIncorporated": null,
+        "taxStatus": "none_or_unknown",
+        "taxId": null,
+        "legalStatus": "government",
+        "funding": null,
+        "contacts": [],
+        "phones": [{
+            "id": "1921101319169985672",
+            "name": "Phone",
+            "type": "main",
+            "number": "(650) 726-8910",
+            "extension": null,
+            "description": "Main Number",
+            "isMain": false,
+            "access": null
+        }],
+        "services": [{
+            "id": "211bayarea-10613344",
+            "idProgram": null,
+            "idOrganization": "211bayarea-10595383",
+            "name": "City Information",
+            "alternateNames": [],
+            "description": "Provides municipal information about city government, services, and events.",
+            "contacts": [],
+            "phones": [{
+                "id": "4996631963711446555",
+                "name": "Phone",
+                "type": "main",
+                "number": "(650) 726-8910",
+                "extension": null,
+                "description": "Main Number",
+                "isMain": false,
+                "access": null
+            }],
+            "schedules": [{
+                "id": "8563717286539432460",
+                "type": null,
+                "validFrom": null,
+                "validTo": null,
+                "open": [{
+                    "day": "mon",
+                    "opensAt": "08:30",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "tue",
+                    "opensAt": "08:30",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "wed",
+                    "opensAt": "08:30",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "thu",
+                    "opensAt": "08:30",
+                    "closesAt": "17:00"
+                }],
+                "description": "Mon 8:30am - 5pm; Tue 8:30am - 5pm; Wed 8:30am - 5pm; Thu 8:30am - 5pm; "
+            }],
+            "taxonomy": [{
+                "id": "8027986057609806407",
+                "taxonomyTerm": "City Government Information Services",
+                "taxonomyCode": "TJ-3200.2500-140",
+                "taxonomyTermLevel1": "Organizational/Community/International Services",
+                "taxonomyTermLevel2": "Information Services",
+                "taxonomyTermLevel3": "Information Sources",
+                "taxonomyTermLevel4": "Government Information Services",
+                "taxonomyTermLevel5": "City Government Information Services",
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }],
+            "applicationProcess": "Call or visit",
+            "interpretationServices": null,
+            "email": null,
+            "url": "http://www.half-moon-bay.ca.us",
+            "waitTime": null,
+            "fees": {
+                "type": null,
+                "description": "No fee"
+            },
+            "accreditations": [],
+            "licenses": [],
+            "languages": {
+                "description": "English",
+                "codes": []
+            },
+            "funding": null,
+            "eligibility": {
+                "description": "Open to all",
+                "types": []
+            },
+            "serviceAreas": [{
+                "id": "7328862144332710147",
+                "type": "locality",
+                "value": "Half Moon Bay",
+                "geoJson": null,
+                "geoComponents": [{
+                    "postalCode": null,
+                    "locality": "Half Moon Bay",
+                    "county": "San Mateo",
+                    "state": "California",
+                    "country": "United States"
+                }]
+            }],
+            "documents": {
+                "description": "None",
+                "types": []
+            },
+            "locationIds": ["211bayarea-10595384"],
+            "meta": {
+                "idResource": "211bayarea-10613344",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2024-08-27",
+                "lastVerified": "2024-08-27",
+                "created": null,
+                "temporaryMessage": null
+            }
+        }],
+        "programs": [],
+        "locations": [{
+            "id": "211bayarea-10595384",
+            "idOrganization": "211bayarea-10595383",
+            "name": "City Hall",
+            "alternateNames": [],
+            "description": null,
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "longitude": -122.429,
+            "latitude": 37.46347,
+            "addresses": [{
+                "id": "7977867207237018197",
+                "type": "physical",
+                "postalCode": "94019",
+                "street": "501 Main Street",
+                "city": "Half Moon Bay",
+                "county": "San Mateo",
+                "state": "CA",
+                "country": "United States",
+                "geocode": {
+                    "type": "point",
+                    "coordinates": [-122.429, 37.46347],
+                    "bbox": [],
+                    "properties": {
+                        "type": "address",
+                        "address": {
+                            "addressLine": null,
+                            "postalCode": null,
+                            "neighborhood": null,
+                            "locality": null,
+                            "formattedAddress": null,
+                            "state": null,
+                            "county": null,
+                            "country": null
+                        }
+                    }
+                },
+                "description": null,
+                "access": "public"
+            }, {
+                "id": "1532321825925071789",
+                "type": "mailing",
+                "postalCode": "94019",
+                "street": "501 Main Street",
+                "city": "Half Moon Bay",
+                "county": null,
+                "state": "CA",
+                "country": "United States",
+                "geocode": null,
+                "description": null,
+                "access": "public"
+            }],
+            "accessibility": {
+                "description": "Fully accessible to individuals using mobility aids.",
+                "types": null
+            },
+            "transportation": null,
+            "languages": {
+                "description": null,
+                "codes": []
+            },
+            "url": null,
+            "email": null,
+            "serviceIds": ["211bayarea-10613344"],
+            "meta": {
+                "idResource": "211bayarea-10595384",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2024-08-27",
+                "lastVerified": "2024-08-27",
+                "created": "2010-09-02",
+                "temporaryMessage": null
+            }
+        }],
+        "servicesAtLocations": [{
+            "id": "211bayarea-65142580",
+            "idOrganization": "211bayarea-10595383",
+            "idService": "211bayarea-10613344",
+            "idLocation": "211bayarea-10595384",
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "url": null,
+            "email": null,
+            "meta": {
+                "idResource": "211bayarea-65142580",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2024-08-27",
+                "lastVerified": null,
+                "created": "2019-11-04",
+                "temporaryMessage": null
+            }
+        }],
+        "meta": {
+            "idResource": "211bayarea-10595383",
+            "tags": [],
+            "access": "public",
+            "status": "active",
+            "reasonInactive": null,
+            "lastUpdated": "2024-08-27",
+            "lastVerified": "2024-08-27",
+            "created": "2010-09-02",
+            "temporaryMessage": null
+        },
+        "dataOwner": "211bayarea",
+        "dataOwnerDisplayName": "211 Bay Area",
+        "dataSteward": null,
+        "dataStewardDisplayName": null
+    }, {
+        "id": "211bayarea-10595385",
+        "name": "City Of Redwood City",
+        "alternateNames": [],
+        "description": "City government agency staffed by elected officials and City staff.",
+        "url": "http://www.redwoodcity.org",
+        "email": null,
+        "yearIncorporated": null,
+        "taxStatus": "none_or_unknown",
+        "taxId": null,
+        "legalStatus": "government",
+        "funding": null,
+        "contacts": [],
+        "phones": [{
+            "id": "1506895825154753017",
+            "name": "Fax",
+            "type": "fax",
+            "number": "(650) 780-7225",
+            "extension": null,
+            "description": null,
+            "isMain": false,
+            "access": null
+        }, {
+            "id": "1774695576266968809",
+            "name": "Phone",
+            "type": "main",
+            "number": "(650) 780-7000",
+            "extension": null,
+            "description": "Main Number",
+            "isMain": false,
+            "access": null
+        }, {
+            "id": "6425561398325625054",
+            "name": "TTY",
+            "type": "tty",
+            "number": "(650) 780-7265",
+            "extension": null,
+            "description": null,
+            "isMain": false,
+            "access": null
+        }],
+        "services": [{
+            "id": "211bayarea-10613346",
+            "idProgram": null,
+            "idOrganization": "211bayarea-10595385",
+            "name": "City Information",
+            "alternateNames": [],
+            "description": "Provides municipal information about city government, services, and events.",
+            "contacts": [],
+            "phones": [{
+                "id": "2787003282730034980",
+                "name": "Phone",
+                "type": "main",
+                "number": "(650) 780-7000",
+                "extension": null,
+                "description": "Main Number",
+                "isMain": false,
+                "access": null
+            }],
+            "schedules": [{
+                "id": "9043385317994266808",
+                "type": null,
+                "validFrom": null,
+                "validTo": null,
+                "open": [{
+                    "day": "mon",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "tue",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "wed",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "thu",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "fri",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }],
+                "description": "Mon 8am - 5pm; Tue 8am - 5pm; Wed 8am - 5pm; Thu 8am - 5pm; Fri 8am - 5pm; "
+            }],
+            "taxonomy": [{
+                "id": "7152168003336419953",
+                "taxonomyTerm": "City Government Information Services",
+                "taxonomyCode": "TJ-3200.2500-140",
+                "taxonomyTermLevel1": "Organizational/Community/International Services",
+                "taxonomyTermLevel2": "Information Services",
+                "taxonomyTermLevel3": "Information Sources",
+                "taxonomyTermLevel4": "Government Information Services",
+                "taxonomyTermLevel5": "City Government Information Services",
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }],
+            "applicationProcess": "Call or visit",
+            "interpretationServices": null,
+            "email": "mail@redwoodcity.org",
+            "url": "http://www.redwoodcity.org",
+            "waitTime": null,
+            "fees": {
+                "type": null,
+                "description": "No fee"
+            },
+            "accreditations": [],
+            "licenses": [],
+            "languages": {
+                "description": "English",
+                "codes": []
+            },
+            "funding": null,
+            "eligibility": {
+                "description": "Open to all",
+                "types": []
+            },
+            "serviceAreas": [{
+                "id": "9150513431275497447",
+                "type": "locality",
+                "value": "Redwood City",
+                "geoJson": null,
+                "geoComponents": [{
+                    "postalCode": null,
+                    "locality": "Redwood City",
+                    "county": "San Mateo",
+                    "state": "California",
+                    "country": "United States"
+                }]
+            }],
+            "documents": {
+                "description": "None",
+                "types": []
+            },
+            "locationIds": ["211bayarea-10595386"],
+            "meta": {
+                "idResource": "211bayarea-10613346",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2024-08-29",
+                "lastVerified": "2024-08-29",
+                "created": null,
+                "temporaryMessage": null
+            }
+        }, {
+            "id": "211bayarea-51829890",
+            "idProgram": null,
+            "idOrganization": "211bayarea-10595385",
+            "name": "Cooling Centers",
+            "alternateNames": [],
+            "description": "<p>Provides information about <a href=\"https://www.redwoodcity.org/residents/public-safety/inclement-weather-air-quality-resources\" target=\"_blank\" title=\"\" aria-label=\"Open in new window\">cooling centers</a> open during hot weather.</p>",
+            "contacts": [],
+            "phones": [{
+                "id": "4156024779101390860",
+                "name": "Phone",
+                "type": "main",
+                "number": "(650) 780-7000",
+                "extension": null,
+                "description": "Main Number",
+                "isMain": false,
+                "access": null
+            }],
+            "schedules": [{
+                "id": "6912312610628628459",
+                "type": null,
+                "validFrom": null,
+                "validTo": null,
+                "open": [],
+                "description": "Call for schedule"
+            }],
+            "taxonomy": [{
+                "id": "5051004638484006963",
+                "taxonomyTerm": "Extreme Heat Cooling Programs",
+                "taxonomyCode": "TH-2600.1900",
+                "taxonomyTermLevel1": "Organizational/Community/International Services",
+                "taxonomyTermLevel2": "Disaster Services",
+                "taxonomyTermLevel3": "Disaster Relief Services",
+                "taxonomyTermLevel4": "Extreme Heat Cooling Programs",
+                "taxonomyTermLevel5": null,
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }],
+            "applicationProcess": "Check website or call for schedule and location",
+            "interpretationServices": null,
+            "email": null,
+            "url": "http://www.redwoodcity.org",
+            "waitTime": null,
+            "fees": {
+                "type": null,
+                "description": "No fee"
+            },
+            "accreditations": [],
+            "licenses": [],
+            "languages": {
+                "description": "English",
+                "codes": []
+            },
+            "funding": null,
+            "eligibility": {
+                "description": "Open to all",
+                "types": []
+            },
+            "serviceAreas": [{
+                "id": "2110123569121289341",
+                "type": "county",
+                "value": "San Mateo",
+                "geoJson": null,
+                "geoComponents": [{
+                    "postalCode": null,
+                    "locality": null,
+                    "county": "San Mateo",
+                    "state": "California",
+                    "country": "United States"
+                }]
+            }],
+            "documents": {
+                "description": "None",
+                "types": []
+            },
+            "locationIds": ["211bayarea-10595386"],
+            "meta": {
+                "idResource": "211bayarea-51829890",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2026-06-08",
+                "lastVerified": "2024-08-29",
+                "created": "2017-08-31",
+                "temporaryMessage": null
+            }
+        }, {
+            "id": "211bayarea-63547038",
+            "idProgram": null,
+            "idOrganization": "211bayarea-10595385",
+            "name": "Public Works",
+            "alternateNames": [],
+            "description": "Responsible for public infrastructure including streets, storm drainage, sewer, and water.",
+            "contacts": [],
+            "phones": [{
+                "id": "4332641761655631540",
+                "name": "Phone",
+                "type": "main",
+                "number": "(650) 780-7464",
+                "extension": null,
+                "description": "Main Number",
+                "isMain": false,
+                "access": null
+            }],
+            "schedules": [{
+                "id": "2085334475608599227",
+                "type": null,
+                "validFrom": null,
+                "validTo": null,
+                "open": [{
+                    "day": "mon",
+                    "opensAt": "07:00",
+                    "closesAt": "16:00"
+                }, {
+                    "day": "tue",
+                    "opensAt": "07:00",
+                    "closesAt": "16:00"
+                }, {
+                    "day": "wed",
+                    "opensAt": "07:00",
+                    "closesAt": "16:00"
+                }, {
+                    "day": "thu",
+                    "opensAt": "07:00",
+                    "closesAt": "16:00"
+                }, {
+                    "day": "fri",
+                    "opensAt": "07:00",
+                    "closesAt": "16:00"
+                }],
+                "description": "Mon 7am - 4pm; Tue 7am - 4pm; Wed 7am - 4pm; Thu 7am - 4pm; Fri 7am - 4pm; "
+            }],
+            "taxonomy": [{
+                "id": "1111073897536433681",
+                "taxonomyTerm": "Traffic Signs",
+                "taxonomyCode": "TE-7900.8580",
+                "taxonomyTermLevel1": "Organizational/Community/International Services",
+                "taxonomyTermLevel2": "Community Planning and Public Works",
+                "taxonomyTermLevel3": "Street Furniture",
+                "taxonomyTermLevel4": "Traffic Signs",
+                "taxonomyTermLevel5": null,
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }, {
+                "id": "1538590630896765380",
+                "taxonomyTerm": "Street Signs",
+                "taxonomyCode": "TE-7900.8400",
+                "taxonomyTermLevel1": "Organizational/Community/International Services",
+                "taxonomyTermLevel2": "Community Planning and Public Works",
+                "taxonomyTermLevel3": "Street Furniture",
+                "taxonomyTermLevel4": "Street Signs",
+                "taxonomyTermLevel5": null,
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }, {
+                "id": "1600999421031764170",
+                "taxonomyTerm": "Street Maintenance",
+                "taxonomyCode": "TE-8000",
+                "taxonomyTermLevel1": "Organizational/Community/International Services",
+                "taxonomyTermLevel2": "Community Planning and Public Works",
+                "taxonomyTermLevel3": "Street Maintenance",
+                "taxonomyTermLevel4": null,
+                "taxonomyTermLevel5": null,
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }, {
+                "id": "4504118597400003523",
+                "taxonomyTerm": "Traffic Signals",
+                "taxonomyCode": "TE-7900.8560",
+                "taxonomyTermLevel1": "Organizational/Community/International Services",
+                "taxonomyTermLevel2": "Community Planning and Public Works",
+                "taxonomyTermLevel3": "Street Furniture",
+                "taxonomyTermLevel4": "Traffic Signals",
+                "taxonomyTermLevel5": null,
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }, {
+                "id": "7504784922683127386",
+                "taxonomyTerm": "Street Lights",
+                "taxonomyCode": "TE-7900.8300",
+                "taxonomyTermLevel1": "Organizational/Community/International Services",
+                "taxonomyTermLevel2": "Community Planning and Public Works",
+                "taxonomyTermLevel3": "Street Furniture",
+                "taxonomyTermLevel4": "Street Lights",
+                "taxonomyTermLevel5": null,
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }],
+            "applicationProcess": "Call or visit",
+            "interpretationServices": null,
+            "email": null,
+            "url": "http://www.redwoodcity.org",
+            "waitTime": null,
+            "fees": {
+                "type": null,
+                "description": "No fee"
+            },
+            "accreditations": [],
+            "licenses": [],
+            "languages": {
+                "description": "English",
+                "codes": []
+            },
+            "funding": null,
+            "eligibility": {
+                "description": "Open to all",
+                "types": []
+            },
+            "serviceAreas": [{
+                "id": "7466779039744202415",
+                "type": "locality",
+                "value": "Redwood City",
+                "geoJson": null,
+                "geoComponents": [{
+                    "postalCode": null,
+                    "locality": "Redwood City",
+                    "county": "San Mateo",
+                    "state": "California",
+                    "country": "United States"
+                }]
+            }],
+            "documents": {
+                "description": "None",
+                "types": []
+            },
+            "locationIds": ["211bayarea-63547033"],
+            "meta": {
+                "idResource": "211bayarea-63547038",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2024-08-29",
+                "lastVerified": "2024-08-29",
+                "created": "2019-07-17",
+                "temporaryMessage": null
+            }
+        }],
+        "programs": [],
+        "locations": [{
+            "id": "211bayarea-10595386",
+            "idOrganization": "211bayarea-10595385",
+            "name": "City Hall",
+            "alternateNames": [],
+            "description": null,
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "longitude": -122.2274,
+            "latitude": 37.48494,
+            "addresses": [{
+                "id": "7322059068445298732",
+                "type": "physical",
+                "postalCode": "94063",
+                "street": "1017 Middlefield Road",
+                "city": "Redwood City",
+                "county": "San Mateo",
+                "state": "CA",
+                "country": "United States",
+                "geocode": {
+                    "type": "point",
+                    "coordinates": [-122.2274, 37.48494],
+                    "bbox": [],
+                    "properties": {
+                        "type": "address",
+                        "address": {
+                            "addressLine": null,
+                            "postalCode": null,
+                            "neighborhood": null,
+                            "locality": null,
+                            "formattedAddress": null,
+                            "state": null,
+                            "county": null,
+                            "country": null
+                        }
+                    }
+                },
+                "description": null,
+                "access": "public"
+            }, {
+                "id": "7112584117090647406",
+                "type": "mailing",
+                "postalCode": "94064",
+                "street": "PO Box 391",
+                "city": "Redwood City",
+                "county": null,
+                "state": "CA",
+                "country": "United States",
+                "geocode": null,
+                "description": null,
+                "access": "public"
+            }],
+            "accessibility": {
+                "description": "Potential limitations to access, call for details.",
+                "types": null
+            },
+            "transportation": null,
+            "languages": {
+                "description": null,
+                "codes": []
+            },
+            "url": null,
+            "email": null,
+            "serviceIds": ["211bayarea-10613346", "211bayarea-51829890"],
+            "meta": {
+                "idResource": "211bayarea-10595386",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2024-08-29",
+                "lastVerified": "2024-08-29",
+                "created": "2010-09-02",
+                "temporaryMessage": null
+            }
+        }, {
+            "id": "211bayarea-63547033",
+            "idOrganization": "211bayarea-10595385",
+            "name": "Public Works Office",
+            "alternateNames": [],
+            "description": null,
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "longitude": -122.2161,
+            "latitude": 37.4875,
+            "addresses": [{
+                "id": "8274532241738354319",
+                "type": "physical",
+                "postalCode": "94063",
+                "street": "1400 Broadway Street",
+                "city": "Redwood City",
+                "county": "San Mateo",
+                "state": "CA",
+                "country": "United States",
+                "geocode": {
+                    "type": "point",
+                    "coordinates": [-122.2161, 37.4875],
+                    "bbox": [],
+                    "properties": {
+                        "type": "address",
+                        "address": {
+                            "addressLine": null,
+                            "postalCode": null,
+                            "neighborhood": null,
+                            "locality": null,
+                            "formattedAddress": null,
+                            "state": null,
+                            "county": null,
+                            "country": null
+                        }
+                    }
+                },
+                "description": null,
+                "access": "public"
+            }, {
+                "id": "6776609284974292837",
+                "type": "mailing",
+                "postalCode": "94064",
+                "street": "PO Box 391",
+                "city": "Redwood City",
+                "county": null,
+                "state": "CA",
+                "country": "United States",
+                "geocode": null,
+                "description": null,
+                "access": "public"
+            }],
+            "accessibility": {
+                "description": "Potential limitations to access, call for details.",
+                "types": null
+            },
+            "transportation": null,
+            "languages": {
+                "description": null,
+                "codes": []
+            },
+            "url": null,
+            "email": null,
+            "serviceIds": ["211bayarea-63547038"],
+            "meta": {
+                "idResource": "211bayarea-63547033",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2024-08-29",
+                "lastVerified": "2024-08-29",
+                "created": "2019-07-17",
+                "temporaryMessage": null
+            }
+        }],
+        "servicesAtLocations": [{
+            "id": "211bayarea-86364816",
+            "idOrganization": "211bayarea-10595385",
+            "idService": "211bayarea-10613346",
+            "idLocation": "211bayarea-10595386",
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "url": null,
+            "email": null,
+            "meta": {
+                "idResource": "211bayarea-86364816",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2024-08-29",
+                "lastVerified": null,
+                "created": "2023-08-29",
+                "temporaryMessage": null
+            }
+        }, {
+            "id": "211bayarea-86364820",
+            "idOrganization": "211bayarea-10595385",
+            "idService": "211bayarea-51829890",
+            "idLocation": "211bayarea-10595386",
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "url": null,
+            "email": null,
+            "meta": {
+                "idResource": "211bayarea-86364820",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2024-09-06",
+                "lastVerified": null,
+                "created": "2023-08-29",
+                "temporaryMessage": null
+            }
+        }, {
+            "id": "211bayarea-63547059",
+            "idOrganization": "211bayarea-10595385",
+            "idService": "211bayarea-63547038",
+            "idLocation": "211bayarea-63547033",
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "url": null,
+            "email": null,
+            "meta": {
+                "idResource": "211bayarea-63547059",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2024-08-29",
+                "lastVerified": null,
+                "created": "2019-07-17",
+                "temporaryMessage": null
+            }
+        }],
+        "meta": {
+            "idResource": "211bayarea-10595385",
+            "tags": [],
+            "access": "public",
+            "status": "active",
+            "reasonInactive": null,
+            "lastUpdated": "2024-08-29",
+            "lastVerified": "2024-08-29",
+            "created": "2010-09-02",
+            "temporaryMessage": null
+        },
+        "dataOwner": "211bayarea",
+        "dataOwnerDisplayName": "211 Bay Area",
+        "dataSteward": null,
+        "dataStewardDisplayName": null
+    }, {
+        "id": "211bayarea-10595387",
+        "name": "City Of San Bruno",
+        "alternateNames": [],
+        "description": "<p>City government providing municipal services.</p>",
+        "url": "http://www.sanbruno.ca.gov",
+        "email": null,
+        "yearIncorporated": 1914,
+        "taxStatus": "none_or_unknown",
+        "taxId": null,
+        "legalStatus": "government",
+        "funding": null,
+        "contacts": [],
+        "phones": [{
+            "id": "2901277850906420128",
+            "name": "Phone",
+            "type": "main",
+            "number": "(650) 616-7058",
+            "extension": null,
+            "description": "Main Number",
+            "isMain": false,
+            "access": null
+        }],
+        "services": [{
+            "id": "211bayarea-10613348",
+            "idProgram": null,
+            "idOrganization": "211bayarea-10595387",
+            "name": "City Clerk",
+            "alternateNames": [],
+            "description": "<p>Provides preparation of city council agenda packets and meeting minutes. Offers access to city records and information for public inquiries.</p>",
+            "contacts": [],
+            "phones": [{
+                "id": "935981523761256770",
+                "name": "Phone",
+                "type": "main",
+                "number": "(650) 616-7061",
+                "extension": null,
+                "description": "Main Number",
+                "isMain": false,
+                "access": null
+            }],
+            "schedules": [{
+                "id": "3744351726275128654",
+                "type": null,
+                "validFrom": null,
+                "validTo": null,
+                "open": [{
+                    "day": "mon",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "tue",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "wed",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "thu",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }],
+                "description": "Mon 8am - 5pm; Tue 8am - 5pm; Wed 8am - 5pm; Thu 8am - 5pm; "
+            }],
+            "taxonomy": [{
+                "id": "8319411668811150727",
+                "taxonomyTerm": "City/Town Clerk Offices",
+                "taxonomyCode": "TD-6600.4500-040",
+                "taxonomyTermLevel1": "Organizational/Community/International Services",
+                "taxonomyTermLevel2": "Community Groups and Government/Administrative Offices",
+                "taxonomyTermLevel3": "Public Officials Offices",
+                "taxonomyTermLevel4": "Local Officials Offices",
+                "taxonomyTermLevel5": "City/Town Clerk Offices",
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }],
+            "applicationProcess": "Call or visit",
+            "interpretationServices": null,
+            "email": "cityclerk@sanbruno.ca.gov",
+            "url": "http://www.sanbruno.ca.gov",
+            "waitTime": null,
+            "fees": {
+                "type": null,
+                "description": "No fee"
+            },
+            "accreditations": [],
+            "licenses": [],
+            "languages": {
+                "description": "English",
+                "codes": []
+            },
+            "funding": null,
+            "eligibility": {
+                "description": "Open to all",
+                "types": []
+            },
+            "serviceAreas": [{
+                "id": "9174544338928636026",
+                "type": "locality",
+                "value": "San Bruno",
+                "geoJson": null,
+                "geoComponents": [{
+                    "postalCode": null,
+                    "locality": "San Bruno",
+                    "county": "San Mateo",
+                    "state": "California",
+                    "country": "United States"
+                }]
+            }],
+            "documents": {
+                "description": "None",
+                "types": []
+            },
+            "locationIds": ["211bayarea-10595388"],
+            "meta": {
+                "idResource": "211bayarea-10613348",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-06-03",
+                "lastVerified": "2025-06-03",
+                "created": null,
+                "temporaryMessage": null
+            }
+        }, {
+            "id": "211bayarea-63547210",
+            "idProgram": null,
+            "idOrganization": "211bayarea-10595387",
+            "name": "Public Works",
+            "alternateNames": [],
+            "description": "<p>Provides maintenance of public facilities, city streets, traffic lights, and signals.</p>",
+            "contacts": [],
+            "phones": [{
+                "id": "8098439758623608531",
+                "name": "Phone",
+                "type": "main",
+                "number": "(650) 616-7065",
+                "extension": null,
+                "description": "Main Number",
+                "isMain": false,
+                "access": null
+            }],
+            "schedules": [{
+                "id": "6071407094364734669",
+                "type": null,
+                "validFrom": null,
+                "validTo": null,
+                "open": [{
+                    "day": "mon",
+                    "opensAt": "08:00",
+                    "closesAt": "16:30"
+                }, {
+                    "day": "tue",
+                    "opensAt": "08:00",
+                    "closesAt": "16:30"
+                }, {
+                    "day": "wed",
+                    "opensAt": "08:00",
+                    "closesAt": "16:30"
+                }, {
+                    "day": "thu",
+                    "opensAt": "09:00",
+                    "closesAt": "16:30"
+                }, {
+                    "day": "fri",
+                    "opensAt": "08:00",
+                    "closesAt": "16:30"
+                }],
+                "description": "Mon 8am - 4:30pm; Tue 8am - 4:30pm; Wed 8am - 4:30pm; Thu 9am - 4:30pm; Fri 8am - 4:30pm; "
+            }],
+            "taxonomy": [{
+                "id": "3347731796068454502",
+                "taxonomyTerm": "Traffic Signs",
+                "taxonomyCode": "TE-7900.8580",
+                "taxonomyTermLevel1": "Organizational/Community/International Services",
+                "taxonomyTermLevel2": "Community Planning and Public Works",
+                "taxonomyTermLevel3": "Street Furniture",
+                "taxonomyTermLevel4": "Traffic Signs",
+                "taxonomyTermLevel5": null,
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }, {
+                "id": "4566431579261770522",
+                "taxonomyTerm": "Street Signs",
+                "taxonomyCode": "TE-7900.8400",
+                "taxonomyTermLevel1": "Organizational/Community/International Services",
+                "taxonomyTermLevel2": "Community Planning and Public Works",
+                "taxonomyTermLevel3": "Street Furniture",
+                "taxonomyTermLevel4": "Street Signs",
+                "taxonomyTermLevel5": null,
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }, {
+                "id": "4596232721634705332",
+                "taxonomyTerm": "Traffic Signals",
+                "taxonomyCode": "TE-7900.8560",
+                "taxonomyTermLevel1": "Organizational/Community/International Services",
+                "taxonomyTermLevel2": "Community Planning and Public Works",
+                "taxonomyTermLevel3": "Street Furniture",
+                "taxonomyTermLevel4": "Traffic Signals",
+                "taxonomyTermLevel5": null,
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }, {
+                "id": "5234545052349161283",
+                "taxonomyTerm": "Street Lights",
+                "taxonomyCode": "TE-7900.8300",
+                "taxonomyTermLevel1": "Organizational/Community/International Services",
+                "taxonomyTermLevel2": "Community Planning and Public Works",
+                "taxonomyTermLevel3": "Street Furniture",
+                "taxonomyTermLevel4": "Street Lights",
+                "taxonomyTermLevel5": null,
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }, {
+                "id": "5572697093234353557",
+                "taxonomyTerm": "Street Maintenance",
+                "taxonomyCode": "TE-8000",
+                "taxonomyTermLevel1": "Organizational/Community/International Services",
+                "taxonomyTermLevel2": "Community Planning and Public Works",
+                "taxonomyTermLevel3": "Street Maintenance",
+                "taxonomyTermLevel4": null,
+                "taxonomyTermLevel5": null,
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }],
+            "applicationProcess": "Call or visit",
+            "interpretationServices": null,
+            "email": "pwengineering@sanbruno.ca.gov",
+            "url": "http://www.sanbruno.ca.gov",
+            "waitTime": null,
+            "fees": {
+                "type": null,
+                "description": "No fee"
+            },
+            "accreditations": [],
+            "licenses": [],
+            "languages": {
+                "description": "English",
+                "codes": []
+            },
+            "funding": null,
+            "eligibility": {
+                "description": "Open to all",
+                "types": []
+            },
+            "serviceAreas": [{
+                "id": "2749010929060821041",
+                "type": "locality",
+                "value": "San Bruno",
+                "geoJson": null,
+                "geoComponents": [{
+                    "postalCode": null,
+                    "locality": "San Bruno",
+                    "county": "San Mateo",
+                    "state": "California",
+                    "country": "United States"
+                }]
+            }],
+            "documents": {
+                "description": "None",
+                "types": []
+            },
+            "locationIds": ["211bayarea-10595388"],
+            "meta": {
+                "idResource": "211bayarea-63547210",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-06-03",
+                "lastVerified": "2025-06-03",
+                "created": "2019-07-17",
+                "temporaryMessage": null
+            }
+        }],
+        "programs": [],
+        "locations": [{
+            "id": "211bayarea-10595388",
+            "idOrganization": "211bayarea-10595387",
+            "name": "City Hall",
+            "alternateNames": [],
+            "description": null,
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "longitude": -122.4146,
+            "latitude": 37.62474,
+            "addresses": [{
+                "id": "9054813062709012348",
+                "type": "physical",
+                "postalCode": "94066",
+                "street": "567 El Camino Real",
+                "city": "San Bruno",
+                "county": "San Mateo",
+                "state": "CA",
+                "country": "United States",
+                "geocode": {
+                    "type": "point",
+                    "coordinates": [-122.4146, 37.62474],
+                    "bbox": [],
+                    "properties": {
+                        "type": "address",
+                        "address": {
+                            "addressLine": null,
+                            "postalCode": null,
+                            "neighborhood": null,
+                            "locality": null,
+                            "formattedAddress": null,
+                            "state": null,
+                            "county": null,
+                            "country": null
+                        }
+                    }
+                },
+                "description": null,
+                "access": "public"
+            }, {
+                "id": "8352764128423198412",
+                "type": "mailing",
+                "postalCode": "94066",
+                "street": "567 El Camino Real",
+                "city": "San Bruno",
+                "county": null,
+                "state": "CA",
+                "country": "United States",
+                "geocode": null,
+                "description": null,
+                "access": "public"
+            }],
+            "accessibility": {
+                "description": "Fully accessible to individuals using mobility aids.",
+                "types": null
+            },
+            "transportation": null,
+            "languages": {
+                "description": null,
+                "codes": []
+            },
+            "url": null,
+            "email": null,
+            "serviceIds": ["211bayarea-10613348", "211bayarea-63547210"],
+            "meta": {
+                "idResource": "211bayarea-10595388",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-06-03",
+                "lastVerified": "2025-06-03",
+                "created": "2010-09-02",
+                "temporaryMessage": null
+            }
+        }],
+        "servicesAtLocations": [{
+            "id": "211bayarea-55887397",
+            "idOrganization": "211bayarea-10595387",
+            "idService": "211bayarea-10613348",
+            "idLocation": "211bayarea-10595388",
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "url": null,
+            "email": null,
+            "meta": {
+                "idResource": "211bayarea-55887397",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-06-03",
+                "lastVerified": null,
+                "created": "2018-04-21",
+                "temporaryMessage": null
+            }
+        }, {
+            "id": "211bayarea-63547224",
+            "idOrganization": "211bayarea-10595387",
+            "idService": "211bayarea-63547210",
+            "idLocation": "211bayarea-10595388",
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "url": null,
+            "email": null,
+            "meta": {
+                "idResource": "211bayarea-63547224",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-06-03",
+                "lastVerified": null,
+                "created": "2019-07-17",
+                "temporaryMessage": null
+            }
+        }],
+        "meta": {
+            "idResource": "211bayarea-10595387",
+            "tags": [],
+            "access": "public",
+            "status": "active",
+            "reasonInactive": null,
+            "lastUpdated": "2025-06-03",
+            "lastVerified": "2025-06-03",
+            "created": "2010-09-02",
+            "temporaryMessage": null
+        },
+        "dataOwner": "211bayarea",
+        "dataOwnerDisplayName": "211 Bay Area",
+        "dataSteward": null,
+        "dataStewardDisplayName": null
+    }, {
+        "id": "211bayarea-10595397",
+        "name": "City Of East Palo Alto",
+        "alternateNames": ["CITY OF EPA"],
+        "description": "City government agency staffed by elected officials and City staff.",
+        "url": "http://www.ci.east-palo-alto.ca.us",
+        "email": null,
+        "yearIncorporated": null,
+        "taxStatus": "none_or_unknown",
+        "taxId": null,
+        "legalStatus": "government",
+        "funding": null,
+        "contacts": [],
+        "phones": [{
+            "id": "2609461321481354172",
+            "name": "Phone",
+            "type": "main",
+            "number": "(650) 853-3100",
+            "extension": null,
+            "description": "Main Number",
+            "isMain": false,
+            "access": null
+        }, {
+            "id": "7906620539000248703",
+            "name": "Fax",
+            "type": "fax",
+            "number": "(650) 853-3115",
+            "extension": null,
+            "description": null,
+            "isMain": false,
+            "access": null
+        }],
+        "services": [{
+            "id": "211bayarea-10613356",
+            "idProgram": null,
+            "idOrganization": "211bayarea-10595397",
+            "name": "City Manager",
+            "alternateNames": [],
+            "description": "<p>Provides management, supervision, and administration of city operations, programs, and resources.</p>",
+            "contacts": [],
+            "phones": [{
+                "id": "368029666350837999",
+                "name": "Phone",
+                "type": "main",
+                "number": "(650) 853-3100",
+                "extension": null,
+                "description": "Main Number",
+                "isMain": false,
+                "access": null
+            }],
+            "schedules": [{
+                "id": "71771575801119569",
+                "type": null,
+                "validFrom": null,
+                "validTo": null,
+                "open": [{
+                    "day": "mon",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "tue",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "wed",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "thu",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "fri",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }],
+                "description": "Mon 8am - 5pm; Tue 8am - 5pm; Wed 8am - 5pm; Thu 8am - 5pm; Fri 8am - 5pm; "
+            }],
+            "taxonomy": [{
+                "id": "1969403685871464406",
+                "taxonomyTerm": "City/Town Managers Offices",
+                "taxonomyCode": "TD-6600.4500-120",
+                "taxonomyTermLevel1": "Organizational/Community/International Services",
+                "taxonomyTermLevel2": "Community Groups and Government/Administrative Offices",
+                "taxonomyTermLevel3": "Public Officials Offices",
+                "taxonomyTermLevel4": "Local Officials Offices",
+                "taxonomyTermLevel5": "City/Town Managers Offices",
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }],
+            "applicationProcess": "Call for appointment",
+            "interpretationServices": null,
+            "email": "cmoffice@cityofepa.org",
+            "url": "http://www.ci.east-palo-alto.ca.us",
+            "waitTime": null,
+            "fees": {
+                "type": null,
+                "description": "No fee"
+            },
+            "accreditations": [],
+            "licenses": [],
+            "languages": {
+                "description": "English, Spanish",
+                "codes": []
+            },
+            "funding": null,
+            "eligibility": {
+                "description": "Open to all",
+                "types": []
+            },
+            "serviceAreas": [{
+                "id": "9101677918431149960",
+                "type": "locality",
+                "value": "East Palo Alto",
+                "geoJson": null,
+                "geoComponents": [{
+                    "postalCode": null,
+                    "locality": "East Palo Alto",
+                    "county": "San Mateo",
+                    "state": "California",
+                    "country": "United States"
+                }]
+            }],
+            "documents": {
+                "description": "None",
+                "types": []
+            },
+            "locationIds": ["211bayarea-10595398"],
+            "meta": {
+                "idResource": "211bayarea-10613356",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-04-15",
+                "lastVerified": "2025-04-08",
+                "created": null,
+                "temporaryMessage": null
+            }
+        }, {
+            "id": "211bayarea-62408486",
+            "idProgram": null,
+            "idOrganization": "211bayarea-10595397",
+            "name": "Public Works",
+            "alternateNames": [],
+            "description": "<p>Provides maintenance of public facilities, city streets, traffic lights, and signals.</p>",
+            "contacts": [],
+            "phones": [{
+                "id": "2782184211387287836",
+                "name": "Phone",
+                "type": "main",
+                "number": "(650) 853-3189",
+                "extension": null,
+                "description": "Main Number",
+                "isMain": false,
+                "access": null
+            }],
+            "schedules": [{
+                "id": "1296924546441049466",
+                "type": null,
+                "validFrom": null,
+                "validTo": null,
+                "open": [{
+                    "day": "mon",
+                    "opensAt": "09:00",
+                    "closesAt": "15:45"
+                }, {
+                    "day": "tue",
+                    "opensAt": "09:00",
+                    "closesAt": "15:45"
+                }, {
+                    "day": "thu",
+                    "opensAt": "09:00",
+                    "closesAt": "15:45"
+                }],
+                "description": "Mon 9am - 3:45pm; Tue 9am - 3:45pm; Thu 9am - 3:45pm; "
+            }],
+            "taxonomy": [{
+                "id": "463271018738359213",
+                "taxonomyTerm": "Street Maintenance",
+                "taxonomyCode": "TE-8000",
+                "taxonomyTermLevel1": "Organizational/Community/International Services",
+                "taxonomyTermLevel2": "Community Planning and Public Works",
+                "taxonomyTermLevel3": "Street Maintenance",
+                "taxonomyTermLevel4": null,
+                "taxonomyTermLevel5": null,
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }, {
+                "id": "2211878016073085691",
+                "taxonomyTerm": "Street Signs",
+                "taxonomyCode": "TE-7900.8400",
+                "taxonomyTermLevel1": "Organizational/Community/International Services",
+                "taxonomyTermLevel2": "Community Planning and Public Works",
+                "taxonomyTermLevel3": "Street Furniture",
+                "taxonomyTermLevel4": "Street Signs",
+                "taxonomyTermLevel5": null,
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }, {
+                "id": "5497962343947758971",
+                "taxonomyTerm": "Traffic Signs",
+                "taxonomyCode": "TE-7900.8580",
+                "taxonomyTermLevel1": "Organizational/Community/International Services",
+                "taxonomyTermLevel2": "Community Planning and Public Works",
+                "taxonomyTermLevel3": "Street Furniture",
+                "taxonomyTermLevel4": "Traffic Signs",
+                "taxonomyTermLevel5": null,
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }, {
+                "id": "7473412161562417440",
+                "taxonomyTerm": "Street Lights",
+                "taxonomyCode": "TE-7900.8300",
+                "taxonomyTermLevel1": "Organizational/Community/International Services",
+                "taxonomyTermLevel2": "Community Planning and Public Works",
+                "taxonomyTermLevel3": "Street Furniture",
+                "taxonomyTermLevel4": "Street Lights",
+                "taxonomyTermLevel5": null,
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }, {
+                "id": "8342802883871489890",
+                "taxonomyTerm": "Traffic Signals",
+                "taxonomyCode": "TE-7900.8560",
+                "taxonomyTermLevel1": "Organizational/Community/International Services",
+                "taxonomyTermLevel2": "Community Planning and Public Works",
+                "taxonomyTermLevel3": "Street Furniture",
+                "taxonomyTermLevel4": "Traffic Signals",
+                "taxonomyTermLevel5": null,
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }],
+            "applicationProcess": "Call or visit",
+            "interpretationServices": null,
+            "email": "engineering@cityofepa.org",
+            "url": "http://www.ci.east-palo-alto.ca.us",
+            "waitTime": null,
+            "fees": {
+                "type": null,
+                "description": "No fee"
+            },
+            "accreditations": [],
+            "licenses": [],
+            "languages": {
+                "description": "English",
+                "codes": []
+            },
+            "funding": null,
+            "eligibility": {
+                "description": "Open to all",
+                "types": []
+            },
+            "serviceAreas": [{
+                "id": "7874954474852954553",
+                "type": "locality",
+                "value": "East Palo Alto",
+                "geoJson": null,
+                "geoComponents": [{
+                    "postalCode": null,
+                    "locality": "East Palo Alto",
+                    "county": "San Mateo",
+                    "state": "California",
+                    "country": "United States"
+                }]
+            }],
+            "documents": {
+                "description": "None",
+                "types": []
+            },
+            "locationIds": ["211bayarea-62408500"],
+            "meta": {
+                "idResource": "211bayarea-62408486",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-04-15",
+                "lastVerified": "2025-04-08",
+                "created": "2019-05-10",
+                "temporaryMessage": null
+            }
+        }],
+        "programs": [],
+        "locations": [{
+            "id": "211bayarea-10595398",
+            "idOrganization": "211bayarea-10595397",
+            "name": "City Hall",
+            "alternateNames": [],
+            "description": null,
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "longitude": -122.1401,
+            "latitude": 37.47232,
+            "addresses": [{
+                "id": "2173610458515400246",
+                "type": "physical",
+                "postalCode": "94303",
+                "street": "2415 University Avenue",
+                "city": "East Palo Alto",
+                "county": "San Mateo",
+                "state": "CA",
+                "country": "United States",
+                "geocode": {
+                    "type": "point",
+                    "coordinates": [-122.1401, 37.47232],
+                    "bbox": [],
+                    "properties": {
+                        "type": "address",
+                        "address": {
+                            "addressLine": null,
+                            "postalCode": null,
+                            "neighborhood": null,
+                            "locality": null,
+                            "formattedAddress": null,
+                            "state": null,
+                            "county": null,
+                            "country": null
+                        }
+                    }
+                },
+                "description": null,
+                "access": "public"
+            }, {
+                "id": "8372213147969413493",
+                "type": "mailing",
+                "postalCode": "94303",
+                "street": "2415 University Avenue",
+                "city": "East Palo Alto",
+                "county": null,
+                "state": "CA",
+                "country": "United States",
+                "geocode": null,
+                "description": null,
+                "access": "public"
+            }],
+            "accessibility": {
+                "description": "Fully accessible to individuals using mobility aids.",
+                "types": null
+            },
+            "transportation": null,
+            "languages": {
+                "description": null,
+                "codes": []
+            },
+            "url": null,
+            "email": null,
+            "serviceIds": ["211bayarea-10613356"],
+            "meta": {
+                "idResource": "211bayarea-10595398",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-04-11",
+                "lastVerified": "2025-04-08",
+                "created": "2010-09-02",
+                "temporaryMessage": null
+            }
+        }, {
+            "id": "211bayarea-62408500",
+            "idOrganization": "211bayarea-10595397",
+            "name": "Public Works Office",
+            "alternateNames": [],
+            "description": null,
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "longitude": -122.1323,
+            "latitude": 37.45951,
+            "addresses": [{
+                "id": "7203516790515003105",
+                "type": "physical",
+                "postalCode": "94303",
+                "street": "1960 Tate Street",
+                "city": "East Palo Alto",
+                "county": "San Mateo",
+                "state": "CA",
+                "country": "United States",
+                "geocode": {
+                    "type": "point",
+                    "coordinates": [-122.1323, 37.45951],
+                    "bbox": [],
+                    "properties": {
+                        "type": "address",
+                        "address": {
+                            "addressLine": null,
+                            "postalCode": null,
+                            "neighborhood": null,
+                            "locality": null,
+                            "formattedAddress": null,
+                            "state": null,
+                            "county": null,
+                            "country": null
+                        }
+                    }
+                },
+                "description": null,
+                "access": "public"
+            }, {
+                "id": "1755956454933305302",
+                "type": "mailing",
+                "postalCode": "94303",
+                "street": "1960 Tate Street",
+                "city": "East Palo Alto",
+                "county": null,
+                "state": "CA",
+                "country": "United States",
+                "geocode": null,
+                "description": null,
+                "access": "public"
+            }],
+            "accessibility": {
+                "description": "Fully accessible to individuals using mobility aids.",
+                "types": null
+            },
+            "transportation": null,
+            "languages": {
+                "description": null,
+                "codes": []
+            },
+            "url": null,
+            "email": null,
+            "serviceIds": ["211bayarea-62408486"],
+            "meta": {
+                "idResource": "211bayarea-62408500",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-04-11",
+                "lastVerified": "2025-04-08",
+                "created": "2019-05-10",
+                "temporaryMessage": null
+            }
+        }],
+        "servicesAtLocations": [{
+            "id": "211bayarea-55822800",
+            "idOrganization": "211bayarea-10595397",
+            "idService": "211bayarea-10613356",
+            "idLocation": "211bayarea-10595398",
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "url": null,
+            "email": null,
+            "meta": {
+                "idResource": "211bayarea-55822800",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-04-15",
+                "lastVerified": null,
+                "created": "2018-04-18",
+                "temporaryMessage": null
+            }
+        }, {
+            "id": "211bayarea-62408504",
+            "idOrganization": "211bayarea-10595397",
+            "idService": "211bayarea-62408486",
+            "idLocation": "211bayarea-62408500",
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "url": null,
+            "email": null,
+            "meta": {
+                "idResource": "211bayarea-62408504",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-04-11",
+                "lastVerified": null,
+                "created": "2019-05-10",
+                "temporaryMessage": null
+            }
+        }],
+        "meta": {
+            "idResource": "211bayarea-10595397",
+            "tags": [],
+            "access": "public",
+            "status": "active",
+            "reasonInactive": null,
+            "lastUpdated": "2025-04-11",
+            "lastVerified": "2025-04-08",
+            "created": "2010-09-02",
+            "temporaryMessage": null
+        },
+        "dataOwner": "211bayarea",
+        "dataOwnerDisplayName": "211 Bay Area",
+        "dataSteward": null,
+        "dataStewardDisplayName": null
+    }, {
+        "id": "211bayarea-10595409",
+        "name": "County Of San Mateo - Probation Department",
+        "alternateNames": ["SAN MATEO COUNTY PROBATION DEPARTMENT"],
+        "description": "County office providing formal supervision of individuals convicted of a crime.",
+        "url": "http://www.smcgov.org/probation",
+        "email": null,
+        "yearIncorporated": null,
+        "taxStatus": "none_or_unknown",
+        "taxId": null,
+        "legalStatus": "government",
+        "funding": null,
+        "contacts": [],
+        "phones": [{
+            "id": "1577931316768868639",
+            "name": "Phone",
+            "type": "main",
+            "number": "(650) 312-8816",
+            "extension": null,
+            "description": "Main Number",
+            "isMain": false,
+            "access": null
+        }, {
+            "id": "3438073100258237381",
+            "name": "Fax",
+            "type": "fax",
+            "number": "(650) 742-0253",
+            "extension": null,
+            "description": null,
+            "isMain": false,
+            "access": null
+        }],
+        "services": [{
+            "id": "211bayarea-10612780",
+            "idProgram": null,
+            "idOrganization": "211bayarea-10595409",
+            "name": "Juvenile Probation",
+            "alternateNames": [],
+            "description": "<p>Provides juvenile probation services, monitoring, and supervision.</p>",
+            "contacts": [],
+            "phones": [{
+                "id": "8932403859715959281",
+                "name": "Phone",
+                "type": "main",
+                "number": "(650) 312-8816",
+                "extension": null,
+                "description": "Main Number",
+                "isMain": false,
+                "access": null
+            }],
+            "schedules": [{
+                "id": "4597144770747393287",
+                "type": null,
+                "validFrom": null,
+                "validTo": null,
+                "open": [{
+                    "day": "mon",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "tue",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "wed",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "thu",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "fri",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }],
+                "description": "Mon 8am - 5pm; Tue 8am - 5pm; Wed 8am - 5pm; Thu 8am - 5pm; Fri 8am - 5pm; "
+            }],
+            "taxonomy": [{
+                "id": "3084450389948900336",
+                "taxonomyTerm": "Juvenile Probation",
+                "taxonomyCode": "FF-0500.6550-350",
+                "taxonomyTermLevel1": "Criminal Justice and Legal Services",
+                "taxonomyTermLevel2": "Criminal Correctional System",
+                "taxonomyTermLevel3": "Alternative Sentencing/Supervision",
+                "taxonomyTermLevel4": "Probation",
+                "taxonomyTermLevel5": "Juvenile Probation",
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }],
+            "applicationProcess": "Call for appointment",
+            "interpretationServices": null,
+            "email": null,
+            "url": "http://www.smcgov.org/probation",
+            "waitTime": null,
+            "fees": {
+                "type": null,
+                "description": "No fee"
+            },
+            "accreditations": [],
+            "licenses": [],
+            "languages": {
+                "description": "English, Spanish",
+                "codes": []
+            },
+            "funding": null,
+            "eligibility": {
+                "description": "Open to all",
+                "types": []
+            },
+            "serviceAreas": [{
+                "id": "1529783314627258350",
+                "type": "county",
+                "value": "San Mateo",
+                "geoJson": null,
+                "geoComponents": [{
+                    "postalCode": null,
+                    "locality": null,
+                    "county": "San Mateo",
+                    "state": "California",
+                    "country": "United States"
+                }]
+            }],
+            "documents": {
+                "description": "None",
+                "types": []
+            },
+            "locationIds": ["211bayarea-87984194"],
+            "meta": {
+                "idResource": "211bayarea-10612780",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2024-11-12",
+                "lastVerified": "2024-11-12",
+                "created": null,
+                "temporaryMessage": null
+            }
+        }, {
+            "id": "211bayarea-10613366",
+            "idProgram": null,
+            "idOrganization": "211bayarea-10595409",
+            "name": "Adult Probation",
+            "alternateNames": [],
+            "description": "<p>Provides adult probation services, monitoring, and supervision.</p>",
+            "contacts": [],
+            "phones": [{
+                "id": "3121990577291505605",
+                "name": "Phone",
+                "type": "main",
+                "number": "(650) 312-8816",
+                "extension": null,
+                "description": "Main Number",
+                "isMain": false,
+                "access": null
+            }, {
+                "id": "5256327998771541243",
+                "name": "Phone",
+                "type": "other",
+                "number": "(650) 877-5411",
+                "extension": null,
+                "description": "Alternate Number",
+                "isMain": false,
+                "access": null
+            }, {
+                "id": "6093842432618374633",
+                "name": "Phone",
+                "type": "other",
+                "number": "(650) 363-4244",
+                "extension": null,
+                "description": "Alternate Number",
+                "isMain": false,
+                "access": null
+            }],
+            "schedules": [{
+                "id": "2622158258986155557",
+                "type": null,
+                "validFrom": null,
+                "validTo": null,
+                "open": [{
+                    "day": "mon",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "tue",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "wed",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "thu",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "fri",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }],
+                "description": "Mon 8am - 5pm; Tue 8am - 5pm; Wed 8am - 5pm; Thu 8am - 5pm; Fri 8am - 5pm; "
+            }],
+            "taxonomy": [{
+                "id": "4974713807008649511",
+                "taxonomyTerm": "Adult Probation",
+                "taxonomyCode": "FF-0500.6550-050",
+                "taxonomyTermLevel1": "Criminal Justice and Legal Services",
+                "taxonomyTermLevel2": "Criminal Correctional System",
+                "taxonomyTermLevel3": "Alternative Sentencing/Supervision",
+                "taxonomyTermLevel4": "Probation",
+                "taxonomyTermLevel5": "Adult Probation",
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }],
+            "applicationProcess": "Call for appointment",
+            "interpretationServices": null,
+            "email": null,
+            "url": "http://www.smcgov.org/probation",
+            "waitTime": null,
+            "fees": {
+                "type": null,
+                "description": "No fee"
+            },
+            "accreditations": [],
+            "licenses": [],
+            "languages": {
+                "description": "English, Spanish",
+                "codes": []
+            },
+            "funding": null,
+            "eligibility": {
+                "description": "Open to all",
+                "types": []
+            },
+            "serviceAreas": [{
+                "id": "5339129559440375392",
+                "type": "county",
+                "value": "San Mateo",
+                "geoJson": null,
+                "geoComponents": [{
+                    "postalCode": null,
+                    "locality": null,
+                    "county": "San Mateo",
+                    "state": "California",
+                    "country": "United States"
+                }]
+            }],
+            "documents": {
+                "description": "None",
+                "types": []
+            },
+            "locationIds": ["211bayarea-10595410", "211bayarea-87984182"],
+            "meta": {
+                "idResource": "211bayarea-10613366",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2024-11-12",
+                "lastVerified": "2024-11-12",
+                "created": null,
+                "temporaryMessage": null
+            }
+        }],
+        "programs": [],
+        "locations": [{
+            "id": "211bayarea-10595410",
+            "idOrganization": "211bayarea-10595409",
+            "name": "South San Francisco Office",
+            "alternateNames": [],
+            "description": null,
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "longitude": -122.4334,
+            "latitude": 37.6598,
+            "addresses": [{
+                "id": "7149916790407254024",
+                "type": "physical",
+                "postalCode": "94080",
+                "street": "999 Grand Avenue",
+                "city": "South San Francisco",
+                "county": "San Mateo",
+                "state": "CA",
+                "country": "United States",
+                "geocode": {
+                    "type": "point",
+                    "coordinates": [-122.4334, 37.6598],
+                    "bbox": [],
+                    "properties": {
+                        "type": "address",
+                        "address": {
+                            "addressLine": null,
+                            "postalCode": null,
+                            "neighborhood": null,
+                            "locality": null,
+                            "formattedAddress": null,
+                            "state": null,
+                            "county": null,
+                            "country": null
+                        }
+                    }
+                },
+                "description": null,
+                "access": "public"
+            }, {
+                "id": "3084428535660039737",
+                "type": "mailing",
+                "postalCode": "94080",
+                "street": "999 Grand Avenue",
+                "city": "South San Francisco",
+                "county": null,
+                "state": "CA",
+                "country": "United States",
+                "geocode": null,
+                "description": null,
+                "access": "public"
+            }],
+            "accessibility": {
+                "description": "Fully accessible to individuals using mobility aids.",
+                "types": null
+            },
+            "transportation": null,
+            "languages": {
+                "description": null,
+                "codes": []
+            },
+            "url": null,
+            "email": null,
+            "serviceIds": ["211bayarea-10613366"],
+            "meta": {
+                "idResource": "211bayarea-10595410",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2024-11-12",
+                "lastVerified": "2024-11-12",
+                "created": "2010-09-02",
+                "temporaryMessage": null
+            }
+        }, {
+            "id": "211bayarea-87984182",
+            "idOrganization": "211bayarea-10595409",
+            "name": "Redwood City Office",
+            "alternateNames": [],
+            "description": null,
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "longitude": -122.2309,
+            "latitude": 37.48798,
+            "addresses": [{
+                "id": "2636246059478941561",
+                "type": "physical",
+                "postalCode": "94063",
+                "street": "400 County Center",
+                "city": "Redwood City",
+                "county": "San Mateo",
+                "state": "CA",
+                "country": "United States",
+                "geocode": {
+                    "type": "point",
+                    "coordinates": [-122.2309, 37.48798],
+                    "bbox": [],
+                    "properties": {
+                        "type": "address",
+                        "address": {
+                            "addressLine": null,
+                            "postalCode": null,
+                            "neighborhood": null,
+                            "locality": null,
+                            "formattedAddress": null,
+                            "state": null,
+                            "county": null,
+                            "country": null
+                        }
+                    }
+                },
+                "description": null,
+                "access": "public"
+            }, {
+                "id": "3976364984114125351",
+                "type": "mailing",
+                "postalCode": "94063",
+                "street": "400 County Center",
+                "city": "Redwood City",
+                "county": null,
+                "state": "CA",
+                "country": "United States",
+                "geocode": null,
+                "description": null,
+                "access": "public"
+            }],
+            "accessibility": {
+                "description": "Fully accessible to individuals using mobility aids.",
+                "types": null
+            },
+            "transportation": null,
+            "languages": {
+                "description": null,
+                "codes": []
+            },
+            "url": null,
+            "email": null,
+            "serviceIds": ["211bayarea-10613366"],
+            "meta": {
+                "idResource": "211bayarea-87984182",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2024-11-12",
+                "lastVerified": "2024-11-12",
+                "created": "2023-12-18",
+                "temporaryMessage": null
+            }
+        }, {
+            "id": "211bayarea-87984194",
+            "idOrganization": "211bayarea-10595409",
+            "name": "San Mateo Office",
+            "alternateNames": [],
+            "description": null,
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "longitude": -122.3367,
+            "latitude": 37.51235,
+            "addresses": [{
+                "id": "209834277425099252",
+                "type": "physical",
+                "postalCode": "94402",
+                "street": "222 Paul Scannell Drive",
+                "city": "San Mateo",
+                "county": "San Mateo",
+                "state": "CA",
+                "country": "United States",
+                "geocode": {
+                    "type": "point",
+                    "coordinates": [-122.3367, 37.51235],
+                    "bbox": [],
+                    "properties": {
+                        "type": "address",
+                        "address": {
+                            "addressLine": null,
+                            "postalCode": null,
+                            "neighborhood": null,
+                            "locality": null,
+                            "formattedAddress": null,
+                            "state": null,
+                            "county": null,
+                            "country": null
+                        }
+                    }
+                },
+                "description": null,
+                "access": "public"
+            }, {
+                "id": "4316029416574395362",
+                "type": "mailing",
+                "postalCode": "94402",
+                "street": "222 Paul Scannell Drive",
+                "city": "San Mateo",
+                "county": null,
+                "state": "CA",
+                "country": "United States",
+                "geocode": null,
+                "description": null,
+                "access": "public"
+            }],
+            "accessibility": {
+                "description": "Fully accessible to individuals using mobility aids.",
+                "types": null
+            },
+            "transportation": null,
+            "languages": {
+                "description": null,
+                "codes": []
+            },
+            "url": null,
+            "email": null,
+            "serviceIds": ["211bayarea-10612780"],
+            "meta": {
+                "idResource": "211bayarea-87984194",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2024-11-12",
+                "lastVerified": "2024-11-12",
+                "created": "2023-12-18",
+                "temporaryMessage": null
+            }
+        }],
+        "servicesAtLocations": [{
+            "id": "211bayarea-87984199",
+            "idOrganization": "211bayarea-10595409",
+            "idService": "211bayarea-10612780",
+            "idLocation": "211bayarea-87984194",
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "url": null,
+            "email": null,
+            "meta": {
+                "idResource": "211bayarea-87984199",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2024-11-12",
+                "lastVerified": null,
+                "created": "2023-12-18",
+                "temporaryMessage": null
+            }
+        }, {
+            "id": "211bayarea-56022680",
+            "idOrganization": "211bayarea-10595409",
+            "idService": "211bayarea-10613366",
+            "idLocation": "211bayarea-10595410",
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "url": null,
+            "email": null,
+            "meta": {
+                "idResource": "211bayarea-56022680",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2024-11-12",
+                "lastVerified": null,
+                "created": "2018-04-28",
+                "temporaryMessage": null
+            }
+        }, {
+            "id": "211bayarea-87984188",
+            "idOrganization": "211bayarea-10595409",
+            "idService": "211bayarea-10613366",
+            "idLocation": "211bayarea-87984182",
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "url": null,
+            "email": null,
+            "meta": {
+                "idResource": "211bayarea-87984188",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2024-11-12",
+                "lastVerified": null,
+                "created": "2023-12-18",
+                "temporaryMessage": null
+            }
+        }],
+        "meta": {
+            "idResource": "211bayarea-10595409",
+            "tags": [],
+            "access": "public",
+            "status": "active",
+            "reasonInactive": null,
+            "lastUpdated": "2025-07-16",
+            "lastVerified": "2024-11-12",
+            "created": "2010-09-02",
+            "temporaryMessage": null
+        },
+        "dataOwner": "211bayarea",
+        "dataOwnerDisplayName": "211 Bay Area",
+        "dataSteward": null,
+        "dataStewardDisplayName": null
+    }, {
+        "id": "211bayarea-10595417",
+        "name": "Genesis House",
+        "alternateNames": [],
+        "description": "<p data-block-id=\"03273557-db40-40b4-8173-98adcb7542db\" data-pm-slice=\"1 1 []\">Nonprofit agency provides residential recovery programs for individuals with drug or alcohol problems.</p>",
+        "url": null,
+        "email": null,
+        "yearIncorporated": null,
+        "taxStatus": "non_profit",
+        "taxId": null,
+        "legalStatus": "non_profit",
+        "funding": null,
+        "contacts": [],
+        "phones": [{
+            "id": "8516828745696580095",
+            "name": "Phone",
+            "type": "main",
+            "number": "(707) 552-5295",
+            "extension": null,
+            "description": "Main Number",
+            "isMain": false,
+            "access": null
+        }],
+        "services": [{
+            "id": "211bayarea-10605170",
+            "idProgram": null,
+            "idOrganization": "211bayarea-10595417",
+            "name": "Residential Recovery Program",
+            "alternateNames": [],
+            "description": "<p>Provides residential recovery services for alcohol or drug addiction.</p>",
+            "contacts": [],
+            "phones": [{
+                "id": "825389603901692695",
+                "name": "Phone",
+                "type": "main",
+                "number": "(707) 552-5295",
+                "extension": null,
+                "description": "Main Number",
+                "isMain": false,
+                "access": null
+            }, {
+                "id": "7265118894175969723",
+                "name": "Phone",
+                "type": "other",
+                "number": "(707) 557-3165",
+                "extension": null,
+                "description": "Alternate Number",
+                "isMain": false,
+                "access": null
+            }],
+            "schedules": [{
+                "id": "7643110052851389437",
+                "type": null,
+                "validFrom": null,
+                "validTo": null,
+                "open": [{
+                    "day": "mon",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "tue",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "wed",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "thu",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "fri",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }],
+                "description": "Mon 8am - 5pm; Tue 8am - 5pm; Wed 8am - 5pm; Thu 8am - 5pm; Fri 8am - 5pm; Sat; Sun; "
+            }],
+            "taxonomy": [{
+                "id": "6201746747828822601",
+                "taxonomyTerm": "Residential Drug Use Disorder Treatment Facilities",
+                "taxonomyCode": "RX-8450.7000-750",
+                "taxonomyTermLevel1": "Mental Health and Substance Use Disorder Services",
+                "taxonomyTermLevel2": "Substance Use Disorder Services",
+                "taxonomyTermLevel3": "Substance Use Disorder Treatment Programs",
+                "taxonomyTermLevel4": "Residential Substance Use Disorder Treatment Facilities",
+                "taxonomyTermLevel5": "Residential Drug Use Disorder Treatment Facilities",
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }, {
+                "id": "7709943793206158578",
+                "taxonomyTerm": "Residential Alcohol Use Disorder Treatment Facilities",
+                "taxonomyCode": "RX-8450.7000-700",
+                "taxonomyTermLevel1": "Mental Health and Substance Use Disorder Services",
+                "taxonomyTermLevel2": "Substance Use Disorder Services",
+                "taxonomyTermLevel3": "Substance Use Disorder Treatment Programs",
+                "taxonomyTermLevel4": "Residential Substance Use Disorder Treatment Facilities",
+                "taxonomyTermLevel5": "Residential Alcohol Use Disorder Treatment Facilities",
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }],
+            "applicationProcess": "Call for appointment",
+            "interpretationServices": null,
+            "email": null,
+            "url": null,
+            "waitTime": null,
+            "fees": {
+                "type": null,
+                "description": "Services fees vary, accepts Medi-Cal"
+            },
+            "accreditations": [],
+            "licenses": [],
+            "languages": {
+                "description": "English",
+                "codes": []
+            },
+            "funding": null,
+            "eligibility": {
+                "description": "Adults (age 18 and older)",
+                "types": []
+            },
+            "serviceAreas": [{
+                "id": "5623742502399745903",
+                "type": "county",
+                "value": "Solano",
+                "geoJson": null,
+                "geoComponents": [{
+                    "postalCode": null,
+                    "locality": null,
+                    "county": "Solano",
+                    "state": "California",
+                    "country": "United States"
+                }]
+            }],
+            "documents": {
+                "description": "Insurance information if applicable",
+                "types": []
+            },
+            "locationIds": ["211bayarea-10595418"],
+            "meta": {
+                "idResource": "211bayarea-10605170",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-05-21",
+                "lastVerified": "2025-05-21",
+                "created": null,
+                "temporaryMessage": null
+            }
+        }, {
+            "id": "211bayarea-10605172",
+            "idProgram": null,
+            "idOrganization": null,
+            "name": "Z_ Community Jobs Project",
+            "alternateNames": [],
+            "description": null,
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "taxonomy": [],
+            "applicationProcess": null,
+            "interpretationServices": null,
+            "email": null,
+            "url": null,
+            "waitTime": null,
+            "fees": {
+                "type": null,
+                "description": null
+            },
+            "accreditations": [],
+            "licenses": [],
+            "languages": {
+                "description": null,
+                "codes": []
+            },
+            "funding": null,
+            "eligibility": {
+                "description": null,
+                "types": []
+            },
+            "serviceAreas": [],
+            "documents": {
+                "description": null,
+                "types": []
+            },
+            "locationIds": [],
+            "meta": {
+                "idResource": null,
+                "tags": [],
+                "access": null,
+                "status": "inactive",
+                "reasonInactive": null,
+                "lastUpdated": null,
+                "lastVerified": null,
+                "created": null,
+                "temporaryMessage": null
+            }
+        }],
+        "programs": [],
+        "locations": [{
+            "id": "211bayarea-10595418",
+            "idOrganization": "211bayarea-10595417",
+            "name": "Main Office",
+            "alternateNames": [],
+            "description": null,
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "longitude": -122.2144,
+            "latitude": 38.08786,
+            "addresses": [{
+                "id": "9062436697625663113",
+                "type": "physical",
+                "postalCode": "94591",
+                "street": "1149 Warren Avenue",
+                "city": "Vallejo",
+                "county": "Solano",
+                "state": "CA",
+                "country": "United States",
+                "geocode": {
+                    "type": "point",
+                    "coordinates": [-122.2144, 38.08786],
+                    "bbox": [],
+                    "properties": {
+                        "type": "address",
+                        "address": {
+                            "addressLine": null,
+                            "postalCode": null,
+                            "neighborhood": null,
+                            "locality": null,
+                            "formattedAddress": null,
+                            "state": null,
+                            "county": null,
+                            "country": null
+                        }
+                    }
+                },
+                "description": null,
+                "access": "public"
+            }, {
+                "id": "1136062681879634976",
+                "type": "mailing",
+                "postalCode": "94591",
+                "street": "1149 Warren Avenue",
+                "city": "Vallejo",
+                "county": null,
+                "state": "CA",
+                "country": "United States",
+                "geocode": null,
+                "description": null,
+                "access": "public"
+            }],
+            "accessibility": {
+                "description": "Fully accessible to individuals using mobility aids.",
+                "types": null
+            },
+            "transportation": null,
+            "languages": {
+                "description": null,
+                "codes": []
+            },
+            "url": null,
+            "email": null,
+            "serviceIds": ["211bayarea-10605172", "211bayarea-10605170"],
+            "meta": {
+                "idResource": "211bayarea-10595418",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-05-21",
+                "lastVerified": "2025-05-21",
+                "created": "1999-01-22",
+                "temporaryMessage": null
+            }
+        }],
+        "servicesAtLocations": [{
+            "id": "211bayarea-59178017",
+            "idOrganization": "211bayarea-10595417",
+            "idService": "211bayarea-10605170",
+            "idLocation": "211bayarea-10595418",
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "url": null,
+            "email": null,
+            "meta": {
+                "idResource": "211bayarea-59178017",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-05-21",
+                "lastVerified": null,
+                "created": "2018-10-24",
+                "temporaryMessage": null
+            }
+        }, {
+            "id": "211bayarea-55959679",
+            "idOrganization": null,
+            "idService": null,
+            "idLocation": null,
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "url": null,
+            "email": null,
+            "meta": {
+                "idResource": null,
+                "tags": [],
+                "access": null,
+                "status": "inactive",
+                "reasonInactive": null,
+                "lastUpdated": null,
+                "lastVerified": null,
+                "created": null,
+                "temporaryMessage": null
+            }
+        }],
+        "meta": {
+            "idResource": "211bayarea-10595417",
+            "tags": [],
+            "access": "public",
+            "status": "active",
+            "reasonInactive": null,
+            "lastUpdated": "2025-05-21",
+            "lastVerified": "2025-05-21",
+            "created": "1999-01-22",
+            "temporaryMessage": null
+        },
+        "dataOwner": "211bayarea",
+        "dataOwnerDisplayName": "211 Bay Area",
+        "dataSteward": null,
+        "dataStewardDisplayName": null
+    }, {
+        "id": "211bayarea-10595435",
+        "name": "Burlingame Parks And Recreation Department",
+        "alternateNames": [],
+        "description": "City agency dedicated to providing the community with safe, enjoyable parks and recreation activities.",
+        "url": "http://www.burlingame.org/1076/Parks-Recreation",
+        "email": null,
+        "yearIncorporated": null,
+        "taxStatus": "none_or_unknown",
+        "taxId": null,
+        "legalStatus": "government",
+        "funding": null,
+        "contacts": [],
+        "phones": [{
+            "id": "5476415275534846290",
+            "name": "Phone",
+            "type": "main",
+            "number": "(650) 558-7300",
+            "extension": null,
+            "description": "Main Number",
+            "isMain": false,
+            "access": null
+        }],
+        "services": [{
+            "id": "211bayarea-10613388",
+            "idProgram": null,
+            "idOrganization": "211bayarea-10595435",
+            "name": "Recreation Center Programs",
+            "alternateNames": [],
+            "description": "<p>Manages recreation center programs, activities, and events. Provides sports and recreational activities. Offers fitness, arts, and crafts classes.</p>",
+            "contacts": [],
+            "phones": [{
+                "id": "6946332933414397552",
+                "name": "Phone",
+                "type": "main",
+                "number": "(650) 558-7300",
+                "extension": null,
+                "description": "Main Number",
+                "isMain": false,
+                "access": null
+            }],
+            "schedules": [{
+                "id": "5756373143569838692",
+                "type": null,
+                "validFrom": null,
+                "validTo": null,
+                "open": [{
+                    "day": "mon",
+                    "opensAt": "08:00",
+                    "closesAt": "21:00"
+                }, {
+                    "day": "tue",
+                    "opensAt": "08:00",
+                    "closesAt": "21:00"
+                }, {
+                    "day": "wed",
+                    "opensAt": "08:00",
+                    "closesAt": "21:00"
+                }, {
+                    "day": "thu",
+                    "opensAt": "08:00",
+                    "closesAt": "21:00"
+                }, {
+                    "day": "fri",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "sat",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "sun",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }],
+                "description": "Mon 8am - 9pm; Tue 8am - 9pm; Wed 8am - 9pm; Thu 8am - 9pm; Fri 8am - 5pm; Sat 8am - 5pm; Sun 8am - 5pm; "
+            }],
+            "taxonomy": [{
+                "id": "660588002718609498",
+                "taxonomyTerm": "Recreation Centers",
+                "taxonomyCode": "PL-6400.7000-700",
+                "taxonomyTermLevel1": "Individual and Family Life",
+                "taxonomyTermLevel2": "Leisure Activities/Recreation",
+                "taxonomyTermLevel3": "Parks/Recreation Areas",
+                "taxonomyTermLevel4": "Recreational Facilities",
+                "taxonomyTermLevel5": "Recreation Centers",
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }, {
+                "id": "822556776120390182",
+                "taxonomyTerm": "Exercise Classes/Groups",
+                "taxonomyCode": "PL-6600.1800",
+                "taxonomyTermLevel1": "Individual and Family Life",
+                "taxonomyTermLevel2": "Leisure Activities/Recreation",
+                "taxonomyTermLevel3": "Physical Fitness",
+                "taxonomyTermLevel4": "Exercise Classes/Groups",
+                "taxonomyTermLevel5": null,
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }, {
+                "id": "5656896246013498855",
+                "taxonomyTerm": "General Recreational Activities/Sports",
+                "taxonomyCode": "PL-7000.4360",
+                "taxonomyTermLevel1": "Individual and Family Life",
+                "taxonomyTermLevel2": "Leisure Activities/Recreation",
+                "taxonomyTermLevel3": "Recreational Activities/Sports",
+                "taxonomyTermLevel4": "General Recreational Activities/Sports",
+                "taxonomyTermLevel5": null,
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }, {
+                "id": "8056048393868447702",
+                "taxonomyTerm": "Arts and Crafts Instruction",
+                "taxonomyCode": "PL-7400.0500",
+                "taxonomyTermLevel1": "Individual and Family Life",
+                "taxonomyTermLevel2": "Leisure Activities/Recreation",
+                "taxonomyTermLevel3": "Recreational/Leisure/Arts Instruction",
+                "taxonomyTermLevel4": "Arts and Crafts Instruction",
+                "taxonomyTermLevel5": null,
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }],
+            "applicationProcess": "Call or visit",
+            "interpretationServices": null,
+            "email": "recreation@burlingame.org",
+            "url": "http://www.burlingame.org/1076/Parks-Recreation",
+            "waitTime": null,
+            "fees": {
+                "type": null,
+                "description": "Activities fees vary"
+            },
+            "accreditations": [],
+            "licenses": [],
+            "languages": {
+                "description": "English",
+                "codes": []
+            },
+            "funding": null,
+            "eligibility": {
+                "description": "Open to all",
+                "types": []
+            },
+            "serviceAreas": [{
+                "id": "4884935473838059460",
+                "type": "county",
+                "value": "San Mateo",
+                "geoJson": null,
+                "geoComponents": [{
+                    "postalCode": null,
+                    "locality": null,
+                    "county": "San Mateo",
+                    "state": "California",
+                    "country": "United States"
+                }]
+            }],
+            "documents": {
+                "description": "None",
+                "types": []
+            },
+            "locationIds": ["211bayarea-10595436"],
+            "meta": {
+                "idResource": "211bayarea-10613388",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-06-16",
+                "lastVerified": "2025-06-16",
+                "created": null,
+                "temporaryMessage": null
+            }
+        }],
+        "programs": [],
+        "locations": [{
+            "id": "211bayarea-10595436",
+            "idOrganization": "211bayarea-10595435",
+            "name": "Community Center",
+            "alternateNames": [],
+            "description": null,
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "longitude": -122.3427,
+            "latitude": 37.58192,
+            "addresses": [{
+                "id": "2522709163713981962",
+                "type": "physical",
+                "postalCode": "94010",
+                "street": "850 Burlingame Avenue",
+                "city": "Burlingame",
+                "county": "San Mateo",
+                "state": "CA",
+                "country": "United States",
+                "geocode": {
+                    "type": "point",
+                    "coordinates": [-122.3427, 37.58192],
+                    "bbox": [],
+                    "properties": {
+                        "type": "address",
+                        "address": {
+                            "addressLine": null,
+                            "postalCode": null,
+                            "neighborhood": null,
+                            "locality": null,
+                            "formattedAddress": null,
+                            "state": null,
+                            "county": null,
+                            "country": null
+                        }
+                    }
+                },
+                "description": null,
+                "access": "public"
+            }, {
+                "id": "5394997330898282273",
+                "type": "mailing",
+                "postalCode": "94010",
+                "street": "850 Burlingame Avenue",
+                "city": "Burlingame",
+                "county": null,
+                "state": "CA",
+                "country": "United States",
+                "geocode": null,
+                "description": null,
+                "access": "public"
+            }],
+            "accessibility": {
+                "description": "Fully accessible to individuals using mobility aids.",
+                "types": null
+            },
+            "transportation": null,
+            "languages": {
+                "description": null,
+                "codes": []
+            },
+            "url": null,
+            "email": null,
+            "serviceIds": ["211bayarea-10613388"],
+            "meta": {
+                "idResource": "211bayarea-10595436",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-06-16",
+                "lastVerified": "2025-06-16",
+                "created": "2010-09-02",
+                "temporaryMessage": null
+            }
+        }],
+        "servicesAtLocations": [{
+            "id": "211bayarea-94643156",
+            "idOrganization": "211bayarea-10595435",
+            "idService": "211bayarea-10613388",
+            "idLocation": "211bayarea-10595436",
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "url": null,
+            "email": null,
+            "meta": {
+                "idResource": "211bayarea-94643156",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-06-16",
+                "lastVerified": null,
+                "created": "2025-06-16",
+                "temporaryMessage": null
+            }
+        }],
+        "meta": {
+            "idResource": "211bayarea-10595435",
+            "tags": [],
+            "access": "public",
+            "status": "active",
+            "reasonInactive": null,
+            "lastUpdated": "2025-06-16",
+            "lastVerified": "2025-06-16",
+            "created": "2010-09-02",
+            "temporaryMessage": null
+        },
+        "dataOwner": "211bayarea",
+        "dataOwnerDisplayName": "211 Bay Area",
+        "dataSteward": null,
+        "dataStewardDisplayName": null
+    }, {
+        "id": "211bayarea-10595445",
+        "name": "Menlo Park Library And Community Services Department",
+        "alternateNames": [],
+        "description": "Library program teaching literacy to Menlo Park City residents wanting to improve their English skills.",
+        "url": "http://www.menlopark.gov/Government/Departments/Library-and-Community-Services",
+        "email": null,
+        "yearIncorporated": null,
+        "taxStatus": "none_or_unknown",
+        "taxId": null,
+        "legalStatus": "government",
+        "funding": null,
+        "contacts": [],
+        "phones": [{
+            "id": "2149052597266243134",
+            "name": "Phone",
+            "type": "main",
+            "number": "(650) 330-2510",
+            "extension": null,
+            "description": "Main Number",
+            "isMain": false,
+            "access": null
+        }],
+        "services": [{
+            "id": "211bayarea-10613064",
+            "idProgram": null,
+            "idOrganization": "211bayarea-10595445",
+            "name": "Senior Center Programs",
+            "alternateNames": [],
+            "description": "<p>Manages senior center programs, activities, and events. Provides exercise classes and dance lessons. Offers arts and crafts instruction. Serves senior lunch.</p>",
+            "contacts": [],
+            "phones": [{
+                "id": "6734013361950196580",
+                "name": "Phone",
+                "type": "main",
+                "number": "(650) 330-2205",
+                "extension": null,
+                "description": "Main Number",
+                "isMain": false,
+                "access": null
+            }],
+            "schedules": [{
+                "id": "426294072530245322",
+                "type": null,
+                "validFrom": null,
+                "validTo": null,
+                "open": [{
+                    "day": "mon",
+                    "opensAt": "08:00",
+                    "closesAt": "20:00"
+                }, {
+                    "day": "tue",
+                    "opensAt": "08:00",
+                    "closesAt": "20:00"
+                }, {
+                    "day": "wed",
+                    "opensAt": "08:00",
+                    "closesAt": "20:00"
+                }, {
+                    "day": "thu",
+                    "opensAt": "08:00",
+                    "closesAt": "20:00"
+                }, {
+                    "day": "fri",
+                    "opensAt": "08:00",
+                    "closesAt": "20:00"
+                }, {
+                    "day": "sat",
+                    "opensAt": "08:00",
+                    "closesAt": "18:00"
+                }, {
+                    "day": "sun",
+                    "opensAt": "10:00",
+                    "closesAt": "18:00"
+                }],
+                "description": "Mon 8am - 8pm; Tue 8am - 8pm; Wed 8am - 8pm; Thu 8am - 8pm; Fri 8am - 8pm; Sat 8am - 6pm; Sun 10am - 6pm; "
+            }],
+            "taxonomy": [{
+                "id": "1414653960044006448",
+                "taxonomyTerm": "Exercise Classes/Groups",
+                "taxonomyCode": "PL-6600.1800",
+                "taxonomyTermLevel1": "Individual and Family Life",
+                "taxonomyTermLevel2": "Leisure Activities/Recreation",
+                "taxonomyTermLevel3": "Physical Fitness",
+                "taxonomyTermLevel4": "Exercise Classes/Groups",
+                "taxonomyTermLevel5": null,
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }, {
+                "id": "2763859855447319894",
+                "taxonomyTerm": "Dance Instruction",
+                "taxonomyCode": "PL-7400.1700",
+                "taxonomyTermLevel1": "Individual and Family Life",
+                "taxonomyTermLevel2": "Leisure Activities/Recreation",
+                "taxonomyTermLevel3": "Recreational/Leisure/Arts Instruction",
+                "taxonomyTermLevel4": "Dance Instruction",
+                "taxonomyTermLevel5": null,
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }, {
+                "id": "3393635174240907595",
+                "taxonomyTerm": "Congregate Meals/Nutrition Sites",
+                "taxonomyCode": "BD-5000.1500",
+                "taxonomyTermLevel1": "Basic Needs",
+                "taxonomyTermLevel2": "Food",
+                "taxonomyTermLevel3": "Meals",
+                "taxonomyTermLevel4": "Congregate Meals/Nutrition Sites",
+                "taxonomyTermLevel5": null,
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }, {
+                "id": "4926602073809857077",
+                "taxonomyTerm": "Senior Centers",
+                "taxonomyCode": "TC-5500.8000",
+                "taxonomyTermLevel1": "Organizational/Community/International Services",
+                "taxonomyTermLevel2": "Community Facilities/Centers",
+                "taxonomyTermLevel3": "Multipurpose Centers",
+                "taxonomyTermLevel4": "Senior Centers",
+                "taxonomyTermLevel5": null,
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }, {
+                "id": "7082559716486624093",
+                "taxonomyTerm": "Arts and Crafts Instruction",
+                "taxonomyCode": "PL-7400.0500",
+                "taxonomyTermLevel1": "Individual and Family Life",
+                "taxonomyTermLevel2": "Leisure Activities/Recreation",
+                "taxonomyTermLevel3": "Recreational/Leisure/Arts Instruction",
+                "taxonomyTermLevel4": "Arts and Crafts Instruction",
+                "taxonomyTermLevel5": null,
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }],
+            "applicationProcess": "Call or visit",
+            "interpretationServices": null,
+            "email": "csd@menlopark.org",
+            "url": "http://www.menlopark.gov/Government/Departments/Library-and-Community-Services",
+            "waitTime": null,
+            "fees": {
+                "type": null,
+                "description": "Activities fees vary"
+            },
+            "accreditations": [],
+            "licenses": [],
+            "languages": {
+                "description": "English",
+                "codes": []
+            },
+            "funding": null,
+            "eligibility": {
+                "description": "Seniors (age 60 and older)",
+                "types": []
+            },
+            "serviceAreas": [{
+                "id": "275098437532462726",
+                "type": "county",
+                "value": "San Mateo",
+                "geoJson": null,
+                "geoComponents": [{
+                    "postalCode": null,
+                    "locality": null,
+                    "county": "San Mateo",
+                    "state": "California",
+                    "country": "United States"
+                }]
+            }],
+            "documents": {
+                "description": "None",
+                "types": []
+            },
+            "locationIds": ["211bayarea-90189225"],
+            "meta": {
+                "idResource": "211bayarea-10613064",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-06-24",
+                "lastVerified": "2025-03-26",
+                "created": null,
+                "temporaryMessage": null
+            }
+        }, {
+            "id": "211bayarea-10613396",
+            "idProgram": null,
+            "idOrganization": "211bayarea-10595445",
+            "name": "Project Read",
+            "alternateNames": [],
+            "description": "Providers adult learners to a functional reading level. Refers participants to other educational resources in the community for further advancement. Services include a conversation club and English as a Second Language (ESL) class. Trained volunteer tutors provide instruction in basic reading and writing.",
+            "contacts": [],
+            "phones": [{
+                "id": "3679876465969253936",
+                "name": "Phone",
+                "type": "other",
+                "number": "(650) 330-2540",
+                "extension": null,
+                "description": "Belle Haven Community Campus",
+                "isMain": false,
+                "access": null
+            }, {
+                "id": "7108914353200073313",
+                "name": "Phone",
+                "type": "other",
+                "number": "(650) 330-2520",
+                "extension": null,
+                "description": "Menlo Park Branch",
+                "isMain": false,
+                "access": null
+            }],
+            "schedules": [{
+                "id": "868409450371200467",
+                "type": null,
+                "validFrom": null,
+                "validTo": null,
+                "open": [{
+                    "day": "thu",
+                    "opensAt": "10:00",
+                    "closesAt": "18:00"
+                }, {
+                    "day": "fri",
+                    "opensAt": "10:00",
+                    "closesAt": "18:00"
+                }, {
+                    "day": "sat",
+                    "opensAt": "10:00",
+                    "closesAt": "18:00"
+                }, {
+                    "day": "sun",
+                    "opensAt": "10:00",
+                    "closesAt": "18:00"
+                }],
+                "description": "Mon noon - 8pm; Tue noon - 8pm; Wed noon - 8pm; Thu 10am - 6pm; Fri 10am - 6pm; Sat 10am - 6pm; Sun 10am - 6pm; "
+            }],
+            "taxonomy": [{
+                "id": "8677158368883303192",
+                "taxonomyTerm": "Adult Literacy Programs",
+                "taxonomyCode": "HH-4500.0500",
+                "taxonomyTermLevel1": "Education",
+                "taxonomyTermLevel2": "Educational Programs",
+                "taxonomyTermLevel3": "Literacy Programs",
+                "taxonomyTermLevel4": "Adult Literacy Programs",
+                "taxonomyTermLevel5": null,
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }],
+            "applicationProcess": "Call for appointment",
+            "interpretationServices": null,
+            "email": "projectread@menlopark.org",
+            "url": "http://www.menlopark.gov/Government/Departments/Library-and-Community-Services",
+            "waitTime": null,
+            "fees": {
+                "type": null,
+                "description": "No fee"
+            },
+            "accreditations": [],
+            "licenses": [],
+            "languages": {
+                "description": "English",
+                "codes": []
+            },
+            "funding": null,
+            "eligibility": {
+                "description": "Open to all",
+                "types": []
+            },
+            "serviceAreas": [{
+                "id": "5884505677712461235",
+                "type": "county",
+                "value": "San Mateo",
+                "geoJson": null,
+                "geoComponents": [{
+                    "postalCode": null,
+                    "locality": null,
+                    "county": "San Mateo",
+                    "state": "California",
+                    "country": "United States"
+                }]
+            }],
+            "documents": {
+                "description": "None",
+                "types": []
+            },
+            "locationIds": ["211bayarea-10595446", "211bayarea-90189225"],
+            "meta": {
+                "idResource": "211bayarea-10613396",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-03-26",
+                "lastVerified": "2025-03-26",
+                "created": null,
+                "temporaryMessage": null
+            }
+        }],
+        "programs": [],
+        "locations": [{
+            "id": "211bayarea-10595446",
+            "idOrganization": "211bayarea-10595445",
+            "name": "Menlo Park Branch",
+            "alternateNames": [],
+            "description": null,
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "longitude": -122.1797,
+            "latitude": 37.45406,
+            "addresses": [{
+                "id": "1844620508267159385",
+                "type": "physical",
+                "postalCode": "94025",
+                "street": "800 Alma Street",
+                "city": "Menlo Park",
+                "county": "San Mateo",
+                "state": "CA",
+                "country": "United States",
+                "geocode": {
+                    "type": "point",
+                    "coordinates": [-122.1797, 37.45406],
+                    "bbox": [],
+                    "properties": {
+                        "type": "address",
+                        "address": {
+                            "addressLine": null,
+                            "postalCode": null,
+                            "neighborhood": null,
+                            "locality": null,
+                            "formattedAddress": null,
+                            "state": null,
+                            "county": null,
+                            "country": null
+                        }
+                    }
+                },
+                "description": null,
+                "access": "public"
+            }, {
+                "id": "6666373924105534557",
+                "type": "mailing",
+                "postalCode": "94025",
+                "street": "800 Alma Street",
+                "city": "Menlo Park",
+                "county": null,
+                "state": "CA",
+                "country": "United States",
+                "geocode": null,
+                "description": null,
+                "access": "public"
+            }],
+            "accessibility": {
+                "description": "Fully accessible to individuals using mobility aids.",
+                "types": null
+            },
+            "transportation": null,
+            "languages": {
+                "description": null,
+                "codes": []
+            },
+            "url": null,
+            "email": null,
+            "serviceIds": ["211bayarea-10613396"],
+            "meta": {
+                "idResource": "211bayarea-10595446",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-03-26",
+                "lastVerified": "2025-03-26",
+                "created": "2010-09-02",
+                "temporaryMessage": null
+            }
+        }, {
+            "id": "211bayarea-90189225",
+            "idOrganization": "211bayarea-10595445",
+            "name": "Belle Haven Community Campus",
+            "alternateNames": [],
+            "description": null,
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "longitude": -122.1674,
+            "latitude": 37.47821,
+            "addresses": [{
+                "id": "59072390308314155",
+                "type": "physical",
+                "postalCode": "94025",
+                "street": "100 Terminal Avenue",
+                "city": "Menlo Park",
+                "county": "San Mateo",
+                "state": "CA",
+                "country": "United States",
+                "geocode": {
+                    "type": "point",
+                    "coordinates": [-122.1674, 37.47821],
+                    "bbox": [],
+                    "properties": {
+                        "type": "address",
+                        "address": {
+                            "addressLine": null,
+                            "postalCode": null,
+                            "neighborhood": null,
+                            "locality": null,
+                            "formattedAddress": null,
+                            "state": null,
+                            "county": null,
+                            "country": null
+                        }
+                    }
+                },
+                "description": null,
+                "access": "public"
+            }, {
+                "id": "191280396857842990",
+                "type": "mailing",
+                "postalCode": "94025",
+                "street": "100 Terminal Avenue",
+                "city": "Menlo Park",
+                "county": null,
+                "state": "CA",
+                "country": "United States",
+                "geocode": null,
+                "description": null,
+                "access": "public"
+            }],
+            "accessibility": {
+                "description": "Potential limitations to access, call for details.",
+                "types": null
+            },
+            "transportation": null,
+            "languages": {
+                "description": null,
+                "codes": []
+            },
+            "url": null,
+            "email": null,
+            "serviceIds": ["211bayarea-10613064", "211bayarea-10613396"],
+            "meta": {
+                "idResource": "211bayarea-90189225",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-03-26",
+                "lastVerified": "2025-03-26",
+                "created": "2024-05-23",
+                "temporaryMessage": null
+            }
+        }],
+        "servicesAtLocations": [{
+            "id": "211bayarea-90189226",
+            "idOrganization": "211bayarea-10595445",
+            "idService": "211bayarea-10613064",
+            "idLocation": "211bayarea-90189225",
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "url": null,
+            "email": null,
+            "meta": {
+                "idResource": "211bayarea-90189226",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-06-24",
+                "lastVerified": null,
+                "created": "2024-05-23",
+                "temporaryMessage": null
+            }
+        }, {
+            "id": "211bayarea-55980256",
+            "idOrganization": "211bayarea-10595445",
+            "idService": "211bayarea-10613396",
+            "idLocation": "211bayarea-10595446",
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "url": null,
+            "email": null,
+            "meta": {
+                "idResource": "211bayarea-55980256",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-03-26",
+                "lastVerified": null,
+                "created": "2018-04-26",
+                "temporaryMessage": null
+            }
+        }, {
+            "id": "211bayarea-93466567",
+            "idOrganization": "211bayarea-10595445",
+            "idService": "211bayarea-10613396",
+            "idLocation": "211bayarea-90189225",
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "url": null,
+            "email": null,
+            "meta": {
+                "idResource": "211bayarea-93466567",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-03-26",
+                "lastVerified": null,
+                "created": "2025-02-27",
+                "temporaryMessage": null
+            }
+        }],
+        "meta": {
+            "idResource": "211bayarea-10595445",
+            "tags": [],
+            "access": "public",
+            "status": "active",
+            "reasonInactive": null,
+            "lastUpdated": "2025-03-26",
+            "lastVerified": "2025-03-26",
+            "created": "2010-09-02",
+            "temporaryMessage": null
+        },
+        "dataOwner": "211bayarea",
+        "dataOwnerDisplayName": "211 Bay Area",
+        "dataSteward": null,
+        "dataStewardDisplayName": null
+    }, {
+        "id": "211bayarea-10595453",
+        "name": "Peninsula Family Service (PFS)",
+        "alternateNames": [],
+        "description": "Nonprofit agency which provide tools that strengthen and maintain families in the community.<br /><br />",
+        "url": "http://www.peninsulafamilyservice.org",
+        "email": null,
+        "yearIncorporated": 69,
+        "taxStatus": "non_profit",
+        "taxId": null,
+        "legalStatus": "non_profit",
+        "funding": null,
+        "contacts": [],
+        "phones": [{
+            "id": "180589408975954429",
+            "name": "Fax",
+            "type": "fax",
+            "number": "(650) 403-4303",
+            "extension": null,
+            "description": null,
+            "isMain": false,
+            "access": null
+        }, {
+            "id": "6963733477833558089",
+            "name": "Phone",
+            "type": "main",
+            "number": "(650) 403-4300",
+            "extension": null,
+            "description": "Main Office",
+            "isMain": false,
+            "access": null
+        }],
+        "services": [{
+            "id": "211bayarea-10613404",
+            "idProgram": null,
+            "idOrganization": "211bayarea-10595453",
+            "name": "Older Adult Services",
+            "alternateNames": [],
+            "description": "<p>Provides senior housing information and referrals to food, transportation services, and peer counseling.</p>",
+            "contacts": [],
+            "phones": [{
+                "id": "7611287214922062837",
+                "name": "Phone",
+                "type": "main",
+                "number": "(650) 403-4300",
+                "extension": null,
+                "description": "Main Number",
+                "isMain": false,
+                "access": null
+            }],
+            "schedules": [{
+                "id": "3496055461851705151",
+                "type": null,
+                "validFrom": null,
+                "validTo": null,
+                "open": [{
+                    "day": "mon",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "tue",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "wed",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "thu",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "fri",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }],
+                "description": "Mon 8am - 5pm; Tue 8am - 5pm; Wed 8am - 5pm; Thu 8am - 5pm; Fri 8am - 5pm; "
+            }],
+            "taxonomy": [{
+                "id": "3574968537651489086",
+                "taxonomyTerm": "Senior Housing Information and Referral",
+                "taxonomyCode": "BH-8500.8000",
+                "taxonomyTermLevel1": "Basic Needs",
+                "taxonomyTermLevel2": "Housing/Shelter",
+                "taxonomyTermLevel3": "Supportive Housing Placement/Referral",
+                "taxonomyTermLevel4": "Senior Housing Information and Referral",
+                "taxonomyTermLevel5": null,
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }],
+            "applicationProcess": "Call for appointment",
+            "interpretationServices": null,
+            "email": "info@peninsulafamilyservice.org",
+            "url": "http://www.peninsulafamilyservice.org",
+            "waitTime": null,
+            "fees": {
+                "type": null,
+                "description": "No fee"
+            },
+            "accreditations": [],
+            "licenses": [],
+            "languages": {
+                "description": "English",
+                "codes": []
+            },
+            "funding": null,
+            "eligibility": {
+                "description": "Open to all",
+                "types": []
+            },
+            "serviceAreas": [{
+                "id": "3138739738542056024",
+                "type": "county",
+                "value": "San Mateo",
+                "geoJson": null,
+                "geoComponents": [{
+                    "postalCode": null,
+                    "locality": null,
+                    "county": "San Mateo",
+                    "state": "California",
+                    "country": "United States"
+                }]
+            }],
+            "documents": {
+                "description": "None",
+                "types": []
+            },
+            "locationIds": ["211bayarea-10595454"],
+            "meta": {
+                "idResource": "211bayarea-10613404",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-03-21",
+                "lastVerified": "2025-03-21",
+                "created": null,
+                "temporaryMessage": null
+            }
+        }, {
+            "id": "211bayarea-70579412",
+            "idProgram": null,
+            "idOrganization": "211bayarea-10595453",
+            "name": "Financial Empowerment",
+            "alternateNames": [],
+            "description": "<p>Provides financial education workshops about budgeting, money management, and credit building.</p>",
+            "contacts": [],
+            "phones": [{
+                "id": "5593460366569854786",
+                "name": "Phone",
+                "type": "main",
+                "number": "(650) 403-4300",
+                "extension": null,
+                "description": "Main Number",
+                "isMain": false,
+                "access": null
+            }],
+            "schedules": [{
+                "id": "8984111668118256615",
+                "type": null,
+                "validFrom": null,
+                "validTo": null,
+                "open": [{
+                    "day": "mon",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "tue",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "wed",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "thu",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }, {
+                    "day": "fri",
+                    "opensAt": "08:00",
+                    "closesAt": "17:00"
+                }],
+                "description": "Mon 8am - 5pm; Tue 8am - 5pm; Wed 8am - 5pm; Thu 8am - 5pm; Fri 8am - 5pm; "
+            }],
+            "taxonomy": [{
+                "id": "7618488476355388301",
+                "taxonomyTerm": "Financial Literacy Training",
+                "taxonomyCode": "DM-2000",
+                "taxonomyTermLevel1": "Consumer Services",
+                "taxonomyTermLevel2": "Money Management",
+                "taxonomyTermLevel3": "Financial Literacy Training",
+                "taxonomyTermLevel4": null,
+                "taxonomyTermLevel5": null,
+                "taxonomyTermLevel6": null,
+                "targets": []
+            }],
+            "applicationProcess": "Call for appointment",
+            "interpretationServices": null,
+            "email": "info@peninsulafamilyservice.org",
+            "url": "http://www.peninsulafamilyservice.org",
+            "waitTime": null,
+            "fees": {
+                "type": null,
+                "description": "No fee"
+            },
+            "accreditations": [],
+            "licenses": [],
+            "languages": {
+                "description": "English",
+                "codes": []
+            },
+            "funding": null,
+            "eligibility": {
+                "description": "Open to all",
+                "types": []
+            },
+            "serviceAreas": [{
+                "id": "8659203978996400524",
+                "type": "county",
+                "value": "San Mateo",
+                "geoJson": null,
+                "geoComponents": [{
+                    "postalCode": null,
+                    "locality": null,
+                    "county": "San Mateo",
+                    "state": "California",
+                    "country": "United States"
+                }]
+            }],
+            "documents": {
+                "description": "None",
+                "types": []
+            },
+            "locationIds": ["211bayarea-10595454"],
+            "meta": {
+                "idResource": "211bayarea-70579412",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-03-21",
+                "lastVerified": "2025-03-21",
+                "created": "2020-11-25",
+                "temporaryMessage": null
+            }
+        }],
+        "programs": [],
+        "locations": [{
+            "id": "211bayarea-10595454",
+            "idOrganization": "211bayarea-10595453",
+            "name": "Main Office",
+            "alternateNames": [],
+            "description": null,
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "longitude": -122.3258,
+            "latitude": 37.56401,
+            "addresses": [{
+                "id": "5996765394876006683",
+                "type": "physical",
+                "postalCode": "94401",
+                "street": "24 Second Avenue",
+                "city": "San Mateo",
+                "county": "San Mateo",
+                "state": "CA",
+                "country": "United States",
+                "geocode": {
+                    "type": "point",
+                    "coordinates": [-122.3258, 37.56401],
+                    "bbox": [],
+                    "properties": {
+                        "type": "address",
+                        "address": {
+                            "addressLine": null,
+                            "postalCode": null,
+                            "neighborhood": null,
+                            "locality": null,
+                            "formattedAddress": null,
+                            "state": null,
+                            "county": null,
+                            "country": null
+                        }
+                    }
+                },
+                "description": null,
+                "access": "public"
+            }, {
+                "id": "2447260525454771946",
+                "type": "mailing",
+                "postalCode": "94401",
+                "street": "24 Second Avenue",
+                "city": "San Mateo",
+                "county": null,
+                "state": "CA",
+                "country": "United States",
+                "geocode": null,
+                "description": null,
+                "access": "public"
+            }],
+            "accessibility": {
+                "description": "Fully accessible to individuals using mobility aids.",
+                "types": null
+            },
+            "transportation": null,
+            "languages": {
+                "description": null,
+                "codes": []
+            },
+            "url": null,
+            "email": null,
+            "serviceIds": ["211bayarea-10613404", "211bayarea-70579412"],
+            "meta": {
+                "idResource": "211bayarea-10595454",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-03-21",
+                "lastVerified": "2025-03-21",
+                "created": "2010-09-02",
+                "temporaryMessage": null
+            }
+        }],
+        "servicesAtLocations": [{
+            "id": "211bayarea-56214776",
+            "idOrganization": "211bayarea-10595453",
+            "idService": "211bayarea-10613404",
+            "idLocation": "211bayarea-10595454",
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "url": null,
+            "email": null,
+            "meta": {
+                "idResource": "211bayarea-56214776",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-03-21",
+                "lastVerified": null,
+                "created": "2018-05-09",
+                "temporaryMessage": null
+            }
+        }, {
+            "id": "211bayarea-89496462",
+            "idOrganization": "211bayarea-10595453",
+            "idService": "211bayarea-70579412",
+            "idLocation": "211bayarea-10595454",
+            "contacts": [],
+            "phones": [],
+            "schedules": [],
+            "url": null,
+            "email": null,
+            "meta": {
+                "idResource": "211bayarea-89496462",
+                "tags": [],
+                "access": "public",
+                "status": "active",
+                "reasonInactive": null,
+                "lastUpdated": "2025-03-21",
+                "lastVerified": null,
+                "created": "2024-04-10",
+                "temporaryMessage": null
+            }
+        }],
+        "meta": {
+            "idResource": "211bayarea-10595453",
+            "tags": [],
+            "access": "public",
+            "status": "active",
+            "reasonInactive": null,
+            "lastUpdated": "2025-03-21",
+            "lastVerified": "2025-03-21",
+            "created": "2010-09-02",
+            "temporaryMessage": null
+        },
+        "dataOwner": "211bayarea",
+        "dataOwnerDisplayName": "211 Bay Area",
+        "dataSteward": null,
+        "dataStewardDisplayName": null
+    }]
+}
