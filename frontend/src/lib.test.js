@@ -29,3 +29,13 @@ test('list fields split on commas', () => {
   assert.deepEqual(toValue('languages', 'English, Spanish', null), ['English', 'Spanish']);
   assert.equal(toValue('eligibility_description', 'Open, to all', 'x'), 'Open, to all');
 });
+
+test('hours read as text, never as raw JSON with ids', async () => {
+  const { text, serviceSummary } = await import('./lib.js');
+  const odrs = { id: '0f9c', service_id: 'c557', notes: '24 hours, 7 days a week' };
+  assert.equal(text([odrs]), '24 hours, 7 days a week');
+  assert.equal(serviceSummary({ schedules: [odrs] }).Hours, '24 hours, 7 days a week');
+  assert.equal(text({ freq: 'WEEKLY', byday: 'MO,TU', opens_at: '09:00', closes_at: '17:00' }), 'Mon, Tue 09:00–17:00');
+  assert.equal(text({ byday: '2SU', opens_at: '10:00' }), '2Sun 10:00');
+  assert.equal(text({ id: 'x', location_id: 'y', foo: 'bar' }), 'bar');
+});

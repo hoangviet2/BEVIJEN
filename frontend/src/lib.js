@@ -35,14 +35,27 @@ export function zipLabel(zip) {
   return zip;
 }
 
-/** Any HSDS-ish value -> readable text. */
+const DAYS = { MO: 'Mon', TU: 'Tue', WE: 'Wed', TH: 'Thu', FR: 'Fri', SA: 'Sat', SU: 'Sun' };
+const days = (byday) => String(byday || '').split(',').map((d) => d.replace(/[A-Z]{2}$/, (x) => DAYS[x] || x)).join(', ');
+const isIdKey = (k) => k === 'id' || k.endsWith('_id') || k === 'PK' || k === 'SK';
+
+/** One HSDS schedule row -> "Mon, Tue 09:00–17:00", or its free text (description / notes). */
+export function scheduleText(s) {
+  const hours = [s.opens_at, s.closes_at].filter(Boolean).join('–');
+  const structured = [days(s.byday), hours].filter(Boolean).join(' ');
+  return s.description || s.notes || structured || '';
+}
+
+/** Any HSDS-ish value -> readable text. Never shows ids. */
 export function text(v) {
   if (v == null || v === '') return '';
   if (Array.isArray(v)) return v.map(text).filter(Boolean).join(', ');
   if (typeof v === 'object') {
     if (v.address_1) return [v.address_1, v.city, [v.state_province, v.postal_code].filter(Boolean).join(' ')].filter(Boolean).join(', ');
-    if (v.opens_at || v.byday) return [v.byday, [v.opens_at, v.closes_at].filter(Boolean).join('–')].filter(Boolean).join(' ');
-    return v.name || v.description || v.number || v.text || JSON.stringify(v);
+    if (v.opens_at || v.byday || v.freq || ('notes' in v && ('service_id' in v || 'location_id' in v))) return scheduleText(v);
+    const named = v.name || v.description || v.number || v.text || v.notes;
+    if (named) return String(named);
+    return Object.entries(v).filter(([k, x]) => !isIdKey(k) && x != null && x !== '' && typeof x !== 'object').map(([, x]) => x).join(', ');
   }
   return String(v);
 }
@@ -97,7 +110,7 @@ export function serviceSummary(h) {
   const addrs = locs.flatMap((l) => l.addresses || []);
   const a = addrs.find((x) => x.address_type === 'physical') || addrs[0];
   const sched = h.schedules || [];
-  const hours = [...new Set(sched.map((s) => s.description).filter(Boolean))].join(' ') || sched.map(text).join(', ');
+  const hours = [...new Set(sched.map(scheduleText).filter(Boolean))].join('; ');
   const phone = [...(h.phones || []), ...(org.phones || [])].find((p) => p.type !== 'fax');
   return {
     Status: h.status || '',

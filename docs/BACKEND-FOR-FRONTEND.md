@@ -227,6 +227,12 @@ an **index item** (`GET /records`) holds the workflow state:
   (ops `add|replace|remove` on `/<table>/<row id>[/<field>]`). Results:
   - 412: someone else saved first; reload and retry.
   - 422: the edit would make invalid HSDS; the errors are in `detail`.
+- **Verify a record** (what the UI's Confirm / Mark verified does): `POST /records/{id}/resolve`
+  `{"method": "web|phone|email|visit", "notes": "…", "findings": [{"finding_id", "outcome", "value"?, "reason"?}]}`
+  with outcomes `confirmed | apply | edit | dismiss | closed` (same as tasks; `findings` may be empty). When nothing
+  is left open the record becomes `verified` (`verified_by`, `verified_method`) and `assured_date` is set to today.
+  Returns `{index, results[], open_findings[]}`. Rule findings name fields by label (`eligibility`, `schedule`,
+  `contact`, `accessibility`); the server maps them to HSDS, and plain text is accepted for hours.
 - **History**: `GET /records/{id}/history` → HSDS metadata rows (`last_action_date`,
   `last_action_type`, `field_name`, `previous_value`, `replacement_value`, `updated_by`).
 - **Findings**: `GET /findings?category=&status=open&zip=&source=` · `GET /findings/{id}` ·

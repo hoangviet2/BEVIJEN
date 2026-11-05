@@ -1,6 +1,6 @@
 # Frontend
 
-React app (Vite) for **specialists**: they sign in, work the call queue, and verify the facilities
+React app (Vite) for **specialists**: they sign in, review flagged records, and verify the facilities
 that the AI agents and data feeds couldn't confirm. It talks only to the backend REST API, never to AWS.
 
 **Backend reference:** [`../docs/BACKEND-FOR-FRONTEND.md`](../docs/BACKEND-FOR-FRONTEND.md).
@@ -44,12 +44,9 @@ users without a role see "Waiting for approval".
 
 | Screen | Endpoints |
 |---|---|
-| Call queue: areas | `GET /tasks/zips` |
-| Call queue: tasks in an area / my tasks | `GET /tasks?zip=…&status=…`, `GET /tasks?assignee=me&status=claimed` |
-| Task detail | `GET /tasks/{id}` · `POST …/claim`, `…/release`, `…/snooze`, `…/resolve` · lead: `…/assign` |
 | Records | `GET /records?status=…`, `GET /findings?status=open`, `GET /records/{id}` |
 | Sign-up / Team (admin) | `POST /auth/signup` · `GET /admin/signups`, `…/approve`, `…/reject` · `GET /admin/users`, `POST /admin/users/{email}/role` |
-| Record decisions | `POST /findings/{id}/apply`, `…/edit`, `…/dismiss` · `POST /verify/{id}` (paid AI run, asks first) |
+| Record decisions | `POST /records/{id}/resolve` (one call: every decision + verified) · `POST /verify/{id}` (paid AI run, asks first) |
 
 Files: `src/api.js` (fetch + session), `src/lib.js` (pure helpers, tested), `src/App.jsx` (login + shell),
-`src/Queue.jsx`, `src/Records.jsx`, `src/Team.jsx`, `src/ui.jsx`, `src/styles.css`.
+`src/Records.jsx`, `src/Team.jsx`, `src/ui.jsx`, `src/styles.css`.

@@ -2,7 +2,7 @@ import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 
 // Dev server proxies API calls to the backend, so the browser sees one origin (no CORS setup).
-const API_PATHS = ['/health', '/auth', '/tasks', '/records', '/findings', '/verify', '/discovery', '/metrics', '/admin'];
+const API_PATHS = ['/health', '/auth', '/records', '/findings', '/verify', '/discovery', '/metrics', '/admin'];
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');

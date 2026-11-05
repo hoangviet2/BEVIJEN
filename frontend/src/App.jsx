@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react';
 import { DEV_AUTH, LOGIN_URL, currentUser, post, setSession, signOut } from './api.js';
 import { ROLES, hasRole, sessionUser } from './lib.js';
-import Queue from './Queue.jsx';
 import Records from './Records.jsx';
 import Team from './Team.jsx';
 
 export default function App() {
   const [user, setUser] = useState(currentUser);
-  const [tab, setTab] = useState('queue');
+  const [tab, setTab] = useState('records');
 
   useEffect(() => {
     const sync = () => setUser(currentUser());
@@ -23,7 +22,7 @@ export default function App() {
 
   if (!user) return <Login />;
   if (!hasRole(user.groups, 'specialist')) return <Pending user={user} />;
-  const tabs = [['queue', 'Call queue'], ['records', 'Records'], ...(hasRole(user.groups, 'admin') ? [['team', 'Team']] : [])];
+  const tabs = [['records', 'Records'], ...(hasRole(user.groups, 'admin') ? [['team', 'Team']] : [])];
 
   return (
     <div className="page">
@@ -41,7 +40,7 @@ export default function App() {
           <button className="btn sm" onClick={signOut}>Sign out</button>
         </div>
       </header>
-      {tab === 'queue' ? <Queue user={user} /> : tab === 'records' ? <Records user={user} /> : <Team user={user} />}
+      {tab === 'team' ? <Team user={user} /> : <Records user={user} />}
     </div>
   );
 }
@@ -132,7 +131,6 @@ function Login() {
         ) : (
           <div className="stack">
             <a className="btn primary" href={LOGIN_URL}>Sign in with your account</a>
-            <p className="hint">After sign-in the server sends you to its <code>UI_URL</code>. Until that points at this app you land on the server’s <code>/ui/</code> page: copy <code>localStorage.re_token</code> there and paste it below.</p>
           </div>
         )}
 

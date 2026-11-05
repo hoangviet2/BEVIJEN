@@ -6,7 +6,6 @@ import { ErrorBox, Evidence, Facts, Tag, Values } from './ui.jsx';
 // Record review, ported from UI_prototype.html: list flagged records, open one, decide each finding.
 export default function Records({ user }) {
   const [tab, setTab] = useState('unverified');
-  const [source, setSource] = useState('');
   const [zip, setZip] = useState('');
   const [q, setQ] = useState('');
   const [category, setCategory] = useState('');
@@ -17,7 +16,7 @@ export default function Records({ user }) {
 
   const load = useCallback(async () => {
     setRows(null); setErr('');
-    const f = (source ? `&source=${enc(source)}` : '') + (zip ? `&zip=${enc(zip)}` : '');
+    const f = zip ? `&zip=${enc(zip)}` : '';
     try {
       // /records and /findings scan the whole table: always filter server-side as much as possible.
       const [r, fs] = await Promise.all([
@@ -26,7 +25,7 @@ export default function Records({ user }) {
       ]);
       setRows(r); setFindings(fs);
     } catch (e) { setErr(e.message); setRows([]); }
-  }, [tab, source, zip]);
+  }, [tab, zip]);
   useEffect(() => { load(); }, [load]);
 
   const bySvc = useMemo(() => {
@@ -37,7 +36,7 @@ export default function Records({ user }) {
 
   const visible = (rows || []).filter((r) => {
     const cats = (bySvc[r.service_id] || []).map((f) => f.category).concat(r.unverified_reason || []);
-    const hay = `${r.org_name} ${r.service_name} ${r.service_id}`.toLowerCase();
+    const hay = `${r.org_name} ${r.service_name}`.toLowerCase();
     return (!category || cats.includes(category)) && (!q || hay.includes(q.toLowerCase()));
   });
 
@@ -52,11 +51,8 @@ export default function Records({ user }) {
           ))}
         </div>
         <div className="tools">
-          <input aria-label="Search" placeholder="Search name or ID" value={q} onChange={(e) => setQ(e.target.value)} />
+          <input aria-label="Search" placeholder="Search by name" value={q} onChange={(e) => setQ(e.target.value)} />
           <input aria-label="ZIP" placeholder="ZIP" value={zip} onChange={(e) => setZip(e.target.value.trim())} style={{ width: 90 }} />
-          <select aria-label="Source" value={source} onChange={(e) => setSource(e.target.value)}>
-            <option value="">All sources</option><option value="ndp">NDP</option><option value="odrs">ODRS</option><option value="agent-discovery">Agent discovery</option>
-          </select>
           {tab === 'unverified' && (
             <select aria-label="Problem" value={category} onChange={(e) => setCategory(e.target.value)}>
               <option value="">All problems</option>
@@ -78,7 +74,7 @@ export default function Records({ user }) {
               <button key={r.service_id} className="task-row" onClick={() => setOpenId(r.service_id)}>
                 <span className="grow">
                   <b>{r.org_name || '—'}</b>
-                  <span className="small">{r.service_name} · {r.primary_zip || 'no ZIP'} · {r.source}</span>
+                  <span className="small">{r.service_name} · {r.primary_zip || 'no ZIP'}</span>
                   <span className="tags">
                     {cats.length ? cats.map((c) => <Tag key={c} c={c} />) : r.unverified_reason ? <Tag c={r.unverified_reason} /> : <span className="tag ok">Verified</span>}
                     {fs.length > 0 && <span className="small">{[...new Set(fs.map((f) => fieldLabel(f.field)))].join(' · ')}</span>}
@@ -88,7 +84,7 @@ export default function Records({ user }) {
               </button>
             );
           })}
-          {rows.length === 500 && <p className="muted pad">Showing the first 500. Narrow by ZIP or source to see others.</p>}
+          {rows.length === 500 && <p className="muted pad">Showing the first 500. Narrow by ZIP to see others.</p>}
         </>
       )}
       {openId && <RecordDialog id={openId} user={user} onClose={() => setOpenId(null)} onSaved={load} />}
@@ -99,6 +95,8 @@ export default function Records({ user }) {
 function RecordDialog({ id, onClose, onSaved }) {
   const [rec, setRec] = useState(null);
   const [dec, setDec] = useState({}); // finding_id -> {choice: keep|web|edit, text}
+  const [method, setMethod] = useState('web');
+  const [notes, setNotes] = useState('');
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState('');
   const [msg, setMsg] = useState('');
@@ -115,36 +113,25 @@ function RecordDialog({ id, onClose, onSaved }) {
   const allDecided = open.length > 0 && open.every((f) => dec[f.finding_id]?.choice);
   const idx = rec?.index || {};
 
+  // One call: the server applies every decision and marks the record verified when nothing is left open.
   const save = async () => {
     setBusy(true); setErr(''); setMsg('');
-    const errors = [];
-    const label = (f) => fieldLabel(f.field);
-    // 1) changes first
-    for (const f of open) {
-      const d = dec[f.finding_id];
-      try {
-        if (d.choice === 'web') await post(`/findings/${enc(f.finding_id)}/apply`);
-        if (d.choice === 'edit') await post(`/findings/${enc(f.finding_id)}/edit`, { value: toValue(f.field, d.text ?? '', f.current_value) });
-      } catch (e) { errors.push(`${label(f)}: ${e.message}`); }
-    }
-    // 2) then "keep". A change re-checks the record server-side, which can replace an open finding,
-    //    so look each one up again by id, else by category + field.
-    const today = new Date().toISOString().slice(0, 10);
-    for (const f of open.filter((x) => dec[x.finding_id].choice === 'keep')) {
-      let now = [];
-      try { now = ((await api('/records/' + enc(id))).findings || []).filter((x) => x.status === 'open'); } catch { /* use none */ }
-      const g = now.find((x) => x.finding_id === f.finding_id) || now.find((x) => x.category === f.category && x.field === f.field);
-      if (!g) continue;
-      try {
-        if (g.category === 'stale') await post(`/findings/${enc(g.finding_id)}/edit`, { value: today });
-        else await post(`/findings/${enc(g.finding_id)}/dismiss`, { reason: 'kept current by specialist' });
-      } catch (e) { errors.push(`${label(f)}: ${e.message}`); }
-    }
-    setDec({});
+    try {
+      const out = await post(`/records/${enc(id)}/resolve`, {
+        method, notes,
+        findings: open.map((f) => {
+          const d = dec[f.finding_id];
+          if (d.choice === 'web') return { finding_id: f.finding_id, outcome: 'apply' };
+          if (d.choice === 'edit') return { finding_id: f.finding_id, outcome: 'edit', value: toValue(f.field, d.text ?? '', f.current_value) };
+          return f.category === 'stale' ? { finding_id: f.finding_id, outcome: 'confirmed' }
+            : { finding_id: f.finding_id, outcome: 'dismiss', reason: 'kept current by specialist' };
+        }),
+      });
+      setDec({});
+      setMsg(out.open_findings.length ? `Saved. ${out.open_findings.length} problem(s) still open.` : 'Verified and saved under your name.');
+      onSaved();
+    } catch (e) { setErr('Not saved: ' + e.message); }
     await load();
-    onSaved();
-    if (errors.length) setErr('Some changes were not saved. ' + errors.join(' · '));
-    else setMsg('Saved under your name.');
     setBusy(false);
   };
 
@@ -172,8 +159,8 @@ function RecordDialog({ id, onClose, onSaved }) {
           {!rec ? !err && <p className="muted">Loading record…</p> : (
             <>
               <div className="two">
-                <div className="box"><span>ID</span><b className="mono">{id}</b></div>
-                <div className="box"><span>Status</span><b>{idx.verification_status}{idx.verified_by ? ` · ${idx.verified_by.replace(/^user:/, '')}` : ''}</b></div>
+                <div className="box"><span>Status</span><b>{idx.verification_status}{idx.verified_by ? ` · ${idx.verified_by.replace(/^(user|agent):/, '')}` : ''}</b></div>
+                <div className="box"><span>ZIP code</span><b>{idx.primary_zip || '—'}</b></div>
               </div>
               {h?.description && <div><p className="label">Description</p><p>{h.description}</p></div>}
               <Facts facts={serviceSummary(h)} flag={new Set(open.map((f) => fieldLabel(f.field)))} />
@@ -182,15 +169,27 @@ function RecordDialog({ id, onClose, onSaved }) {
                   <p className="label">What to do</p>
                   {open.map((f) => <Decide key={f.finding_id} f={f} d={dec[f.finding_id] || {}} set={(x) => setDec({ ...dec, [f.finding_id]: { ...dec[f.finding_id], ...x } })} />)}
                 </div>
-              ) : <div className="done">No open problems.</div>}
+              ) : idx.verification_status === 'verified' ? <div className="done">Verified. No open problems.</div>
+                : <div className="ask">No open problems, but the record isn’t verified yet. Check it, then press <b>Mark verified</b>.</div>}
             </>
           )}
         </div>
         <div className="d-foot">
           <button className="btn" onClick={recheck} disabled={busy}>Re-check with AI</button>
-          <span className="grow" />
-          {open.length > 0 && !allDecided && <span className="small">Choose an option for every problem to confirm.</span>}
-          {open.length > 0 && <button className="btn primary" disabled={busy || !allDecided} onClick={save}>{busy ? 'Saving…' : 'Confirm'}</button>}
+          {rec && (open.length > 0 || idx.verification_status !== 'verified') && (
+            <>
+              <label className="field">How did you check?
+                <select value={method} onChange={(e) => setMethod(e.target.value)}>
+                  <option value="web">Website</option><option value="phone">Phone call</option><option value="email">Email</option><option value="visit">Visit</option>
+                </select>
+              </label>
+              <label className="field grow">Notes<input value={notes} maxLength={2000} onChange={(e) => setNotes(e.target.value)} placeholder="Matches the agency website" /></label>
+              {open.length > 0 && !allDecided && <span className="small">Choose an option for every problem.</span>}
+              <button className="btn primary" disabled={busy || (open.length > 0 && !allDecided)} onClick={save}>
+                {busy ? 'Saving…' : open.length ? 'Confirm' : 'Mark verified'}
+              </button>
+            </>
+          )}
         </div>
       </div>
     </div>
