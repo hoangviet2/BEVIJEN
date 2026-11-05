@@ -3,115 +3,112 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>BEVIJEN · Self-Maintaining Database</title>
-<meta name="description" content="BEVIJEN automates how community-service information is checked and updated, so specialists spend less time on upkeep and more time helping people.">
+<title>Self-Maintaining Database</title>
+<meta name="description" content="BEVIJEN: a database of community services that checks and updates itself, so specialists spend less time on upkeep.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Instrument+Sans:wght@400;500;600&display=swap">
 <style>
-/* Website version of the pitch deck (original-design.html): same palette, type and mind map,
-   laid out as one scrolling page. Single light theme, matching the deck. */
+/* Scrolling version of original-design.html. Same palette, type and mind map;
+   each slide becomes a section that animates in as it scrolls into view, and the
+   five pipeline stages are told with a sticky map that zooms as you scroll. */
 :root{
-  --paper:#ffffff; --panel:#f3f2f5; --line:#e2e0e6; --ink:#1d1b22; --muted:#5d5866;
+  --paper:#ffffff; --panel:#eeeeee; --line:#e2e0e6; --ink:#1d1b22; --muted:#5d5866;
   --accent:#6a4c9c; --accent-soft:#ece6f6;
   --display: Georgia, "Times New Roman", serif;
   --body: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --hand: "Caveat", "Segoe Print", "Bradley Hand", cursive;
-  --gutter: max(16px, env(safe-area-inset-left, 0px));
+  --head-h: 64px;
   color-scheme:light;
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth; scroll-padding-top:72px}
-body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--body); font-size:17px; line-height:1.55; overflow-x:hidden}
-a{color:inherit}
-.wrap{width:min(1180px, 100% - var(--gutter)*2); margin-inline:auto}
+html{scroll-behavior:smooth; scroll-padding-top:var(--head-h)}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:var(--body); font-size:17px; line-height:1.55;
+  overflow-x:hidden;
+}
+.wrap{width:min(1180px, 100%); margin-inline:auto; padding-inline:max(16px, env(safe-area-inset-left, 0px)) max(16px, env(safe-area-inset-right, 0px))}
 
 /* header */
-.site-head{position:sticky; top:0; z-index:10; background:rgba(255,255,255,.92); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); border-bottom:1px solid transparent; transition:border-color .2s}
-.site-head.scrolled{border-bottom-color:var(--line)}
-.site-head .wrap{display:flex; align-items:center; gap:16px; height:64px}
-.brand{font-family:var(--display); font-size:20px; letter-spacing:.14em; text-decoration:none; margin-right:auto}
-.site-nav{display:flex; gap:4px}
-.site-nav a{text-decoration:none; font-size:15px; color:var(--muted); padding:8px 12px; border-radius:8px; transition:background .2s, color .2s}
-.site-nav a:hover{background:var(--panel); color:var(--ink)}
-.site-nav a.cur{color:var(--accent)}
-.btn{display:inline-flex; align-items:center; gap:8px; text-decoration:none; font-size:15px; font-weight:500; padding:10px 18px; border-radius:999px; border:1.5px solid var(--ink); background:var(--paper); color:var(--ink); transition:background .2s, color .2s; white-space:nowrap}
-.btn:hover{background:var(--ink); color:var(--paper)}
-.btn.primary{background:var(--accent); border-color:var(--accent); color:#fff}
-.btn.primary:hover{background:var(--ink); border-color:var(--ink)}
+.top{
+  position:fixed; inset:0 0 auto 0; z-index:20; height:var(--head-h);
+  background:rgba(255,255,255,.86); backdrop-filter:saturate(1.4) blur(10px); -webkit-backdrop-filter:saturate(1.4) blur(10px);
+  border-bottom:1px solid transparent; transition:border-color .3s;
+}
+.top.scrolled{border-bottom-color:var(--line)}
+.top .wrap{height:100%; display:flex; align-items:center; gap:24px}
+.brand{font-family:var(--display); font-size:20px; letter-spacing:.14em; color:var(--ink); text-decoration:none}
+.links{display:flex; gap:4px; margin-left:auto; list-style:none; padding:0; margin-block:0}
+.links a{display:block; padding:8px 12px; border-radius:8px; color:var(--muted); text-decoration:none; font-size:15px; transition:color .2s, background .2s}
+.links a:hover{background:var(--panel); color:var(--ink)}
+.links a.here{color:var(--accent)}
+.links a.deck{border:1.5px solid var(--ink); color:var(--ink); margin-left:8px}
+.links a.deck:hover{background:var(--ink); color:var(--paper)}
 a:focus-visible, button:focus-visible{outline:3px solid var(--accent); outline-offset:2px}
+.progress{position:absolute; left:0; bottom:-1px; height:3px; width:100%; background:var(--accent); transform-origin:0 50%; transform:scaleX(0)}
 
 /* type */
 .eyebrow{font-family:var(--hand); font-size:28px; font-weight:700; color:var(--accent); line-height:1; margin:0}
-h1,h2,h3{font-family:var(--display); font-weight:400; text-wrap:balance; margin:0}
-h1{font-size:clamp(42px,6.4vw,84px); line-height:1.06; letter-spacing:-0.012em; margin-block:.25em .4em; max-width:13ch}
+h1,h2{font-family:var(--display); font-weight:400; text-wrap:balance; margin:0}
+h1{font-size:clamp(44px,7.4vw,100px); line-height:1.04; letter-spacing:-0.015em; margin-block:.25em .4em; max-width:12ch}
 h2{font-size:clamp(32px,4vw,50px); line-height:1.14; margin-block:.3em .45em}
-h3{font-size:clamp(24px,2.4vw,30px); line-height:1.2; margin-block:.2em .4em}
 .lede{font-size:clamp(17px,1.5vw,20px); color:var(--muted); max-width:34em; margin:0}
+
 .mark{position:relative; white-space:nowrap}
 .mark svg{position:absolute; left:-2%; bottom:-.12em; width:104%; height:.32em; overflow:visible}
-.mark path{fill:none; stroke:var(--accent); stroke-width:5; stroke-linecap:round; stroke-dasharray:1; stroke-dashoffset:1; animation:draw .8s ease-out .6s forwards}
+.mark path{fill:none; stroke:var(--accent); stroke-width:5; stroke-linecap:round}
+
+.steps-list{list-style:none; padding:0; margin:1.6em 0 0; display:grid; gap:14px; max-width:32em}
+.steps-list li{display:grid; grid-template-columns:30px minmax(0,1fr); gap:8px; align-items:baseline}
+.steps-list li::before{content:"\2192"; font-family:var(--hand); font-size:28px; line-height:1; color:var(--accent)}
+.steps-list b{font-weight:600}
+
+.team{display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 14px; margin-top:2em}
+.team-name{font-family:var(--display); font-size:22px; letter-spacing:.14em}
+.team a{color:var(--muted); font-size:14px; text-underline-offset:3px}
+.team a:hover{color:var(--accent)}
 
 /* sections */
-section{padding-block:clamp(64px,10vw,128px)}
-section + section{border-top:1px solid var(--line)}
+section{position:relative}
+.block{padding-block:clamp(80px,12vh,140px)}
 .split{display:grid; grid-template-columns:minmax(0,5fr) minmax(0,6fr); gap:clamp(24px,4.5vw,72px); align-items:center}
-.split.flip > :first-child{order:2}
 .split > *{min-width:0}
-.hero{padding-top:clamp(40px,6vw,80px)}
-.cta{display:flex; flex-wrap:wrap; gap:12px; margin-top:2em}
 
-.steps{list-style:none; padding:0; margin:1.6em 0 0; display:grid; gap:14px; max-width:32em}
-.steps li{display:grid; grid-template-columns:30px minmax(0,1fr); gap:8px; align-items:baseline}
-.steps li::before{content:"\2192"; font-family:var(--hand); font-size:28px; line-height:1; color:var(--accent)}
-.steps b{font-weight:600}
+.hero{min-height:100svh; display:flex; align-items:center; padding-top:var(--head-h); isolation:isolate}
+.hero .wrap{width:min(1180px,100%)}
+.cue{
+  position:absolute; left:50%; bottom:28px; transform:translateX(-50%);
+  display:flex; flex-direction:column; align-items:center; gap:2px;
+  font-family:var(--hand); font-size:24px; color:var(--muted); text-decoration:none;
+}
+.cue svg{width:22px; height:30px; animation:bob 1.8s ease-in-out infinite}
+.cue path{fill:none; stroke:currentColor; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round}
+@keyframes bob{50%{transform:translateY(6px)}}
+
+/* hero backdrop: a slowly drifting, very faint copy of the map */
+.hero-bg{position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:-1}
+.hero-bg svg{position:absolute; right:-4%; top:50%; width:min(40vw,560px); height:auto; transform:translateY(-50%); opacity:.09; animation:drift 22s ease-in-out infinite alternate}
+.hero-bg::after{content:""; position:absolute; inset:0; background:linear-gradient(90deg, var(--paper) 45%, transparent 75%)}
+@keyframes drift{to{transform:translateY(-54%) rotate(-2deg)}}
 
 .map-panel{background:var(--paper); border:1px solid var(--line); border-radius:20px; padding:10px; overflow:hidden}
 .map-panel svg{display:block; width:100%; height:100%}
-.hero .map-panel{height:min(70vh,620px)}
-.illus{height:min(60vh,520px)}
+.illus{height:min(64vh,560px)}
 
-/* pipeline scrollytelling */
-.pipe-intro{max-width:40em; margin-bottom:clamp(32px,5vw,56px)}
-.pipe{display:grid; grid-template-columns:minmax(0,5fr) minmax(0,6fr); gap:clamp(24px,4.5vw,72px); align-items:start}
-.pipe > *{min-width:0}
-.pipe-map{position:sticky; top:88px; height:calc(100vh - 120px); max-height:720px}
-.stage{min-height:72vh; display:flex; flex-direction:column; justify-content:center; padding-block:24px; opacity:.35; transition:opacity .4s}
-.stage.cur{opacity:1}
-.stage:first-child{min-height:60vh}
-.stage .n{font-family:var(--hand); font-size:56px; color:var(--accent); line-height:.9}
-.stage-tabs{display:flex; flex-wrap:wrap; gap:6px; margin-top:1.4em}
-.stage-tabs a{text-decoration:none; font-size:14px; padding:6px 12px; border-radius:999px; border:1px solid var(--line); color:var(--muted)}
-.stage-tabs a:hover{border-color:var(--accent); color:var(--accent)}
-
-.facts{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:clamp(18px,3vw,40px); margin-top:2.4em}
-.facts div{border-top:1.5px solid var(--ink); padding-top:12px}
-.facts strong{display:block; font-family:var(--display); font-weight:400; font-size:clamp(48px,5.4vw,72px); line-height:1; font-variant-numeric:tabular-nums}
-.facts span{display:block; font-size:15px; color:var(--muted); margin-top:8px; line-height:1.4; max-width:22em}
-.closing{text-align:center}
-.closing .lede{margin-inline:auto}
-.closing h2{margin-inline:auto; max-width:16ch}
-.closing .cta{justify-content:center}
-.thanks{font-family:var(--hand); font-size:44px; color:var(--accent); margin:0 0 .3em; line-height:1}
-
-.site-foot{border-top:1px solid var(--line); padding-block:28px calc(28px + env(safe-area-inset-bottom, 0px)); font-size:14px; color:var(--muted)}
-.site-foot .wrap{display:flex; flex-wrap:wrap; gap:8px 24px; justify-content:space-between; align-items:center}
-.site-foot .brand{font-size:16px; margin:0; color:var(--ink)}
-.site-foot a{text-underline-offset:3px}
-.site-foot a:hover{color:var(--accent)}
-
-/* map */
+/* mind map */
 .edge{fill:none; stroke:var(--ink); stroke-width:2.4; stroke-linecap:round}
 .head{fill:none; stroke:var(--ink); stroke-width:2.6; stroke-linecap:round; stroke-linejoin:round}
 .node rect{fill:var(--paper); stroke:var(--ink); stroke-width:1.5}
 .node .t{font-family:var(--display); font-size:18px; fill:var(--ink); text-anchor:middle}
 .node .s{font-family:var(--hand); font-size:19px; fill:var(--muted); text-anchor:middle}
 .edge,.head,.node{transition:opacity .7s ease, stroke .7s ease}
-.node rect,.node .s{transition:fill .7s ease, stroke .7s ease}
-svg.focused .off{opacity:.2}
+.node rect,.node .s{transition:fill .7s ease, stroke .7s ease, stroke-width .7s ease}
+svg.focused .off{opacity:.18}
 svg.focused .node.on rect{fill:var(--accent-soft); stroke:var(--accent); stroke-width:2.2}
 svg.focused .node.on .s{fill:var(--accent)}
 svg.focused .edge.on, svg.focused .head.on{stroke:var(--accent)}
+.gap{fill:none; stroke:var(--muted); stroke-width:2; stroke-dasharray:6 7}
 .note{font-family:var(--hand); font-size:26px; fill:var(--accent)}
 .node.on-static rect{fill:var(--accent-soft); stroke:var(--accent); stroke-width:2.2}
 .node.on-static .s{fill:var(--accent)}
@@ -120,89 +117,141 @@ svg.focused .edge.on, svg.focused .head.on{stroke:var(--accent)}
 .node.link:focus{outline:none}
 .node.link:focus-visible rect{stroke:var(--accent); stroke-width:3.5}
 
-/* animations start when a block scrolls into view (.in) */
-.draw{stroke-dasharray:1; stroke-dashoffset:1}
-.head.fade, .fadein{opacity:0}
-.node.pop{transform-box:fill-box; transform-origin:center; opacity:0}
-.in .draw{animation:draw .55s ease-out forwards; animation-delay:var(--d,0s)}
-.in .head.fade, .in .fadein{animation:fade .3s ease-out forwards; animation-delay:var(--d,0s)}
-.in .node.pop{animation:pop .5s cubic-bezier(.3,1.45,.5,1) both; animation-delay:var(--d,0s)}
-.r{opacity:0; transform:translateY(18px); transition:opacity .7s, transform .7s cubic-bezier(.2,.7,.2,1); transition-delay:calc(var(--i,0) * 90ms)}
-.r.in{opacity:1; transform:none}
-@keyframes draw{to{stroke-dashoffset:0}}
-@keyframes fade{to{opacity:1}}
-@keyframes pop{from{opacity:0; transform:scale(.82)} to{opacity:1; transform:none}}
+/* scroll-triggered animation. Everything is visible without JS;
+   with JS, content waits until its block gets .in from the observer. */
+.draw{stroke-dasharray:1}
+@keyframes draw{from{stroke-dashoffset:1} to{stroke-dashoffset:0}}
+@keyframes fade{from{opacity:0}}
+@keyframes pop{from{opacity:0; transform:scale(.82)}}
+@keyframes rise{from{opacity:0; transform:translateY(26px)}}
 
-@media (max-width:900px){
-  .site-nav{display:none}
+.js [data-reveal]:not(.in) .draw{stroke-dashoffset:1}
+.js [data-reveal]:not(.in) .fade,
+.js [data-reveal]:not(.in) .pop,
+.js [data-reveal]:not(.in) .r{opacity:0}
+.js [data-reveal]:not(.in) .mark path{stroke-dashoffset:1}
+.mark path{stroke-dasharray:1}
+
+.in .draw{animation:draw .55s ease-out backwards; animation-delay:var(--d,0s)}
+.in .fade{animation:fade .35s ease-out backwards; animation-delay:var(--d,0s)}
+.in .pop{transform-box:fill-box; transform-origin:center; animation:pop .5s cubic-bezier(.3,1.45,.5,1) backwards; animation-delay:var(--d,0s)}
+.in .r{animation:rise .8s cubic-bezier(.2,.7,.2,1) backwards; animation-delay:calc(var(--i,0) * 110ms + 60ms)}
+.in .mark path{animation:draw .8s ease-out .75s backwards}
+
+/* pipeline: sticky map, scrolling stages */
+.story{padding-top:clamp(60px,8vh,100px)}
+.story-grid{display:grid; grid-template-columns:minmax(0,5fr) minmax(0,6fr); gap:clamp(24px,4.5vw,72px)}
+.story-grid > *{min-width:0}
+.story-map{align-self:stretch}
+.story-map .map-panel{position:sticky; top:calc(var(--head-h) + 4vh); height:calc(100vh - var(--head-h) - 8vh); max-height:760px}
+.step{min-height:88vh; display:flex; flex-direction:column; justify-content:center; padding-block:6vh}
+.step:last-child{min-height:100vh}
+.js .step{opacity:.25; transition:opacity .6s ease}
+.js .step.current{opacity:1}
+.step-num{
+  display:inline-grid; place-items:center; width:46px; height:46px; border-radius:50%;
+  border:1.5px solid var(--accent); color:var(--accent); font-family:var(--hand); font-size:28px; line-height:1;
+  margin-bottom:10px; transition:background .5s, color .5s;
 }
+.step.current .step-num{background:var(--accent); color:var(--paper)}
+
+.legend{list-style:none; padding:0; margin:1.6em 0 0; display:grid; gap:6px; max-width:26em}
+.legend a{
+  display:grid; grid-template-columns:34px minmax(0,1fr) auto; align-items:baseline; gap:6px;
+  padding:9px 12px; border-radius:10px; color:inherit; text-decoration:none; transition:background .2s;
+}
+.legend a:hover{background:var(--panel)}
+.legend .n{font-family:var(--hand); font-size:26px; color:var(--accent); line-height:1}
+.legend .go{color:var(--muted); font-size:14px; transition:transform .2s}
+.legend a:hover .go{transform:translateY(3px)}
+
+/* summary */
+.facts{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px; margin-top:1.8em; max-width:34em}
+.facts div{border-top:1.5px solid var(--ink); padding-top:10px}
+.facts strong{display:block; font-family:var(--display); font-weight:400; font-size:clamp(40px,4.4vw,58px); line-height:1; font-variant-numeric:tabular-nums}
+.facts span{display:block; font-size:14px; color:var(--muted); margin-top:6px; line-height:1.4}
+.thanks{font-family:var(--hand); font-size:48px; color:var(--accent); margin:1em 0 0; line-height:1}
+.summary .map-panel{height:min(74vh,700px)}
+
+footer{border-top:1px solid var(--line); padding-block:28px 36px; color:var(--muted); font-size:14px}
+footer .wrap{display:flex; flex-wrap:wrap; gap:8px 24px; justify-content:space-between}
+footer a{color:var(--muted); text-underline-offset:3px}
+footer a:hover{color:var(--accent)}
+
 @media (max-width:820px){
-  .split, .pipe{grid-template-columns:minmax(0,1fr)}
-  .split.flip > :first-child{order:0}
-  .hero .map-panel{height:56vh}
-  .illus{height:50vh}
-  .pipe-map{order:-1; top:72px; height:42vh; z-index:2}
-  .stage{min-height:auto; padding-block:40px; opacity:1}
-  .stage:first-child{min-height:auto}
+  :root{--head-h:56px}
+  .links li:not(:last-child){display:none}
+  .split{grid-template-columns:minmax(0,1fr)}
+  .illus{height:auto; aspect-ratio:600/420}
+  .summary .map-panel{height:62vh}
+  .hero-bg{display:none}
+
+  .story-grid{display:block}
+  .story-map{position:sticky; top:var(--head-h); z-index:5; background:var(--paper); padding-block:8px}
+  .story-map .map-panel{position:static; height:40vh}
+  .step{min-height:70vh; padding-block:4vh}
+  .step:last-child{min-height:80vh}
 }
 @media (max-width:480px){
-  .facts{grid-template-columns:minmax(0,1fr); gap:14px}
-  .site-head .btn{padding:8px 14px}
+  .facts{grid-template-columns:minmax(0,1fr); gap:12px}
 }
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto}
   *,*::before,*::after{animation:none !important; transition:none !important}
-  .draw, .mark path{stroke-dashoffset:0}
-  .head.fade, .fadein, .node.pop, .r{opacity:1; transform:none}
+  .js [data-reveal]:not(.in) .draw, .js [data-reveal]:not(.in) .mark path{stroke-dashoffset:0}
+  .js [data-reveal]:not(.in) .fade, .js [data-reveal]:not(.in) .pop, .js [data-reveal]:not(.in) .r{opacity:1}
 }
 </style>
+<script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
 
-<header class="site-head" id="head">
+<header class="top" id="top">
   <div class="wrap">
-    <a class="brand" href="#top">BEVIJEN</a>
-    <nav class="site-nav" aria-label="Sections">
-      <a href="#problem">Problem</a>
-      <a href="#idea">Idea</a>
-      <a href="#pipeline">How it works</a>
-      <a href="#impact">Impact</a>
-      <a href="original-design.html">Pitch deck</a>
-    </nav>
-    <a class="btn" href="https://github.com/hoangviet2/BEVIJEN" target="_blank" rel="noopener">GitHub</a>
+    <a class="brand" href="#intro">BEVIJEN</a>
+    <ul class="links">
+      <li><a href="#problem" data-sec="problem">Problem</a></li>
+      <li><a href="#idea" data-sec="idea">Idea</a></li>
+      <li><a href="#pipeline" data-sec="pipeline">Pipeline</a></li>
+      <li><a href="#summary" data-sec="summary">Summary</a></li>
+      <li><a class="deck" href="original-design.html">Slides</a></li>
+    </ul>
   </div>
+  <span class="progress" id="progress" aria-hidden="true"></span>
 </header>
 
-<main id="top">
+<main>
 
-  <section class="hero">
-    <div class="wrap split">
-      <div>
-        <p class="eyebrow r" style="--i:0">team bevijen presents</p>
-        <h1 class="r" style="--i:1">A database that <span class="mark">keeps itself<svg viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M2 7 C 25 2, 55 3, 98 5"/></svg></span> up to date</h1>
-        <p class="lede r" style="--i:2">We automate how community-service information is checked and updated, so specialists spend less time on upkeep and more time helping people.</p>
-        <div class="cta r" style="--i:3">
-          <a class="btn primary" href="#pipeline">See how it works &darr;</a>
-          <a class="btn" href="https://github.com/hoangviet2/BEVIJEN" target="_blank" rel="noopener">View the code</a>
-        </div>
+  <section class="hero" id="intro" data-sec>
+    <div class="hero-bg" aria-hidden="true"><svg data-map="ghost"></svg></div>
+    <div class="wrap" data-reveal>
+      <p class="eyebrow r" style="--i:0">team bevijen presents</p>
+      <h1 class="r" style="--i:1">A database that <span class="mark">keeps itself<svg viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M2 7 C 25 2, 55 3, 98 5"/></svg></span> up to date</h1>
+      <p class="lede r" style="--i:2">We automate how community-service information is checked and updated, so specialists spend less time on upkeep and more time helping people.</p>
+      <div class="team r" style="--i:3">
+        <span class="team-name">BEVIJEN</span>
+        <a href="https://github.com/hoangviet2/BEVIJEN/tree/feature/standardlize" target="_blank" rel="noopener">github.com/hoangviet2/BEVIJEN</a>
       </div>
-      <div class="map-panel r" style="--i:1"><svg data-map="overview" role="img" aria-label="Full mind map of the data pipeline. Click a box to read about its stage."></svg></div>
     </div>
+    <a class="cue" href="#problem" aria-label="Scroll to the problem">
+      scroll
+      <svg viewBox="0 0 22 30" aria-hidden="true"><path d="M11 3 V25 M4 18 L11 25 L18 18"/></svg>
+    </a>
   </section>
 
-  <section id="problem">
+  <section class="block" id="problem" data-sec>
     <div class="wrap split">
-      <div>
+      <div data-reveal>
         <p class="eyebrow r" style="--i:0">the problem</p>
         <h2 class="r" style="--i:1">Specialists keep resource lists up to date by hand</h2>
         <p class="lede r" style="--i:2">People who need community services rely on specialists to point them to the right help. When that information is managed manually, specialists spend their time on upkeep, and people often get passed along to another phone number instead of an answer.</p>
-        <ul class="steps r" style="--i:3">
+        <ul class="steps-list r" style="--i:3">
           <li><span><b>Every record</b> has to be checked by a person</span></li>
           <li><span><b>Outdated listings</b> slip through between checks</span></li>
           <li><span><b>Less time</b> left for the people who need help</span></li>
         </ul>
       </div>
-      <div class="map-panel illus anim">
+      <div class="map-panel illus" data-reveal>
         <svg viewBox="0 0 600 420" role="img" aria-label="One specialist handles every task by hand: check every link, merge duplicates, find new sources, delete dead sites">
           <path class="edge draw" pathLength="1" style="--d:.6s" d="M209 210 C 255 210, 255 60, 298 60"/>
           <path class="head fade" style="--d:1s" d="M289 54 L298 60 L289 66"/>
@@ -217,25 +266,25 @@ svg.focused .edge.on, svg.focused .head.on{stroke:var(--accent)}
           <g class="node pop" style="--d:1.05s"><rect x="305" y="139" width="250" height="42" rx="10"/><text class="t" x="430" y="166">Merge duplicates</text></g>
           <g class="node pop" style="--d:1.2s"><rect x="305" y="239" width="250" height="42" rx="10"/><text class="t" x="430" y="266">Find new sources</text></g>
           <g class="node pop" style="--d:1.35s"><rect x="305" y="339" width="250" height="42" rx="10"/><text class="t" x="430" y="366">Delete dead sites</text></g>
-          <text class="note fadein" style="--d:1.8s" x="120" y="290" text-anchor="middle">all by hand</text>
+          <text class="note fade" style="--d:1.8s" x="120" y="290" text-anchor="middle">all by hand</text>
         </svg>
       </div>
     </div>
   </section>
 
-  <section id="idea">
-    <div class="wrap split flip">
-      <div>
+  <section class="block" id="idea" data-sec>
+    <div class="wrap split">
+      <div data-reveal>
         <p class="eyebrow r" style="--i:0">how we came up with this</p>
         <h2 class="r" style="--i:1">What if the system kept itself up to date?</h2>
         <p class="lede r" style="--i:2">The idea started with two resource systems (211 and One Degree) that were too different to connect. Instead of adding more manual work, we automated it.</p>
-        <ul class="steps r" style="--i:3">
+        <ul class="steps-list r" style="--i:3">
           <li><span><b>AI agents</b> check and update records automatically</span></li>
           <li><span><b>Specialists</b> only see the records that need a person</span></li>
           <li><span><b>Their queue</b> arrives already sorted by zip code</span></li>
         </ul>
       </div>
-      <div class="map-panel illus anim">
+      <div class="map-panel illus" data-reveal>
         <svg viewBox="0 0 600 410" role="img" aria-label="All records go to AI agents; most are done automatically, and only the ones that need a person go to a specialist, sorted by zip code">
           <path class="edge draw" pathLength="1" style="--d:.45s" d="M300 65 L300 93"/>
           <path class="head fade" style="--d:.8s" d="M294 84 L300 93 L306 84"/>
@@ -250,120 +299,127 @@ svg.focused .edge.on, svg.focused .head.on{stroke:var(--accent)}
           <g class="node pop" style="--d:1.6s"><rect x="35" y="230" width="250" height="60" rx="10"/><text class="t" x="160" y="255">Done automatically</text><text class="s" x="160" y="279">straight into the database</text></g>
           <g class="node pop" style="--d:1.6s"><rect x="335" y="230" width="210" height="60" rx="10"/><text class="t" x="440" y="255">Needs a person</text><text class="s" x="440" y="279">flagged for review</text></g>
           <g class="node on-static pop" style="--d:2.35s"><rect x="340" y="340" width="200" height="60" rx="10"/><text class="t" x="440" y="365">Specialist</text><text class="s" x="440" y="389">sorted by zip code</text></g>
-          <text class="note fadein" style="--d:2.6s" x="160" y="340" text-anchor="middle">no manual upkeep</text>
+          <text class="note fade" style="--d:2.6s" x="160" y="340" text-anchor="middle">no manual upkeep</text>
         </svg>
       </div>
     </div>
   </section>
 
-  <section id="pipeline">
-    <div class="wrap">
-      <div class="pipe-intro">
-        <p class="eyebrow r" style="--i:0">our solution</p>
-        <h2 class="r" style="--i:1">Five stages, one loop</h2>
-        <p class="lede r" style="--i:2">This is the pipeline we designed. Data flows top to bottom. Scroll through each stage, or click a box on the map to jump to it.</p>
-        <nav class="stage-tabs r" style="--i:3" aria-label="Pipeline stages">
-          <a href="#stage-1">1 · Sources &amp; merge</a>
-          <a href="#stage-2">2 · Store &amp; clean</a>
-          <a href="#stage-3">3 · AI maintenance</a>
-          <a href="#stage-4">4 · Verify</a>
-          <a href="#stage-5">5 · Update</a>
-        </nav>
+  <section class="story" id="pipeline" data-sec>
+    <div class="wrap story-grid">
+      <div class="story-steps">
+
+        <article class="step" data-step="0" data-reveal>
+          <p class="eyebrow r" style="--i:0">our solution</p>
+          <h2 class="r" style="--i:1">Five stages, one loop</h2>
+          <p class="lede r" style="--i:2">This is the pipeline we designed. Data flows top to bottom. Keep scrolling to walk through each stage, or jump straight to one.</p>
+          <ul class="legend r" style="--i:3">
+            <li><a href="#stage-1"><span class="n">1</span><span>Sources &amp; merge</span><span class="go">&darr;</span></a></li>
+            <li><a href="#stage-2"><span class="n">2</span><span>Store &amp; clean</span><span class="go">&darr;</span></a></li>
+            <li><a href="#stage-3"><span class="n">3</span><span>AI maintenance</span><span class="go">&darr;</span></a></li>
+            <li><a href="#stage-4"><span class="n">4</span><span>Verify</span><span class="go">&darr;</span></a></li>
+            <li><a href="#stage-5"><span class="n">5</span><span>Update</span><span class="go">&darr;</span></a></li>
+          </ul>
+        </article>
+
+        <article class="step" id="stage-1" data-step="1" data-reveal>
+          <span class="step-num r" style="--i:0">1</span>
+          <p class="eyebrow r" style="--i:0">sources</p>
+          <h2 class="r" style="--i:1">Two sources become one foundation</h2>
+          <p class="lede r" style="--i:2">Records from NDP and ODR are merged into a single Foundation Database. Every later check compares against it.</p>
+          <ul class="steps-list r" style="--i:3">
+            <li><span><b>NDP</b> records come in</span></li>
+            <li><span><b>ODR</b> records come in</span></li>
+            <li><span><b>Merge</b> both into the Foundation Database</span></li>
+          </ul>
+        </article>
+
+        <article class="step" id="stage-2" data-step="2" data-reveal>
+          <span class="step-num r" style="--i:0">2</span>
+          <p class="eyebrow r" style="--i:0">store &amp; clean</p>
+          <h2 class="r" style="--i:1">Store it, then clean it</h2>
+          <p class="lede r" style="--i:2">The merged data lands in the data store. The database handle then cleans it, so every entry exists exactly once.</p>
+          <ul class="steps-list r" style="--i:3">
+            <li><span><b>Data Store</b> holds the merged records</span></li>
+            <li><span><b>Cleaning</b> tidies the raw entries</span></li>
+            <li><span><b>Duplicates</b> are found and handled</span></li>
+          </ul>
+        </article>
+
+        <article class="step" id="stage-3" data-step="3" data-reveal>
+          <span class="step-num r" style="--i:0">3</span>
+          <p class="eyebrow r" style="--i:0">ai maintenance</p>
+          <h2 class="r" style="--i:1">AI keeps the data current</h2>
+          <p class="lede r" style="--i:2">AI maintenance runs on Bedrock AgentCore. An agent searches the link on each record, and what it finds decides the next step.</p>
+          <ul class="steps-list r" style="--i:3">
+            <li><span><b>Search</b> the agent follows each record&rsquo;s link</span></li>
+            <li><span><b>Verify</b> confirms the record is real and correct</span></li>
+            <li><span><b>Update</b> refreshes the data with what changed</span></li>
+          </ul>
+        </article>
+
+        <article class="step" id="stage-4" data-step="4" data-reveal>
+          <span class="step-num r" style="--i:0">4</span>
+          <p class="eyebrow r" style="--i:0">verify</p>
+          <h2 class="r" style="--i:1">Specialists only see what needs a person</h2>
+          <p class="lede r" style="--i:2">Each record comes out verified or unverified. Verified records go straight into the database with no manual work, so specialists spend their time only where a person is needed.</p>
+          <ul class="steps-list r" style="--i:3">
+            <li><span><b>Verified</b> records are saved to the database automatically</span></li>
+            <li><span><b>Unverified</b> records go to a specialist&rsquo;s queue</span></li>
+            <li><span><b>Sorted by zip code</b> so specialists can work area by area</span></li>
+          </ul>
+        </article>
+
+        <article class="step" id="stage-5" data-step="5" data-reveal>
+          <span class="step-num r" style="--i:0">5</span>
+          <p class="eyebrow r" style="--i:0">update</p>
+          <h2 class="r" style="--i:1">Grow it, check it, prune it</h2>
+          <p class="lede r" style="--i:2">The update path runs on its own, so no specialist has to hunt for new listings or chase dead websites.</p>
+          <ul class="steps-list r" style="--i:3">
+            <li><span><b>Search</b> for new sources automatically</span></li>
+            <li><span><b>Compare</b> the data with the Foundation Database</span></li>
+            <li><span><b>Every 2 weeks</b> delete websites that don&rsquo;t respond or haven&rsquo;t been updated</span></li>
+          </ul>
+        </article>
+
       </div>
-      <div class="pipe">
-        <div class="stages">
-          <article class="stage" id="stage-1" data-stage="1">
-            <span class="n">1</span>
-            <p class="eyebrow">sources</p>
-            <h3>Two sources become one foundation</h3>
-            <p class="lede">Records from NDP and ODR are merged into a single Foundation Database. Every later check compares against it.</p>
-            <ul class="steps">
-              <li><span><b>NDP</b> records come in</span></li>
-              <li><span><b>ODR</b> records come in</span></li>
-              <li><span><b>Merge</b> both into the Foundation Database</span></li>
-            </ul>
-          </article>
-          <article class="stage" id="stage-2" data-stage="2">
-            <span class="n">2</span>
-            <p class="eyebrow">store &amp; clean</p>
-            <h3>Store it, then clean it</h3>
-            <p class="lede">The merged data lands in the data store. The database handle then cleans it, so every entry exists exactly once.</p>
-            <ul class="steps">
-              <li><span><b>Data Store</b> holds the merged records</span></li>
-              <li><span><b>Cleaning</b> tidies the raw entries</span></li>
-              <li><span><b>Duplicates</b> are found and handled</span></li>
-            </ul>
-          </article>
-          <article class="stage" id="stage-3" data-stage="3">
-            <span class="n">3</span>
-            <p class="eyebrow">ai maintenance</p>
-            <h3>AI keeps the data current</h3>
-            <p class="lede">AI maintenance runs on Bedrock AgentCore. An agent searches the link on each record, and what it finds decides the next step.</p>
-            <ul class="steps">
-              <li><span><b>Search</b> the agent follows each record&rsquo;s link</span></li>
-              <li><span><b>Verify</b> confirms the record is real and correct</span></li>
-              <li><span><b>Update</b> refreshes the data with what changed</span></li>
-            </ul>
-          </article>
-          <article class="stage" id="stage-4" data-stage="4">
-            <span class="n">4</span>
-            <p class="eyebrow">verify</p>
-            <h3>Specialists only see what needs a person</h3>
-            <p class="lede">Each record comes out verified or unverified. Verified records go straight into the database with no manual work, so specialists spend their time only where a person is needed.</p>
-            <ul class="steps">
-              <li><span><b>Verified</b> records are saved to the database automatically</span></li>
-              <li><span><b>Unverified</b> records go to a specialist&rsquo;s queue</span></li>
-              <li><span><b>Sorted by zip code</b> so specialists can work area by area</span></li>
-            </ul>
-          </article>
-          <article class="stage" id="stage-5" data-stage="5">
-            <span class="n">5</span>
-            <p class="eyebrow">update</p>
-            <h3>Grow it, check it, prune it</h3>
-            <p class="lede">The update path runs on its own, so no specialist has to hunt for new listings or chase dead websites.</p>
-            <ul class="steps">
-              <li><span><b>Search</b> for new sources automatically</span></li>
-              <li><span><b>Compare</b> the data with the Foundation Database</span></li>
-              <li><span><b>Every 2 weeks</b> delete websites that don&rsquo;t respond or haven&rsquo;t been updated</span></li>
-            </ul>
-          </article>
+      <div class="story-map">
+        <div class="map-panel" id="story-panel" data-reveal>
+          <svg id="story-map" data-map="story" role="img" aria-label="Mind map of the data pipeline; it zooms to each stage as you scroll"></svg>
         </div>
-        <div class="map-panel pipe-map"><svg data-map="pipeline" role="img" aria-label="Mind map of the data pipeline, highlighting the stage you are reading"></svg></div>
       </div>
     </div>
   </section>
 
-  <section id="impact">
-    <div class="wrap">
-      <p class="eyebrow r" style="--i:0">in short</p>
-      <h2 class="r" style="--i:1">Less upkeep, more time to help</h2>
-      <p class="lede r" style="--i:2">The system keeps itself current, and specialists focus on the records that truly need them.</p>
-      <div class="facts r" style="--i:3">
-        <div><strong>1</strong><span>clean database, kept up to date automatically</span></div>
-        <div><strong>2</strong><span>paths per record: verified goes straight in, the rest to a specialist</span></div>
-        <div><strong>14</strong><span>days between automatic cleanup sweeps</span></div>
+  <section class="block summary" id="summary" data-sec>
+    <div class="wrap split">
+      <div data-reveal>
+        <p class="eyebrow r" style="--i:0">in short</p>
+        <h2 class="r" style="--i:1">Less upkeep, more time to help</h2>
+        <p class="lede r" style="--i:2">The system keeps itself current, and specialists focus on the records that truly need them.</p>
+        <div class="facts r" style="--i:3">
+          <div><strong data-count="1">1</strong><span>clean database, kept up to date automatically</span></div>
+          <div><strong data-count="2">2</strong><span>paths per record: verified goes straight in, the rest to a specialist</span></div>
+          <div><strong data-count="14">14</strong><span>days between automatic cleanup sweeps</span></div>
+        </div>
+        <p class="thanks r" style="--i:4">Thank you. Questions?</p>
+        <div class="team r" style="--i:5">
+          <span class="team-name">BEVIJEN</span>
+          <a href="https://github.com/hoangviet2/BEVIJEN/tree/feature/standardlize" target="_blank" rel="noopener">github.com/hoangviet2/BEVIJEN</a>
+        </div>
       </div>
-    </div>
-  </section>
-
-  <section class="closing">
-    <div class="wrap">
-      <p class="thanks r" style="--i:0">Thank you.</p>
-      <h2 class="r" style="--i:1">Questions, ideas or want to help?</h2>
-      <p class="lede r" style="--i:2">The project is open source. Read the code, open an issue, or reach out to team BEVIJEN.</p>
-      <div class="cta r" style="--i:3">
-        <a class="btn primary" href="https://github.com/hoangviet2/BEVIJEN" target="_blank" rel="noopener">github.com/hoangviet2/BEVIJEN</a>
+      <div class="map-panel" data-reveal>
+        <svg data-map="summary" role="img" aria-label="Full mind map of the data pipeline"></svg>
       </div>
     </div>
   </section>
 
 </main>
 
-<footer class="site-foot">
+<footer>
   <div class="wrap">
-    <span class="brand">BEVIJEN</span>
-    <span>A self-maintaining database for community services.</span>
-    <span><a href="original-design.html">Pitch deck</a> &middot; <a href="https://github.com/hoangviet2/BEVIJEN" target="_blank" rel="noopener">GitHub</a></span>
+    <span>BEVIJEN &middot; a self-maintaining database</span>
+    <span><a href="original-design.html">View as slides</a> &middot; <a href="https://github.com/hoangviet2/BEVIJEN/tree/feature/standardlize" target="_blank" rel="noopener">GitHub</a></span>
   </div>
 </footer>
 
@@ -373,7 +429,7 @@ svg.focused .edge.on, svg.focused .head.on{stroke:var(--accent)}
   var FULL = [0, 0, 940, 1000];
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // The mind map, same as the pitch deck. s = stage (1-5).
+  // The mind map, same as the slide deck. s = stage (1-5).
   var N = {
     ndp:    {x:330, y:40,  w:90,  t:['NDP'], s:1},
     odr:    {x:510, y:40,  w:90,  t:['ODR'], s:1},
@@ -403,23 +459,23 @@ svg.focused .edge.on, svg.focused .head.on{stroke:var(--accent)}
   function hgt(n){ return n.t.length > 1 ? 60 : 42; }
   function el(tag, attrs){ var x = document.createElementNS(NS, tag); for (var a in attrs) x.setAttribute(a, attrs[a]); return x; }
 
-  function goStage(s){
+  function scrollToStage(s){
     var t = document.getElementById('stage-' + s);
     if (t) t.scrollIntoView({behavior: reduce ? 'auto' : 'smooth', block: 'center'});
   }
 
-  // Draws the map with draw-in animation classes; they play once the panel gets .in
+  // Draws the map into an svg. Edges and nodes carry their stage so focus can be toggled later.
   function render(svg, links){
     svg.setAttribute('viewBox', FULL.join(' '));
     svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
     var gE = el('g', {}), gN = el('g', {});
     svg.appendChild(gE); svg.appendChild(gN);
-    function nodeDelay(id){ return 0.15 + depth[id] * 0.2; }
+    function delay(id){ return 0.15 + depth[id] * 0.2; }
 
     E.forEach(function(e){
       var s = N[e[0]], t = N[e[1]];
       var x1 = s.x, y1 = s.y + hgt(s)/2 + 4, x2 = t.x, y2 = t.y - hgt(t)/2 - 7, ym = (y1 + y2) / 2;
-      var d = Math.max(0, nodeDelay(e[1]) - 0.42);
+      var d = Math.max(0, delay(e[1]) - 0.42);
       var p = el('path', {d:'M'+x1+' '+y1+' C'+x1+' '+ym+', '+x2+' '+ym+', '+x2+' '+y2, pathLength:'1', 'class':'edge draw', 'data-s':t.s});
       var h = el('path', {d:'M'+(x2-6)+' '+(y2-9)+' L'+x2+' '+y2+' L'+(x2+6)+' '+(y2-9), 'class':'head fade', 'data-s':t.s});
       p.style.setProperty('--d', d + 's'); h.style.setProperty('--d', (d + 0.42) + 's');
@@ -429,17 +485,16 @@ svg.focused .edge.on, svg.focused .head.on{stroke:var(--accent)}
     Object.keys(N).forEach(function(id){
       var n = N[id], h = hgt(n);
       var g = el('g', {'class':'node pop', 'data-s':n.s});
-      g.style.setProperty('--d', nodeDelay(id) + 's');
+      g.style.setProperty('--d', delay(id) + 's');
       g.appendChild(el('rect', {x:n.x - n.w/2, y:n.y - h/2, width:n.w, height:h, rx:10}));
       var t1 = el('text', {x:n.x, y:n.t.length > 1 ? n.y - 5 : n.y + 6, 'class':'t'}); t1.textContent = n.t[0]; g.appendChild(t1);
       if (n.t[1]) { var t2 = el('text', {x:n.x, y:n.y + 19, 'class':'s'}); t2.textContent = n.t[1]; g.appendChild(t2); }
       if (links) {
         g.classList.add('link');
         g.setAttribute('tabindex', '0'); g.setAttribute('role', 'button');
-        g.setAttribute('aria-label', n.t.join(', ') + ': read about stage ' + n.s);
-        var jump = function(){ goStage(n.s); };
-        g.addEventListener('click', jump);
-        g.addEventListener('keydown', function(ev){ if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); jump(); } });
+        g.setAttribute('aria-label', n.t.join(', ') + ': go to stage ' + n.s);
+        g.addEventListener('click', function(){ scrollToStage(n.s); });
+        g.addEventListener('keydown', function(ev){ if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); scrollToStage(n.s); } });
       }
       gN.appendChild(g);
     });
@@ -456,89 +511,96 @@ svg.focused .edge.on, svg.focused .head.on{stroke:var(--accent)}
     return [x0 - pad, y0 - pad, (x1 - x0) + pad*2, (y1 - y0) + pad*2];
   }
 
-  // Animate the viewBox from wherever it is now to `to`
-  var zoomToken = 0;
-  function zoom(svg, to){
+  Array.prototype.forEach.call(document.querySelectorAll('svg[data-map]'), function(svg){
+    render(svg, svg.getAttribute('data-map') === 'story');
+  });
+
+  // ---- sticky story map: focus + zoom by stage ----
+  var story = document.getElementById('story-map');
+  var box = FULL.slice(), zoomToken = 0, stage = -1;
+  function zoomTo(to){
     var my = ++zoomToken;
-    if (reduce) { svg.setAttribute('viewBox', to.join(' ')); return; }
-    var from = svg.getAttribute('viewBox').split(/\s+/).map(Number), t0 = null, dur = 900;
+    if (reduce) { box = to.slice(); story.setAttribute('viewBox', box.join(' ')); return; }
+    var from = box.slice(), t0 = null, dur = 1100;
     function ease(t){ return t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3)/2; }
     function frame(ts){
       if (my !== zoomToken) return;
       if (t0 === null) t0 = ts;
       var p = Math.min(1, (ts - t0) / dur), e = ease(p);
-      svg.setAttribute('viewBox', from.map(function(v, i){ return (v + (to[i] - v) * e).toFixed(2); }).join(' '));
+      box = from.map(function(v, i){ return v + (to[i] - v) * e; });
+      story.setAttribute('viewBox', box.map(function(v){ return v.toFixed(2); }).join(' '));
+      if (p < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+  function setStage(s){
+    if (s === stage) return;
+    stage = s;
+    Array.prototype.forEach.call(story.querySelectorAll('[data-s]'), function(n){
+      var on = +n.getAttribute('data-s') === s;
+      n.classList.toggle('on', on); n.classList.toggle('off', !on);
+    });
+    story.classList.toggle('focused', s > 0);
+    zoomTo(s > 0 ? stageBox(s) : FULL);
+  }
+
+  // ---- reveal on scroll ----
+  var revealEls = document.querySelectorAll('[data-reveal]');
+  function reveal(node){
+    if (node.classList.contains('in')) return;
+    node.classList.add('in');
+    Array.prototype.forEach.call(node.querySelectorAll('[data-count]'), countUp);
+  }
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if (e.isIntersecting) { reveal(e.target); io.unobserve(e.target); } });
+    }, {threshold: 0.15, rootMargin: '0px 0px -6% 0px'});
+    Array.prototype.forEach.call(revealEls, function(n){ io.observe(n); });
+  } else {
+    Array.prototype.forEach.call(revealEls, reveal);
+  }
+
+  function countUp(node){
+    var end = +node.getAttribute('data-count');
+    if (reduce || end < 2) return;
+    var t0 = null, dur = 1200;
+    node.textContent = '0';
+    function frame(ts){
+      if (t0 === null) t0 = ts + 500;
+      var p = Math.min(1, Math.max(0, (ts - t0) / dur));
+      node.textContent = Math.round(end * (1 - Math.pow(1 - p, 3)));
       if (p < 1) requestAnimationFrame(frame);
     }
     requestAnimationFrame(frame);
   }
 
-  function focusStage(svg, s){
-    Array.prototype.forEach.call(svg.querySelectorAll('[data-s]'), function(x){
-      var on = +x.getAttribute('data-s') === s;
-      x.classList.toggle('on', on); x.classList.toggle('off', !on);
-    });
-    svg.classList.add('focused');
-    zoom(svg, stageBox(s));
-  }
-
-  var overview = document.querySelector('svg[data-map="overview"]');
-  var pipeSvg = document.querySelector('svg[data-map="pipeline"]');
-  render(overview, true);
-  render(pipeSvg, false);
-  overview.parentNode.classList.add('anim');
-  pipeSvg.parentNode.classList.add('anim');
-
-  // reveal-on-scroll
-  var targets = document.querySelectorAll('.r, .anim');
-  if ('IntersectionObserver' in window && !reduce) {
-    var io = new IntersectionObserver(function(entries){
-      entries.forEach(function(en){ if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
-    }, {threshold: 0.15});
-    Array.prototype.forEach.call(targets, function(t){ io.observe(t); });
-  } else {
-    Array.prototype.forEach.call(targets, function(t){ t.classList.add('in'); });
-  }
-
-  // scrollytelling: the stage nearest the middle of the screen drives the map
-  var stages = Array.prototype.slice.call(document.querySelectorAll('.stage'));
-  var curStage = 0, drawn = false;
-  function pickStage(){
-    var mid = window.innerHeight * 0.5, best = null, bestD = 1e9;
-    var pipe = document.querySelector('.pipe').getBoundingClientRect();
-    if (pipe.bottom < 0 || pipe.top > window.innerHeight) return;
-    stages.forEach(function(st){
-      var r = st.getBoundingClientRect(), d = Math.abs((r.top + r.bottom) / 2 - mid);
-      if (d < bestD) { bestD = d; best = st; }
-    });
-    var s = best ? +best.getAttribute('data-stage') : 0;
-    if (s && s !== curStage) {
-      curStage = s;
-      stages.forEach(function(st){ st.classList.toggle('cur', st === best); });
-      // let the first draw-in finish before zooming in
-      var wait = drawn ? 0 : (reduce ? 0 : 1600);
-      drawn = true;
-      setTimeout(function(){ if (curStage === s) focusStage(pipeSvg, s); }, wait);
-    }
-  }
+  // ---- scroll: header progress, current nav link, current pipeline step ----
+  var top = document.getElementById('top'), progress = document.getElementById('progress');
+  var steps = Array.prototype.slice.call(document.querySelectorAll('.step'));
+  var secs = Array.prototype.slice.call(document.querySelectorAll('[data-sec]'));
+  var navLinks = document.querySelectorAll('.links a[data-sec]');
   var ticking = false;
-  window.addEventListener('scroll', function(){
-    if (!ticking) { ticking = true; requestAnimationFrame(function(){ ticking = false; pickStage(); }); }
-  }, {passive:true});
-  window.addEventListener('resize', pickStage);
-  pickStage();
 
-  // header: border when scrolled, highlight current section link
-  var head = document.getElementById('head');
-  var navLinks = Array.prototype.slice.call(document.querySelectorAll('.site-nav a'));
-  var secs = navLinks.map(function(a){ return document.querySelector(a.getAttribute('href')); });
   function onScroll(){
-    head.classList.toggle('scrolled', window.scrollY > 8);
-    var cur = -1;
-    secs.forEach(function(s, i){ if (s && s.getBoundingClientRect().top < window.innerHeight * 0.4) cur = i; });
-    navLinks.forEach(function(a, i){ a.classList.toggle('cur', i === cur); });
+    ticking = false;
+    var y = window.scrollY || window.pageYOffset, vh = window.innerHeight;
+    var max = document.documentElement.scrollHeight - vh;
+    progress.style.transform = 'scaleX(' + (max > 0 ? Math.min(1, y / max) : 0) + ')';
+    top.classList.toggle('scrolled', y > 8);
+
+    var mid = vh * 0.55, current = 0;
+    steps.forEach(function(st, i){
+      if (st.getBoundingClientRect().top < mid) current = i;
+    });
+    steps.forEach(function(st, i){ st.classList.toggle('current', i === current); });
+    setStage(+steps[current].getAttribute('data-step'));
+
+    var here = secs[0].id;
+    secs.forEach(function(s){ if (s.getBoundingClientRect().top < vh * 0.4) here = s.id; });
+    Array.prototype.forEach.call(navLinks, function(a){ a.classList.toggle('here', a.getAttribute('data-sec') === here); });
   }
-  window.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('scroll', function(){ if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, {passive:true});
+  window.addEventListener('resize', onScroll);
   onScroll();
 })();
 </script>
