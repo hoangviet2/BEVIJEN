@@ -1,0 +1,9 @@
+{
+    admin 127.0.0.1:2019
+}
+
+35-95-62-9.sslip.io {
+    @internal path /tools /tools/*
+    respond @internal 404
+    reverse_proxy 127.0.0.1:8000
+}
