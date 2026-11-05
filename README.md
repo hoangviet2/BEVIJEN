@@ -16,7 +16,7 @@ One Degree and 211 directories list 30,000+ local services (food, shelter, healt
 |---|---|
 | Pitch deck | https://52-41-36-135.sslip.io/pitch-deck/ |
 | Specialist UI (frontend) | https://52-41-36-135.sslip.io/ui/ |
-| Backend API docs (OpenAPI) | https://52-41-36-135.sslip.io/docs |
+| Backend API docs | https://52-41-36-135.sslip.io/docs |
 
 All three are served by the same FastAPI server on one EC2 instance behind Caddy (HTTPS).
 
@@ -43,7 +43,24 @@ flowchart LR
 
 Core rules: one write path (`store/commit.py`), every change validated against the pinned HSDS schema, nothing invalid is stored or served, and AI output only becomes a record change after a person approves it.
 
-**AWS:** EC2, S3, DynamoDB, SQS, EventBridge Scheduler, Bedrock (Claude, Titan embeddings), AgentCore (Runtime, Gateway, Policy, Identity, Memory, Browser, Observability), Lambda, Cognito, Secrets Manager, KMS, Amazon Location, CloudWatch. Full diagrams: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
+### AWS services (region us-west-2)
+
+| Area | Services | Used for |
+|---|---|---|
+| Compute | **Amazon EC2**, **AWS Systems Manager** (SSM), **Amazon ECR**, **AWS Lambda** | API server + worker (Docker Compose), remote ops, server and agent images, Gateway tool targets (`re-web-tools`) |
+| Storage | **Amazon S3**, **Amazon S3 Vectors**, **Amazon DynamoDB** | raw pages, HSDS documents, quarantine, evidence, exports · knowledge-base vectors · HSDS store, index, findings, tasks, runs, API keys |
+| Messaging and scheduling | **Amazon SQS** (+ DLQs), **Amazon EventBridge Scheduler**, **Amazon SNS** | verify and job queues · crawl every 15 min, nightly recheck, weekly discovery, daily NDP pull · alarm notifications |
+| AI | **Amazon Bedrock** (Claude, Titan Text Embeddings v2) | agent reasoning, free-text schedule parsing, semantic search |
+| Agents | **Amazon Bedrock AgentCore**: Runtime, Gateway (MCP), Policy (Cedar), Identity, Memory, Browser, Web Search, Observability | hosts the Verifier and Discovery agents, their tools, permissions, per-organization notes and traces |
+| Search | **Amazon OpenSearch Service** (optional) | keyword + semantic search index |
+| Document and language | **Amazon Textract**, **Amazon Translate**, **Amazon Comprehend** | PDF text extraction · translation · language detection |
+| Location | **Amazon Location Service** (Places) | geocoding, reverse geocoding for ZIP buckets, places near a ZIP |
+| Notifications | **Amazon SES**, **AWS End User Messaging SMS** | email and SMS from the agent `send_message` tool |
+| Identity and security | **Amazon Cognito**, **AWS IAM**, **AWS STS**, **AWS Secrets Manager**, **AWS KMS** | specialist login + M2M tokens · least-privilege roles · ODRS key, tools key, API-key pepper · one CMK encrypting all data |
+| Observability | **Amazon CloudWatch** (logs, metrics, alarms, Transaction Search), **AWS X-Ray** | run metrics, DLQ / quarantine alarms, agent spans and tool-call traces |
+| Infrastructure as code | **Terraform**, **AWS CLI** (`infra/deploy.sh`) | Terraform: KMS, S3, DynamoDB, SQS, IAM · `deploy.sh`: everything else |
+
+Full diagrams: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
 ## Repository layout
 

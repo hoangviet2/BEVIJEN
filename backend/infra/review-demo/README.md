@@ -6,24 +6,24 @@ Deployment settings below identify the workshop environment.
 ## Current deployment
 
 - AWS region is us-west-2.
-- Account is 232549714284.
+- Account is <account-id>.
 - EC2 instance is i-07d5f8791f4e1b1d3.
 - Security group is sg-0b00e26cb01d373a1.
 - The current public IP is 35.95.62.9. An instance stop/start can change this IP.
-- Backend image is 232549714284.dkr.ecr.us-west-2.amazonaws.com/re-server@sha256:3c2ceb69f6a72d7b0bb6c170a76bdb810445aaaae10edca1ec17235511a15faf.
+- Backend image is <account-id>.dkr.ecr.us-west-2.amazonaws.com/re-server@sha256:3c2ceb69f6a72d7b0bb6c170a76bdb810445aaaae10edca1ec17235511a15faf.
 - Source commit deployed is 38ea611.
 - Backend container is bevijen-backend.
 - HTTPS proxy container is bevijen-https and uses the official caddy:2 image.
 - Caddy data and configuration persist in Docker volumes bevijen-caddy-data and bevijen-caddy-config.
 - Backend listens on 127.0.0.1:8000 with Uvicorn proxy headers trusted only from 127.0.0.1.
 - TCP 80 and 443 are open publicly. Caddy forwards HTTPS to the loopback backend and blocks /tools and /tools/*.
-- Cognito pool is us-west-2_wY6YuC6fi.
-- Cognito client ID is 4llbgsbhq1nk8p6n0js0c468a8.
-- Cognito domain is bevijen-review-232549714284.auth.us-west-2.amazoncognito.com.
+- Cognito pool is <user-pool-id>.
+- Cognito client ID is <app-client-id>.
+- Cognito domain is bevijen-review-<account-id>.auth.us-west-2.amazoncognito.com.
 - Callback URL is https://35-95-62-9.sslip.io/auth/callback.
 - UI_URL is /ui/ and AUTH_MODE is cognito.
 - Cognito group specialist grants the review role. Batch recheck requires admin in the current backend.
-- RE_SQS_VERIFY_URL points to https://sqs.us-west-2.amazonaws.com/232549714284/bevijen-pacifica-demo-verify.
+- RE_SQS_VERIFY_URL points to https://sqs.us-west-2.amazonaws.com/<account-id>/bevijen-pacifica-demo-verify.
 - Preserve the existing AWS storage and KMS environment settings when replacing the backend container.
 
 ## Demonstration scope and verification

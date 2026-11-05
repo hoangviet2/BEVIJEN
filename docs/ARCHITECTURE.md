@@ -1,6 +1,6 @@
 # Resource Engine: AWS architecture
 
-Account `364103436311`, region `us-west-2`. Diagrams are Mermaid; they render on GitHub and in VS Code (Markdown Preview Mermaid).
+Diagrams are Mermaid; they render on GitHub and in VS Code (Markdown Preview Mermaid).
 
 ## 1. AWS services map
 
