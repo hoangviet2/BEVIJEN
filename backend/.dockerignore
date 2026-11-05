@@ -1,0 +1,12 @@
+.venv
+**/__pycache__
+**/.pytest_cache
+tests
+transform/work
+transform/tests
+ingestion/tests
+ingestion/work
+infra/.state.json
+infra/.env*
+agents
+lambdas

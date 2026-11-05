@@ -1,0 +1,26 @@
+{
+  "mcp": {
+    "lambda": {
+      "lambdaArn": "__WEB_TOOLS_LAMBDA_ARN__",
+      "toolSchema": {
+        "inlinePayload": [
+          {
+            "name": "search_knowledge",
+            "description": "Search reference knowledge: HSDS 3.2.3 objects and required fields, conversion rules, One Degree docs, the verification/discovery skill. Use before building HSDS or when unsure what a field or category means.",
+            "inputSchema": {"type": "object", "properties": {"query": {"type": "string"}, "max_results": {"type": "integer"}}, "required": ["query"]}
+          },
+          {
+            "name": "translate_text",
+            "description": "Translate text (Amazon Translate), e.g. a Spanish-only page or flyer, before comparing facts. source_language defaults to auto-detect, target_language to en.",
+            "inputSchema": {"type": "object", "properties": {"text": {"type": "string"}, "target_language": {"type": "string"}, "source_language": {"type": "string"}}, "required": ["text"]}
+          },
+          {
+            "name": "send_message",
+            "description": "Alert the specialist team (email or sms) about an urgent problem: a facility that appears permanently closed, unsafe or fraudulent. Recipients are fixed by the operator. At most one message per job.",
+            "inputSchema": {"type": "object", "properties": {"channel": {"type": "string", "description": "email or sms"}, "message": {"type": "string"}, "subject": {"type": "string"}, "service_id": {"type": "string"}}, "required": ["channel", "message"]}
+          }
+        ]
+      }
+    }
+  }
+}

@@ -63,7 +63,9 @@ def missing_important_fields(record: dict[str, Any]) -> list[str]:
 
 
 def _any_location_has(record: dict[str, Any], key: str) -> bool:
-    for loc in record.get("locations") or []:
+    locations = list(record.get("locations") or [])
+    locations += [sal.get("location") for sal in record.get("service_at_locations") or [] if isinstance(sal, dict)]
+    for loc in locations:
         if isinstance(loc, dict) and _has_value(loc.get(key)):
             return True
     return False

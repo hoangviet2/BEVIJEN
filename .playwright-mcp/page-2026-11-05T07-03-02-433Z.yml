@@ -1,0 +1,10 @@
+- generic [ref=f1e12]:
+  - generic [ref=f1e13]: Sign in with your email and password
+  - generic [ref=f1e14]:
+    - generic [ref=f1e15]: Email
+    - textbox "name@host.com" [ref=f1e17]
+    - generic [ref=f1e18]: Password
+    - textbox "Password" [ref=f1e20]
+    - link "Forgot your password?" [ref=f1e22] [cursor=pointer]:
+      - /url: /forgotPassword?response_type=code&client_id=53jeuan70vp2hsri6c1tmh21nm&redirect_uri=https%3A%2F%2F52-41-36-135.sslip.io%2Fauth%2Fcallback&scope=openid+email&state=ERlfKh0SOgUZkp-s7S4A_g
+    - button "submit" [ref=f1e23] [cursor=pointer]: Sign in

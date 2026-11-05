@@ -1,0 +1,18 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {"Sid": "Kms", "Effect": "Allow", "Action": ["kms:Decrypt","kms:GenerateDataKey"], "Resource": "__KMS_KEY_ARN__"},
+    {"Sid": "Model", "Effect": "Allow", "Action": ["bedrock:InvokeModel","bedrock:InvokeModelWithResponseStream","bedrock:Converse","bedrock:ConverseStream"], "Resource": "*"},
+    {"Sid": "Gateway", "Effect": "Allow", "Action": "bedrock-agentcore:InvokeGateway", "Resource": "arn:aws:bedrock-agentcore:__REGION__:__ACCOUNT_ID__:gateway/*"},
+    {"Sid": "Browser", "Effect": "Allow",
+     "Action": ["bedrock-agentcore:StartBrowserSession","bedrock-agentcore:StopBrowserSession","bedrock-agentcore:GetBrowserSession",
+                "bedrock-agentcore:ConnectBrowserAutomationStream","bedrock-agentcore:UpdateBrowserStream"],
+     "Resource": "arn:aws:bedrock-agentcore:__REGION__:aws:browser/aws.browser.v1"},
+    {"Sid": "Evidence", "Effect": "Allow", "Action": ["s3:PutObject","s3:GetObject"], "Resource": ["arn:aws:s3:::__BUCKET__/evidence/*","arn:aws:s3:::__BUCKET__/webcache/*","arn:aws:s3:::__BUCKET__/samples/*"]},
+    {"Sid": "Observability", "Effect": "Allow",
+     "Action": ["logs:CreateLogGroup","logs:CreateLogStream","logs:PutLogEvents","logs:DescribeLogStreams","xray:PutTraceSegments","xray:PutTelemetryRecords","cloudwatch:PutMetricData"],
+     "Resource": "*"},
+    {"Sid": "Pull", "Effect": "Allow", "Action": ["ecr:GetAuthorizationToken","ecr:BatchGetImage","ecr:GetDownloadUrlForLayer"], "Resource": "*"},
+    {"Sid": "Identity", "Effect": "Allow", "Action": ["bedrock-agentcore:GetWorkloadAccessToken","bedrock-agentcore:GetWorkloadAccessTokenForJWT"], "Resource": "*"}
+  ]
+}

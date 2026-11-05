@@ -1,0 +1,7 @@
+{
+  "VisibilityTimeout": "900",
+  "MessageRetentionPeriod": "345600",
+  "ReceiveMessageWaitTimeSeconds": "20",
+  "RedrivePolicy": "{\"deadLetterTargetArn\":\"arn:aws:sqs:__REGION__:__ACCOUNT_ID__:re-verify-dlq\",\"maxReceiveCount\":\"3\"}",
+  "KmsMasterKeyId": "__KMS_KEY_ARN__"
+}

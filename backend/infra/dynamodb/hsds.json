@@ -1,0 +1,93 @@
+{
+  "TableName": "re-hsds",
+  "BillingMode": "PAY_PER_REQUEST",
+  "AttributeDefinitions": [
+    {
+      "AttributeName": "PK",
+      "AttributeType": "S"
+    },
+    {
+      "AttributeName": "SK",
+      "AttributeType": "S"
+    },
+    {
+      "AttributeName": "entity_sk",
+      "AttributeType": "S"
+    },
+    {
+      "AttributeName": "entity_type",
+      "AttributeType": "S"
+    },
+    {
+      "AttributeName": "org_pk",
+      "AttributeType": "S"
+    },
+    {
+      "AttributeName": "zip_pk",
+      "AttributeType": "S"
+    }
+  ],
+  "KeySchema": [
+    {
+      "AttributeName": "PK",
+      "KeyType": "HASH"
+    },
+    {
+      "AttributeName": "SK",
+      "KeyType": "RANGE"
+    }
+  ],
+  "SSESpecification": {
+    "Enabled": true
+  },
+  "GlobalSecondaryIndexes": [
+    {
+      "IndexName": "org-index",
+      "KeySchema": [
+        {
+          "AttributeName": "org_pk",
+          "KeyType": "HASH"
+        },
+        {
+          "AttributeName": "entity_sk",
+          "KeyType": "RANGE"
+        }
+      ],
+      "Projection": {
+        "ProjectionType": "ALL"
+      }
+    },
+    {
+      "IndexName": "zip-index",
+      "KeySchema": [
+        {
+          "AttributeName": "zip_pk",
+          "KeyType": "HASH"
+        },
+        {
+          "AttributeName": "PK",
+          "KeyType": "RANGE"
+        }
+      ],
+      "Projection": {
+        "ProjectionType": "ALL"
+      }
+    },
+    {
+      "IndexName": "type-index",
+      "KeySchema": [
+        {
+          "AttributeName": "entity_type",
+          "KeyType": "HASH"
+        },
+        {
+          "AttributeName": "PK",
+          "KeyType": "RANGE"
+        }
+      ],
+      "Projection": {
+        "ProjectionType": "ALL"
+      }
+    }
+  ]
+}

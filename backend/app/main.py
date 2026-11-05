@@ -1,98 +1,69 @@
-"""FastAPI app exposing the HSDS intake pipeline."""
+"""FastAPI app: one server for the HSDS API, internal API, agent tools and ops.
+
+    uvicorn app.main:app                       # API only
+    RUN_WORKERS=true uvicorn app.main:app      # API + verify/jobs worker thread (single-box dev)
+
+In docker compose the worker runs as its own service: `python -m app.cli worker`.
+"""
 
 from __future__ import annotations
 
-from functools import lru_cache
+import logging
+import os
+import threading
+from contextlib import asynccontextmanager
 
-from fastapi import Depends, FastAPI, HTTPException
+from fastapi import FastAPI
+from fastapi.responses import FileResponse, RedirectResponse
+from fastapi.middleware.cors import CORSMiddleware
+from pathlib import Path
+from fastapi.staticfiles import StaticFiles
 
-from .config import Settings, get_settings
-from .intake import IntakeService
-from .models import (
-    BatchIntakeRequest,
-    BatchIntakeResult,
-    IntakeRequest,
-    IntakeResult,
-    Outcome,
-)
-from .storage import Storage
+from .config import get_settings
+from .context import get_context
+from .routers import accounts, hsds_api, internal, ops, tools, work
 
-app = FastAPI(
-    title="Resource Engine - HSDS Intake",
-    description=(
-        "Receives already-converted HSDS records, checks for duplicates, stores "
-        "the full document in S3 and an index item in DynamoDB, and marks each "
-        "record unverified."
-    ),
-    version="0.1.0",
-)
+logging.basicConfig(level=os.getenv("LOG_LEVEL", "INFO"), format="%(asctime)s %(levelname)s %(name)s %(message)s")
 
 
-@lru_cache(maxsize=1)
-def _service() -> IntakeService:
-    settings = get_settings()
-    return IntakeService(settings, Storage(settings))
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    stop = threading.Event()
+    if os.getenv("RUN_WORKERS", "false").lower() == "true":
+        from .verify.worker import run_forever
+        threading.Thread(target=run_forever, args=(get_context(), stop), daemon=True, name="worker").start()
+    yield
+    stop.set()
 
 
-def get_intake_service() -> IntakeService:
-    return _service()
-
-
-@app.get("/")
-def root(settings: Settings = Depends(get_settings)) -> dict:
-    return {
-        "service": "resource-engine-hsds-intake",
-        "hsds_version": settings.hsds_version,
-        "storage": {"s3_bucket": settings.s3_bucket, "dynamodb_table": settings.ddb_table},
-    }
-
-
-@app.post("/records", response_model=IntakeResult)
-def post_record(
-    body: IntakeRequest,
-    service: IntakeService = Depends(get_intake_service),
-) -> IntakeResult:
-    return service.intake(body.source, body.native_id, body.record)
-
-
-@app.post("/records/batch", response_model=BatchIntakeResult)
-def post_batch(
-    body: BatchIntakeRequest,
-    service: IntakeService = Depends(get_intake_service),
-) -> BatchIntakeResult:
-    results: list[IntakeResult] = []
-    for record in body.records:
-        native_id = record.get("id") or record.get("native_id")
-        if not native_id:
-            results.append(
-                IntakeResult(
-                    outcome=Outcome.QUARANTINED,
-                    errors=["record has no 'id' to derive a native id from"],
-                )
-            )
-            continue
-        results.append(service.intake(body.source, str(native_id), record))
-
-    quarantined = sum(1 for r in results if r.outcome is Outcome.QUARANTINED)
-    stored = len(results) - quarantined
-    return BatchIntakeResult(
-        received=len(results),
-        stored=stored,
-        quarantined=quarantined,
-        results=results,
+def create_app() -> FastAPI:
+    app = FastAPI(
+        title="Resource Engine",
+        description="HSDS 3.2.3 resource store with AI verification (Bedrock AgentCore), "
+                    "specialist task queues by ZIP and agent discovery of new facilities.",
+        version="1.0.0",
+        lifespan=lifespan,
     )
+    origins = [o.strip() for o in get_settings().cors_origins.split(",") if o.strip()]
+    if origins:  # a browser UI on another origin (e.g. a local dev server); same-origin /ui needs none
+        app.add_middleware(CORSMiddleware, allow_origins=origins, allow_credentials=False,
+                           allow_methods=["*"], allow_headers=["Authorization", "Content-Type", "If-Match"],
+                           expose_headers=["ETag", "X-Next-Cursor"])
+    app.include_router(ops.router)
+    app.include_router(hsds_api.router)
+    app.include_router(internal.router)
+    app.include_router(work.router)
+    app.include_router(tools.router)
+    app.include_router(accounts.router)
+    ui_dir = Path(get_settings().ui_dir)
+    if ui_dir.is_dir():  # absent in tests and before `npm run build`
+        app.mount("/ui", StaticFiles(directory=ui_dir, html=True), name="ui")
+    pitch = Path(get_settings().pitch_dir)
+    if (pitch / "website.html").is_file():  # public, no auth; the trailing slash keeps relative links inside
+        app.add_api_route("/pitch-deck", lambda: RedirectResponse("/pitch-deck/"), include_in_schema=False)
+        app.add_api_route("/pitch-deck/", lambda: FileResponse(pitch / "website.html"), include_in_schema=False)
+        app.mount("/pitch-deck", StaticFiles(directory=pitch), name="pitch-deck")
+    return app
+   
 
-
-@app.get("/records/{service_id}")
-def get_record(
-    service_id: str,
-    service: IntakeService = Depends(get_intake_service),
-) -> dict:
-    storage = service._storage  # read-through to the stored document
-    item = storage.get_index_item(service_id)
-    if item is None:
-        raise HTTPException(status_code=404, detail="record not found")
-    document = storage.get_document(item["s3_key"])
-    if document is None:
-        raise HTTPException(status_code=404, detail="document missing from S3")
-    return document
+app = create_app()

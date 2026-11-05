@@ -1,0 +1,758 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data Management · Resource Engine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<!--
+  Resource Engine — specialist review UI (single file, no build step).
+
+  HOW IT GETS DATA
+  - Served by the backend (same origin, e.g. https://<server>/ui/): it calls the real API.
+  - Opened anywhere else (double-clicked file, GitHub Pages): it shows the sample data below.
+  The banner at the top says which one is running.
+
+  API CALLS USED (backend/app/routers/internal.py)
+    GET  /health                         detect the backend
+    GET  /records                        list of services (index rows)
+    GET  /findings                       open problems (AI check, rules, user reports)
+    GET  /records/{id}                   one record (HSDS) for the details panel
+    POST /findings/{id}/apply            use the website / proposed value
+    POST /findings/{id}/edit  {value}    specialist typed a new value
+    POST /findings/{id}/dismiss {reason} keep our record
+    POST /verify/{id}                    re-check one record
+    POST /verify/batch {}                re-check all (admin)
+
+  USER REPORTS: a finding with  source: "user_report"  is shown as a user report.
+  Its  note  is the user's comment and  what_to_ask  the matched keywords.
+
+  SIGN-IN: AUTH_MODE=dev needs nothing. With Cognito, the page reads a token from
+  the URL (#id_token=...) or from a pasted token, and sends it as a Bearer header.
+-->
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #F4F6F8; font-family: Inter, system-ui, sans-serif; color: #101828; }
+  button, input, select, textarea { font-family: inherit; }
+  a { color: #1D4ED8; }
+  .page { padding: 32px 24px 64px; }
+  .wrap { max-width: 1180px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+  .mode { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 10px; font-size: 14px; }
+  .mode.live { background: #E3F4EA; color: #05603A; }
+  .mode.sample { background: #EEF4FF; color: #1E3A8A; }
+  .mode.err { background: #FEF3F2; color: #B42318; }
+  .mode input { flex: 1; min-width: 200px; min-height: 36px; padding: 0 10px; border: 1px solid #D0D5DD; border-radius: 8px; }
+  .card { background: #fff; border: 1px solid #E4E7EC; border-radius: 16px; }
+  header.card { padding: 28px 32px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 24px; }
+  .eyebrow { margin: 0; font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: #475467; }
+  h1 { margin: 8px 0; font-size: 32px; line-height: 1.2; }
+  .sub { margin: 0; font-size: 15px; line-height: 1.5; color: #475467; }
+  .stats { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
+  .stat { display: flex; align-items: baseline; gap: 8px; padding: 10px 16px; border-radius: 10px; }
+  .stat b { font-size: 20px; }
+  .stat.unv { background: #FEF0C7; color: #93370D; }
+  .stat.ver { background: #E3F4EA; color: #05603A; }
+  .right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+  .muted { margin: 0; font-size: 13px; color: #475467; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 18px; border: 1px solid #D0D5DD; border-radius: 10px; background: #fff; font-weight: 600; font-size: 15px; color: #101828; cursor: pointer; }
+  .btn:hover { background: #F2F4F7; }
+  .btn:disabled { opacity: .6; cursor: default; }
+  .btn.sm { min-height: 36px; padding: 0 12px; font-size: 14px; }
+  .btn.primary { background: #1D4ED8; border-color: #1D4ED8; color: #fff; }
+  .btn.primary:hover { background: #1E40AF; }
+  .toolbar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 12px; padding: 12px 16px 0; border-bottom: 1px solid #E4E7EC; }
+  .tabs { display: flex; gap: 4px; }
+  .tab { min-height: 44px; padding: 0 16px; border: none; background: none; font-weight: 600; font-size: 15px; color: #475467; border-bottom: 2px solid transparent; margin-bottom: -1px; cursor: pointer; }
+  .tab.on { color: #1D4ED8; border-bottom-color: #1D4ED8; }
+  .tools { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding-bottom: 10px; }
+  .pop-anchor { position: relative; }
+  .pop { position: absolute; right: 0; top: 46px; z-index: 5; width: 380px; max-width: calc(100vw - 48px); max-height: 70vh; overflow-y: auto; padding: 18px; background: #fff; border: 1px solid #E4E7EC; border-radius: 12px; box-shadow: 0 16px 32px rgba(16,24,40,.14); display: flex; flex-direction: column; gap: 16px; }
+  .pop[hidden] { display: none; }
+  .label { margin: 0; font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: #475467; }
+  .check { display: flex; gap: 10px; align-items: flex-start; cursor: pointer; }
+  .check input { width: 18px; height: 18px; margin: 2px 0 0; flex: none; }
+  .check small { display: block; margin-top: 4px; font-size: 13px; line-height: 1.4; color: #475467; }
+  .dates { display: flex; gap: 8px; align-items: center; }
+  .dates input, select { min-height: 40px; padding: 0 8px; border: 1px solid #D0D5DD; border-radius: 8px; font-size: 14px; background: #fff; color: #101828; }
+  .dates input { flex: 1; min-width: 0; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .scroll { overflow-x: auto; }
+  .table { min-width: 820px; }
+  .grid { flex: 1; display: grid; grid-template-columns: 190px minmax(0,1.3fr) minmax(0,1.3fr) 200px; gap: 16px; align-items: center; padding: 0 8px; }
+  .thead { display: flex; align-items: center; padding: 12px 16px; background: #F9FAFB; border-bottom: 1px solid #E4E7EC; font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: #475467; }
+  .thead .act { width: 44px; text-align: center; }
+  .row { display: flex; align-items: center; padding: 4px 16px; border-bottom: 1px solid #F2F4F7; }
+  .row-main { padding: 12px 8px; border: none; border-radius: 10px; background: none; text-align: left; font: inherit; color: inherit; cursor: pointer; }
+  .row-main:hover { background: #F8FAFC; }
+  .id { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #344054; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .org b { display: block; font-size: 15px; }
+  .org span, .small { font-size: 13px; color: #475467; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 6px; align-items: center; }
+  .tag { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+  .tag.ok { background: #E3F4EA; color: #05603A; }
+  .tag.disc { background: #FEF0C7; color: #93370D; }
+  .tag.bad { background: #FDECEA; color: #912018; }
+  .tag.fail { background: #EAECF0; color: #344054; }
+  .tag.miss { background: #E0EAFF; color: #1E3A8A; }
+  .tag.manual { background: #F4EBFF; color: #53389E; }
+  .tag.stale { background: #F2F4F7; color: #475467; border: 1px solid #D0D5DD; }
+  .tag.clash { background: #FFEAD5; color: #9C2A10; }
+  .tag.dup { background: #CCFBEF; color: #125D56; }
+  .tag.new { background: #D1FADF; color: #054F31; }
+  .tag.report { background: #FFF6ED; color: #93370D; border: 1px solid #FDDCAB; }
+  .tag.ai { background: #EEF4FF; color: #1E3A8A; border: 1px solid #C7D7FE; }
+  .checked { font-size: 14px; color: #344054; display: block; }
+  .icon-btn { width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border: none; border-radius: 10px; background: none; color: #344054; cursor: pointer; flex: none; }
+  .icon-btn:hover { background: #EEF2F6; }
+  .empty { padding: 56px 24px; text-align: center; }
+  .empty b { font-size: 17px; }
+  .overlay { position: fixed; inset: 0; z-index: 10; background: rgba(16,24,40,.45); display: flex; align-items: flex-start; justify-content: center; padding: 32px 16px; overflow-y: auto; }
+  .overlay[hidden] { display: none; }
+  .dialog { width: 100%; max-width: 720px; background: #fff; border-radius: 16px; box-shadow: 0 24px 48px rgba(16,24,40,.18); }
+  .d-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; padding: 24px 24px 16px; border-bottom: 1px solid #E4E7EC; }
+  .d-head h2 { margin: 6px 0 4px; font-size: 22px; line-height: 1.3; }
+  .d-body { display: flex; flex-direction: column; gap: 20px; padding: 20px 24px; }
+  .two { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; }
+  .box { display: flex; flex-direction: column; gap: 4px; padding: 12px 14px; border-radius: 10px; background: #F9FAFB; }
+  .box span { font-size: 12px; color: #475467; }
+  .mono { font-family: 'IBM Plex Mono', monospace; font-size: 13px; }
+  .ureport { display: flex; flex-direction: column; gap: 10px; padding: 16px; border-radius: 12px; background: #FFF6ED; border: 1px solid #FDDCAB; }
+  .ureport q { font-size: 15px; line-height: 1.55; }
+  .kw { display: inline-flex; padding: 2px 8px; border-radius: 6px; background: #fff; border: 1px solid #FDDCAB; font-size: 13px; color: #93370D; }
+  .issue { display: flex; flex-direction: column; gap: 10px; padding-top: 4px; }
+  .issue-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .issue-tip { margin: 0; font-size: 13px; line-height: 1.45; color: #475467; }
+  .opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
+  .opt { display: flex; flex-direction: column; gap: 6px; padding: 12px 14px; border: 1px solid #D0D5DD; border-radius: 10px; background: #fff; text-align: left; font: inherit; cursor: pointer; }
+  .opt:hover { border-color: #1D4ED8; }
+  .opt.on { border: 2px solid #1D4ED8; background: #EFF6FF; padding: 11px 13px; }
+  .opt .t { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #475467; }
+  .opt .v { font-size: 15px; line-height: 1.45; color: #101828; }
+  .opt.web .v { font-weight: 600; }
+  .dot { width: 14px; height: 14px; flex: none; border-radius: 50%; border: 2px solid #98A2B3; }
+  .opt.on .dot { border: 4px solid #1D4ED8; }
+  .edit-input { width: 100%; min-height: 40px; padding: 8px 10px; border: 1px solid #D0D5DD; border-radius: 8px; font-size: 14px; }
+  .desc p { margin: 6px 0 0; font-size: 15px; line-height: 1.55; }
+  .details .d { display: flex; gap: 16px; align-items: flex-start; padding: 10px 12px; border-radius: 10px; border-bottom: 1px solid #F2F4F7; font-size: 14px; }
+  .details .d > span:first-child { width: 120px; flex: none; color: #475467; }
+  .details .d > div { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+  .details .d.flag { background: #FEF3F2; border: 1px solid #FECDCA; }
+  .details .d.flag > span:first-child { color: #B42318; font-weight: 600; }
+  .flagnote { font-size: 12px; font-weight: 600; color: #B42318; }
+  .map { width: 100%; height: 200px; border: 0; border-radius: 10px; background: #EEF2F6; }
+  .impact { display: flex; gap: 8px; padding: 14px; border-radius: 10px; background: #F5F3FF; font-size: 14px; line-height: 1.5; color: #3B0764; }
+  .done { padding: 14px; border-radius: 10px; background: #E3F4EA; font-size: 14px; line-height: 1.5; color: #05603A; }
+  .error { padding: 12px 14px; border-radius: 10px; background: #FEF3F2; color: #B42318; font-size: 14px; line-height: 1.5; }
+  .d-foot { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 12px; padding: 16px 24px 24px; border-top: 1px solid #E4E7EC; }
+</style>
+</head>
+<body>
+<div class="page"><div class="wrap">
+
+  <div class="mode sample" id="mode">Loading…</div>
+
+  <header class="card">
+    <div style="flex: 1 1 420px; min-width: 0">
+      <p class="eyebrow">One Degree · Resource Engine</p>
+      <h1>Data Management</h1>
+      <p class="sub">Records flagged by user reports or the AI check. Review what’s wrong and confirm the change.</p>
+      <div class="stats">
+        <div class="stat unv"><span>Unverified</span><b id="unvCount">0</b></div>
+        <div class="stat ver"><span>Verified</span><b id="verCount">0</b></div>
+      </div>
+    </div>
+    <div class="right">
+      <button class="btn" id="recheckAll">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>
+        <span id="recheckAllLabel">Re-check all</span>
+      </button>
+      <p class="muted">Last AI check: <span id="lastRun">—</span></p>
+    </div>
+  </header>
+
+  <section class="card">
+    <div class="toolbar">
+      <div class="tabs" role="tablist">
+        <button class="tab on" role="tab" data-tab="unverified" id="tabUnv">Unverified</button>
+        <button class="tab" role="tab" data-tab="verified" id="tabVer">Verified</button>
+      </div>
+      <div class="tools">
+        <div class="pop-anchor">
+          <button class="btn sm" id="filterBtn" aria-expanded="false" style="min-height:40px">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 5h18"/><path d="M6 12h12"/><path d="M10 19h4"/></svg>
+            <span id="filterLabel">Filter</span>
+          </button>
+          <div class="pop" id="filterPop" hidden>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <p class="label">Flagged by</p>
+              <div id="srcOptions" style="display:flex;flex-direction:column;gap:10px"></div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <p class="label">Feature</p>
+              <div id="catOptions" style="display:flex;flex-direction:column;gap:10px"></div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <p class="label">Last edited between</p>
+              <div class="dates">
+                <label for="from" class="sr">From</label><input id="from" type="date">
+                <span class="small">to</span>
+                <label for="to" class="sr">To</label><input id="to" type="date">
+              </div>
+            </div>
+            <div style="display:flex;justify-content:space-between">
+              <button class="btn sm" id="clearFilter">Clear</button>
+              <button class="btn sm primary" id="doneFilter">Done</button>
+            </div>
+          </div>
+        </div>
+        <label for="sort" class="small">Sort</label>
+        <select id="sort">
+          <option value="checked_desc">Last checked · newest</option>
+          <option value="checked_asc">Last checked · oldest</option>
+          <option value="org_asc">Organization · A–Z</option>
+          <option value="org_desc">Organization · Z–A</option>
+          <option value="id_asc">ID · A–Z</option>
+          <option value="id_desc">ID · Z–A</option>
+        </select>
+      </div>
+    </div>
+    <div class="scroll"><div class="table">
+      <div class="thead">
+        <div class="grid"><span>ID</span><span>Organization</span><span>Feature</span><span>Last checked</span></div>
+        <span class="act">Action</span>
+      </div>
+      <div id="rows"></div>
+    </div></div>
+  </section>
+
+  <p class="muted" id="footnote"></p>
+</div></div>
+
+<div class="overlay" id="overlay" hidden>
+  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="dTitle" id="dialog"></div>
+</div>
+
+<script>
+/* =========================================================================
+   SETTINGS
+   ========================================================================= */
+const CONFIG = {
+  API_BASE: '',          // '' = same server that serves this page
+  DEV_USER: '',          // only for AUTH_MODE=dev, e.g. 'ian@test.org'
+  DEV_GROUPS: 'specialist,lead,admin',
+  RECHECK_WAIT_MS: 3000  // how long to wait before reloading after a re-check
+};
+
+/* =========================================================================
+   SAMPLE DATA (used when the page is not served by the backend)
+   Website values, user reports and editor names are test data.
+   ========================================================================= */
+const SAMPLE = [
+  { id: '211bayarea-10605158', org: 'Friendship Missionary Baptist Church', service: 'Food Pantry', zip: '94590', origin: 'ai',
+    desc: 'Provides food distribution with meat, eggs, milk, produce, and nonperishable items.',
+    details: { status: 'Active', address: '1905 Florida St, Vallejo, CA 94590', phone: '(707) 648-2005', website: 'http://www.friendshipvallejo.org', hours: '4th Thursday of the month, 10am', eligibility: 'Open to all', languages: 'English', accessibility: 'Fully accessible to individuals using mobility aids' },
+    issues: [{ cat: 'bad', k: 'status', current: 'Active', proposed: 'Temporarily closed (website returns 404)', use: 'Temporarily closed' }],
+    storedDate: 'Feb 5, 2025', checked: '2026-11-03T13:00', edited: '2025-02-05T10:12', editedBy: 'D. Nguyen' },
+  { id: '211bayarea-10613162', org: 'Catholic Worker Hospitality House', service: 'Dining Room', zip: '94066', origin: 'ai',
+    desc: 'Serves prepared breakfast and packed meals. Provides access to shower facilities.',
+    details: { status: 'Active', address: '555 W San Bruno Ave, San Bruno, CA 94066', phone: '(650) 827-0706', website: 'http://www.catholicworkerhospitalityhouse.org', hours: 'Mon–Fri 6:00–8:30 AM', eligibility: 'People experiencing homelessness', languages: 'English', accessibility: '' },
+    issues: [{ cat: 'disc', k: 'hours', current: 'Mon–Fri 6:00–8:30 AM', proposed: 'Mon–Fri 7:00–9:00 AM', use: 'Mon–Fri 7:00–9:00 AM' },
+             { cat: 'miss', k: 'accessibility', current: '(empty)', proposed: 'Wheelchair accessible entrance on Second Ave', use: 'Wheelchair accessible entrance on Second Ave' }],
+    storedDate: 'Aug 19, 2026', checked: '2026-11-03T13:00', edited: '2026-09-08T14:30', editedBy: 'M. Chen' },
+  { id: '211bayarea-36405086', org: 'Catholic Worker Hospitality House', service: 'Homeless Shelter', zip: '94066', origin: 'report',
+    desc: 'Provides emergency homeless shelter for people experiencing homelessness.',
+    details: { status: 'Active', address: '555 W San Bruno Ave, San Bruno, CA 94066', phone: '(650) 827-0706', website: 'http://www.catholicworkerhospitalityhouse.org', hours: 'Mon–Fri 6:00–8:30 AM', eligibility: 'People experiencing homelessness', languages: 'English', accessibility: 'Fully accessible to individuals using mobility aids' },
+    report: { text: 'Called the shelter number twice. The message says intake moved to the office on Second Avenue and they only take people after 5pm now.', by: 'Navigator · 211 call center', date: 'Nov 2, 2026', keywords: ['intake moved', 'Second Avenue', 'after 5pm'] },
+    issues: [{ cat: 'disc', k: 'address', current: '555 W San Bruno Ave, San Bruno, CA 94066' }, { cat: 'disc', k: 'hours', current: 'Mon–Fri 6:00–8:30 AM' }],
+    storedDate: 'Dec 13, 2024', checked: '2026-11-02T16:20', edited: '2026-08-31T09:00', editedBy: 'A. Ramos' },
+  { id: '211bayarea-10613192', org: 'Puente De La Costa Sur', service: 'Financial Assistance Program', zip: '94060', origin: 'ai',
+    desc: 'Distributes financial assistance to income eligible residents when funding is available, including rent, deposits, utilities and medical expenses.',
+    details: { status: 'Active', address: '620 North St, Pescadero, CA 94060', phone: '(650) 879-1691', website: 'http://www.mypuente.org', hours: 'Mon–Fri 8am–5pm', eligibility: 'Income eligible residents', languages: 'English, Spanish', area: 'La Honda, Loma Mar, Pescadero, San Gregorio' },
+    issues: [{ cat: 'disc', k: 'area', current: 'La Honda, Loma Mar, Pescadero, San Gregorio', proposed: 'La Honda, Loma Mar, Pescadero, San Gregorio, Half Moon Bay', use: 'La Honda, Loma Mar, Pescadero, San Gregorio, Half Moon Bay' }],
+    storedDate: 'Apr 7, 2025', checked: '2026-11-02T09:15', edited: '2026-08-17T11:05', editedBy: 'A. Ramos' },
+  { id: '211bayarea-10605147', org: 'Friends Of The Urban Forest', service: 'Street Tree Planting', zip: '94129', origin: 'ai',
+    desc: 'Provides youth employment program for youth to work and learn about tree planting.',
+    details: { status: 'Active', address: '1007 General Kennedy Ave, San Francisco, CA 94129', phone: '(415) 561-6890', website: 'http://www.friendsoftheurbanforest.org', hours: 'Mon–Fri 9am–5pm', eligibility: 'Open to all', languages: 'English, Spanish' },
+    issues: [{ cat: 'disc', k: 'desc', current: 'Provides youth employment program for youth to work and learn about tree planting.', proposed: 'Helps neighbors plant and care for street trees and sidewalk gardens in San Francisco.', use: 'Helps neighbors plant and care for street trees and sidewalk gardens in San Francisco.' }],
+    storedDate: 'Feb 7, 2025', checked: '2026-10-29T16:40', edited: '2025-02-10T09:20', editedBy: 'D. Nguyen' },
+  { id: '211bayarea-10605143', org: 'Free The Need', service: 'Food Day', zip: '94127', origin: 'ai',
+    desc: 'Provides food boxes with produce and clothing distribution.',
+    details: { status: 'Active', address: 'Various Locations (no city or ZIP)', phone: '(415) 587-6685', website: 'http://www.freetheneed.org', hours: 'Fri 11am–1:30pm', eligibility: 'Open to all', languages: 'English, Spanish' },
+    issues: [{ cat: 'miss', k: 'address', current: 'Various Locations (no city or ZIP)', proposed: '827 Joost Ave, San Francisco, CA 94127', use: '827 Joost Ave, San Francisco, CA 94127' }],
+    storedDate: 'Jan 31, 2025', checked: '2026-10-31T10:05', edited: '2026-08-17T15:45', editedBy: 'M. Chen' },
+  { id: '211bayarea-10613176', org: 'Stanford Community Law Clinic', service: 'Legal Assistance', zip: '94063', origin: 'report',
+    desc: 'Provides legal assistance with eviction defense, record expungement, and Social Security disability benefits.',
+    details: { status: 'Active', address: '585 Broadway, Redwood City, CA 94063', phone: '(650) 725-9200', website: 'http://law.stanford.edu/community-law-clinic', hours: 'Mon–Fri 9am–5pm', eligibility: 'San Mateo County, income eligible', languages: 'English, Spanish' },
+    report: { text: 'Went on Tuesday at 10am and the door was locked. A sign said walk-in hours are now noon to 4.', by: 'Help seeker · 1degree.org', date: 'Nov 1, 2026', keywords: ['door was locked', 'noon to 4', 'walk-in hours'] },
+    issues: [{ cat: 'disc', k: 'hours', current: 'Mon–Fri 9am–5pm' }],
+    storedDate: 'Apr 15, 2025', checked: '2026-11-01T08:30', edited: '2025-04-16T13:10', editedBy: 'A. Ramos' },
+  { id: '211bayarea-10613234', org: 'Midpen Housing Corporation', service: 'Affordable Rental Housing', zip: '94404', origin: 'ai',
+    desc: 'Provides affordable rental housing for income eligible households, from studios to four-bedroom apartments.',
+    details: { status: 'Active', address: '303 Vintage Park Dr, Foster City, CA 94404', phone: '(650) 356-2900', website: 'http://www.midpen-housing.org/find-hous', hours: 'Mon–Fri 8am–5pm', eligibility: 'Eligibility varies by household size and income', languages: 'English' },
+    issues: [{ cat: 'fail', k: 'website', current: 'www.midpen-housing.org/find-hous', proposed: 'Page could not be read — link looks cut off' }],
+    storedDate: 'Feb 28, 2025', checked: '2026-11-03T13:00', edited: '2025-03-10T10:00', editedBy: 'D. Nguyen' },
+  { id: '211bayarea-10613152', org: 'Pacifica School District', service: 'Public School Education', zip: '94044', origin: 'ai',
+    desc: 'Provides public elementary and middle school education.',
+    details: { status: 'Active', address: '375 Reina Del Mar, Pacifica, CA 94044', phone: '(650) 738-6600', website: 'http://www.pacificasd.org', hours: 'Mon–Fri 8am–5pm', eligibility: 'Students residing within school boundaries', languages: 'English' },
+    issues: [], storedDate: 'Jun 13, 2025', checked: '2026-11-03T13:00', edited: '2026-10-21T09:40', editedBy: 'M. Chen', resolution: 'Matches the agency website.' },
+  { id: '211bayarea-10605129', org: 'Extra Food', service: 'Food Recovery Programs', zip: '94904', origin: 'ai',
+    desc: 'Accepts surplus food donations for redistribution to community partners.',
+    details: { status: 'Active', address: '907 Sir Francis Drake Blvd, Kentfield, CA 94904', phone: '(415) 997-9830', website: 'http://www.extrafood.org', hours: 'Mon–Fri 8am–5pm', eligibility: 'Open to all', languages: 'English' },
+    issues: [], storedDate: 'Feb 7, 2025', checked: '2026-10-30T12:20', edited: '2026-10-14T16:05', editedBy: 'A. Ramos', resolution: 'Matches the agency website.' }
+];
+const SAMPLE_USER = 'Ian L.';
+
+/* =========================================================================
+   LABELS
+   ========================================================================= */
+const CATS = {
+  bad:    { label: 'Actively bad', tip: 'Site won’t load, the agency looks closed, or its certificate expired. The service may no longer exist.' },
+  disc:   { label: 'Discrepancy', tip: 'Both sides list it, but the content doesn’t match.' },
+  miss:   { label: 'Missing information', tip: 'Our record is missing a field.' },
+  fail:   { label: 'Check failed', tip: 'AI couldn’t reach the site or the check errored. This is not proof the data is wrong.' },
+  manual: { label: 'Needs manual check', tip: 'Only a person can confirm this, for example a listing with no street address.' },
+  clash:  { label: 'Clash', tip: 'A source update conflicts with an earlier change by a person or the AI.' },
+  stale:  { label: 'Stale', tip: 'Not verified for a long time.' },
+  dup:    { label: 'Possible duplicate', tip: 'Looks like another record in the directory.' },
+  new:    { label: 'New facility', tip: 'Found by the AI, not yet in the directory.' },
+  ok:     { label: 'Verified', tip: 'No open problems.' }
+};
+const CAT_ORDER = ['bad', 'disc', 'miss', 'fail', 'manual', 'clash', 'stale', 'dup', 'new', 'ok'];
+const API_CAT = { actively_bad: 'bad', discrepancy: 'disc', missing_information: 'miss', check_failed: 'fail', needs_manual: 'manual',
+                  clash: 'clash', stale: 'stale', possible_duplicate: 'dup', new_facility: 'new' };
+const LABELS = { status: 'Status', address: 'Address', phone: 'Phone', website: 'Website', hours: 'Hours', eligibility: 'Eligibility',
+                 languages: 'Languages', area: 'Area served', accessibility: 'Accessibility', desc: 'Description', verified: 'Last verified' };
+const DETAIL_ORDER = ['status', 'address', 'phone', 'website', 'hours', 'eligibility', 'languages', 'area', 'accessibility'];
+/* backend finding.field -> detail key */
+function fieldKey(field) {
+  const f = (field || '').toLowerCase();
+  if (f.includes('address') || f.includes('location')) return 'address';
+  if (f.includes('schedule') || f.includes('hours')) return 'hours';
+  if (f.includes('eligib')) return 'eligibility';
+  if (f.includes('language')) return 'languages';
+  if (f.includes('service_area') || f.includes('area')) return 'area';
+  if (f.includes('access')) return 'accessibility';
+  if (f.includes('phone') || f.includes('contact')) return 'phone';
+  if (f === 'url' || f.includes('website')) return 'website';
+  if (f === 'status') return 'status';
+  if (f.includes('description')) return 'desc';
+  if (f.includes('assured')) return 'verified';
+  return f || 'record';
+}
+const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const RECHECK_SVG = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>';
+
+/* =========================================================================
+   STATE + HELPERS
+   ========================================================================= */
+const state = {
+  live: false, items: [], tab: 'unverified', openId: null, dec: {}, saving: false, error: '',
+  checking: {}, allChecking: false, lastRun: '',
+  cats: Object.fromEntries(CAT_ORDER.map((k) => [k, true])), srcs: { report: true, ai: true },
+  from: '', to: '', sort: 'checked_desc'
+};
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const pad = (n) => (n < 10 ? '0' : '') + n;
+function nowIso() { const d = new Date(); return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + 'T' + pad(d.getHours()) + ':' + pad(d.getMinutes()); }
+function show(iso) {
+  if (!iso) return '—';
+  const d = new Date(iso.length <= 16 ? iso : iso);
+  if (isNaN(d)) return iso;
+  let h = d.getHours(); const ap = h >= 12 ? 'PM' : 'AM'; h = h % 12 || 12;
+  return MON[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear() + ' · ' + h + ':' + pad(d.getMinutes()) + ' ' + ap;
+}
+function showDay(iso) { if (!iso) return '—'; const d = new Date(iso.slice(0, 10) + 'T12:00'); return isNaN(d) ? iso : MON[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear(); }
+function text(v) {
+  if (v == null || v === '') return '';
+  if (Array.isArray(v)) return v.map(text).filter(Boolean).join(', ');
+  if (typeof v === 'object') return v.name || v.description || v.address_1 || v.number || JSON.stringify(v);
+  return String(v);
+}
+const catsOf = (i) => (i.issues.length ? [...new Set(i.issues.map((x) => x.cat))] : ['ok']);
+function tagsHtml(i, withOrigin) {
+  const c = catsOf(i);
+  const origin = withOrigin && i.issues.length ? '<span class="tag ' + i.origin + '">' + (i.origin === 'report' ? 'User report' : 'AI check') + '</span>' : '';
+  return origin + CAT_ORDER.filter((k) => c.includes(k)).map((k) => '<span class="tag ' + k + '" title="' + esc(CATS[k].tip) + '">' + esc(CATS[k].label) + '</span>').join('');
+}
+
+/* =========================================================================
+   API
+   ========================================================================= */
+function token() { try { return localStorage.getItem('re_token') || ''; } catch (e) { return ''; } }
+function setToken(t) { try { t ? localStorage.setItem('re_token', t) : localStorage.removeItem('re_token'); } catch (e) {} }
+async function api(path, opts = {}) {
+  const headers = { 'Content-Type': 'application/json' };
+  const t = token(); if (t) headers.Authorization = 'Bearer ' + t;
+  if (CONFIG.DEV_USER) { headers['X-Dev-User'] = CONFIG.DEV_USER; headers['X-Dev-Groups'] = CONFIG.DEV_GROUPS; }
+  const res = await fetch(CONFIG.API_BASE + path, { ...opts, headers: { ...headers, ...(opts.headers || {}) } });
+  if (!res.ok) {
+    let msg = res.status + ' ' + res.statusText;
+    try { const j = await res.json(); if (j.detail) msg = typeof j.detail === 'string' ? j.detail : JSON.stringify(j.detail); } catch (e) {}
+    const err = new Error(msg); err.status = res.status; throw err;
+  }
+  return res.status === 204 ? null : res.json();
+}
+async function detectBackend() {
+  if (location.protocol === 'file:') return false;
+  try { const r = await fetch(CONFIG.API_BASE + '/health'); return r.ok; } catch (e) { return false; }
+}
+
+/* Turn index rows + open findings into list items (details load on open). */
+function toItems(records, findings) {
+  const bySvc = {};
+  findings.forEach((f) => { (bySvc[f.service_id] = bySvc[f.service_id] || []).push(f); });
+  return records.map((r) => {
+    const fs = bySvc[r.service_id] || [];
+    const isReport = fs.some((f) => f.source === 'user_report');
+    const rep = fs.find((f) => f.source === 'user_report');
+    const by = r.updated_by || '';
+    return {
+      id: r.service_id, org: r.org_name || '—', service: r.service_name || '—', zip: r.primary_zip || '—',
+      origin: isReport ? 'report' : 'ai',
+      report: rep ? { text: rep.note || '', by: rep.reporter || 'User report', date: showDay(rep.checked_at), keywords: rep.what_to_ask || [] } : null,
+      issues: fs.map((f) => ({
+        fid: f.finding_id, cat: API_CAT[f.category] || 'manual', apiCat: f.category, k: fieldKey(f.field), field: f.field,
+        current: text(f.current_value), proposed: text(f.proposed_value), use: f.proposed_value == null || f.proposed_value === '' ? null : f.proposed_value,
+        note: f.note || '', ask: f.what_to_ask || [], evidence: f.evidence || [], source: f.source || ''
+      })),
+      checked: r.last_check_at || r.last_seen_at || '', edited: r.updated_at || r.last_seen_at || '',
+      editedBy: by.startsWith('user:') ? by.slice(5) : by.startsWith('source:') ? by.slice(7).toUpperCase() + ' import' : by || '—',
+      verified: r.verification_status === 'verified', verifiedBy: (r.verified_by || '').replace(/^user:/, ''),
+      record: null
+    };
+  });
+}
+function detailsFromRecord(rec) {
+  const h = rec.hsds || {}, org = h.organization || {};
+  const locs = (h.service_at_locations || []).map((s) => s.location).filter(Boolean);
+  const addrs = locs.flatMap((l) => l.addresses || []);
+  const a = addrs.find((x) => x.address_type === 'physical') || addrs[0];
+  const sched = h.schedules || [];
+  const hoursText = [...new Set(sched.map((s) => s.description).filter(Boolean))].join(' ') ||
+    sched.map((s) => (s.byday || '') + ' ' + (s.opens_at || '') + '–' + (s.closes_at || '')).join(', ');
+  const acc = locs.flatMap((l) => l.accessibility || []).map((x) => x.description).filter(Boolean);
+  return {
+    desc: h.description || '',
+    storedDate: showDay(h.assured_date),
+    details: {
+      status: h.status || '',
+      address: a ? [a.address_1, a.city, [a.state_province, a.postal_code].filter(Boolean).join(' ')].filter(Boolean).join(', ') : (locs[0] && locs[0].description) || '',
+      phone: (((h.phones || []).find((x) => x.type !== 'fax') || (org.phones || []).find((x) => x.type !== 'fax') || {}).number) || '',
+      website: h.url || org.website || '',
+      hours: hoursText,
+      eligibility: h.eligibility_description || '',
+      languages: text(h.languages),
+      area: text(h.service_areas),
+      accessibility: [...new Set(acc)].join('; ')
+    }
+  };
+}
+
+async function loadLive() {
+  const [records, findings] = await Promise.all([api('/records?limit=5000'), api('/findings')]);
+  const old = Object.fromEntries(state.items.map((i) => [i.id, i]));
+  state.items = toItems(records, findings).map((i) => ({ ...i, record: old[i.id] && old[i.id].record }));
+  state.items.forEach((i) => { i.status = i.issues.length ? 'unverified' : 'verified'; });
+  const latest = state.items.map((i) => i.checked).filter(Boolean).sort().pop();
+  state.lastRun = latest || '';
+}
+async function openLive(id) {
+  const i = state.items.find((x) => x.id === id);
+  if (!i) return;
+  try {
+    const rec = await api('/records/' + encodeURIComponent(id));
+    Object.assign(i, detailsFromRecord(rec), { record: rec });
+    if (!i.issues.length && i.verifiedBy) i.resolution = 'Verified by ' + i.verifiedBy + '.';
+  } catch (e) { state.error = 'Could not load this record: ' + e.message; }
+  render();
+}
+
+/* =========================================================================
+   SAMPLE MODE
+   ========================================================================= */
+function loadSample() {
+  state.items = JSON.parse(JSON.stringify(SAMPLE)).map((i) => ({
+    ...i, status: i.issues.length ? 'unverified' : 'verified', record: true,
+    issues: i.issues.map((x, n) => ({ ...x, fid: i.id + '#' + n, use: x.use == null ? null : x.use }))
+  }));
+  state.lastRun = '2026-11-03T13:00';
+}
+
+/* =========================================================================
+   RENDER
+   ========================================================================= */
+function visibleRows() {
+  const list = state.items.filter((i) => i.status === state.tab).filter((i) => {
+    const d = (i.edited || '').slice(0, 10);
+    return state.srcs[i.origin] && catsOf(i).some((k) => state.cats[k]) && (!state.from || d >= state.from) && (!state.to || d <= state.to);
+  });
+  const [key, dw] = state.sort.split('_'); const dir = dw === 'asc' ? 1 : -1;
+  const val = (i) => (key === 'checked' ? i.checked || '' : key === 'org' ? i.org.toLowerCase() : i.id);
+  return list.sort((a, b) => (val(a) < val(b) ? -dir : val(a) > val(b) ? dir : 0));
+}
+
+function render() {
+  const unv = state.items.filter((i) => i.status === 'unverified').length;
+  const ver = state.items.length - unv;
+  $('unvCount').textContent = unv; $('verCount').textContent = ver;
+  $('tabUnv').textContent = 'Unverified (' + unv + ')'; $('tabVer').textContent = 'Verified (' + ver + ')';
+  $('tabUnv').classList.toggle('on', state.tab === 'unverified'); $('tabVer').classList.toggle('on', state.tab === 'verified');
+  $('lastRun').textContent = state.allChecking ? 'running…' : show(state.lastRun);
+  $('recheckAllLabel').textContent = state.allChecking ? 'Checking all…' : 'Re-check all';
+  const active = CAT_ORDER.filter((k) => !state.cats[k]).length + (state.srcs.report ? 0 : 1) + (state.srcs.ai ? 0 : 1) + (state.from ? 1 : 0) + (state.to ? 1 : 0);
+  $('filterLabel').textContent = active ? 'Filter (' + active + ')' : 'Filter';
+
+  const rows = visibleRows();
+  $('rows').innerHTML = rows.length ? rows.map((i) =>
+    '<div class="row">' +
+      '<button class="row-main grid" data-open="' + esc(i.id) + '">' +
+        '<span class="id" title="' + esc(i.id) + '">' + esc(i.id) + '</span>' +
+        '<span class="org"><b>' + esc(i.org) + '</b><span>' + esc(i.service) + '</span></span>' +
+        '<span><span class="tags">' + tagsHtml(i, false) + '</span><span class="small">' +
+          esc(i.issues.length ? (i.origin === 'report' ? 'User report · ' : 'AI check · ') + [...new Set(i.issues.map((x) => LABELS[x.k] || x.field))].join(' · ') : 'No open problems') + '</span></span>' +
+        '<span><span class="checked">' + esc(state.checking[i.id] ? 'Checking…' : show(i.checked)) + '</span><span class="small">Edited by ' + esc(i.editedBy) + '</span></span>' +
+      '</button>' +
+      '<button class="icon-btn" data-recheck="' + esc(i.id) + '" aria-label="Re-check ' + esc(i.org) + '" title="Re-check now">' + RECHECK_SVG + '</button>' +
+    '</div>').join('')
+    : '<div class="empty"><b>Nothing to show</b><p class="muted">No records match this tab and filter.</p></div>';
+  renderDialog();
+}
+
+function decisionFor(x) { return state.dec[x.fid] || {}; }
+function issueHtml(i, x) {
+  const d = decisionFor(x), label = LABELS[x.k] || x.field || 'Record';
+  const isStale = x.cat === 'stale';
+  const keepText = isStale ? 'Still correct — mark as checked today' : 'Keep our record';
+  const opt = (choice, cls, title, value) =>
+    '<button class="opt ' + cls + (d.choice === choice ? ' on' : '') + '" data-pick="' + esc(x.fid) + '" data-choice="' + choice + '" aria-pressed="' + (d.choice === choice) + '">' +
+    '<span class="t"><span class="dot"></span>' + esc(title) + '</span>' + (value != null ? '<span class="v">' + esc(value || '(empty)') + '</span>' : '') + '</button>';
+  const helper = x.note || (x.ask && x.ask.length ? 'Ask: ' + x.ask.join(' ') : '');
+  const ev = (x.evidence || []).filter((e) => e.url).slice(0, 1).map((e) => '<a href="' + esc(e.url) + '" target="_blank" rel="noopener" class="small">Source: ' + esc(e.url) + '</a>').join('');
+  return '<div class="issue">' +
+    '<div class="issue-head"><span class="tag ' + x.cat + '">' + esc(CATS[x.cat].label) + '</span><span class="label">' + esc(label) + '</span></div>' +
+    '<p class="issue-tip">' + esc(CATS[x.cat].tip) + (helper && i.origin !== 'report' ? ' ' + esc(helper) : '') + '</p>' + ev +
+    '<div class="opts">' +
+      opt('keep', '', keepText + (i.storedDate && !isStale ? ' · ' + i.storedDate : ''), isStale ? null : (x.current || i.details && i.details[x.k] || '')) +
+      (x.use != null ? opt('web', 'web', (i.origin === 'report' ? 'Suggested' : 'Use website') + ' · ' + show(i.checked), x.proposed) : '') +
+      opt('edit', '', 'Type a new value', null) +
+    '</div>' +
+    (d.choice === 'edit' ? '<label class="sr" for="e-' + esc(x.fid) + '">New ' + esc(label) + '</label><input class="edit-input" id="e-' + esc(x.fid) + '" data-edit="' + esc(x.fid) + '" value="' + esc(d.text != null ? d.text : (x.use != null ? text(x.use) : x.current || '')) + '">' : '') +
+  '</div>';
+}
+
+function renderDialog() {
+  const i = state.items.find((x) => x.id === state.openId);
+  $('overlay').hidden = !i;
+  if (!i) return;
+  const open = i.status === 'unverified';
+  const loading = state.live && !i.record;
+  const flagged = new Set(open ? i.issues.map((x) => x.k) : []);
+  const det = i.details || {};
+  const keys = DETAIL_ORDER.filter((k) => k in det || flagged.has(k));
+  const detailsHtml = keys.map((k) => {
+    const v = det[k] || '';
+    const isFlag = flagged.has(k);
+    let extra = '';
+    if (k === 'address' && v) {
+      const q = encodeURIComponent(v);
+      extra = '<iframe class="map" title="Map of ' + esc(v) + '" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=' + q + '&z=15&output=embed"></iframe>' +
+              '<a href="https://www.google.com/maps/search/?api=1&query=' + q + '" target="_blank" rel="noopener" class="small">Open in Google Maps ↗</a>';
+    }
+    if (k === 'website' && v) extra = '<a href="' + esc(/^https?:\/\//.test(v) ? v : 'http://' + v) + '" target="_blank" rel="noopener" class="small">Open agency website ↗</a>';
+    return '<div class="d' + (isFlag ? ' flag' : '') + '"><span>' + esc(LABELS[k]) + '</span><div><span>' + esc(v || '—') + '</span>' +
+      (isFlag ? '<span class="flagnote">May be wrong — check and choose below</span>' : '') + extra + '</div></div>';
+  }).join('');
+
+  const decided = i.issues.filter((x) => decisionFor(x).choice);
+  const allDecided = i.issues.length > 0 && decided.length === i.issues.length;
+  const impactText = !decided.length ? 'Pick what to do for each problem. Not sure yet? Press Back — the record stays in Unverified.'
+    : decided.map((x) => { const d = decisionFor(x), l = (LABELS[x.k] || x.field).toLowerCase();
+        return d.choice === 'web' ? 'use the new ' + l : d.choice === 'edit' ? 'set ' + l + ' to “' + (d.text != null ? d.text : text(x.use) || x.current) + '”' : x.cat === 'stale' ? 'mark the record as checked today' : 'keep the current ' + l; }).join('; ') + '. Confirm moves the record to Verified and logs the change under your name.';
+
+  $('dialog').innerHTML =
+    '<div class="d-head"><div>' +
+      '<div class="tags">' + tagsHtml(i, true) + '</div>' +
+      '<h2 id="dTitle">' + esc(i.org) + '</h2><p class="sub">' + esc(i.service) + '</p></div>' +
+      '<button class="icon-btn" data-close aria-label="Close"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12"/><path d="M18 6L6 18"/></svg></button>' +
+    '</div>' +
+    '<div class="d-body">' +
+      (state.error ? '<div class="error">' + esc(state.error) + '</div>' : '') +
+      '<div class="two"><div class="box"><span>ID</span><b class="mono">' + esc(i.id) + '</b></div><div class="box"><span>ZIP code</span><b class="mono">' + esc(i.zip) + '</b></div></div>' +
+      (loading ? '<p class="muted">Loading record…</p>' :
+        (open && i.origin === 'report' && i.report ?
+          '<div class="ureport"><span class="label" style="color:#93370D">What the user reported</span><q>' + esc(i.report.text) + '</q>' +
+          '<span class="small">' + esc(i.report.by) + ' · ' + esc(i.report.date) + '</span>' +
+          (i.report.keywords.length ? '<div class="tags"><span class="small">AI matched keywords:</span>' + i.report.keywords.map((k) => '<span class="kw">' + esc(k) + '</span>').join('') + '</div>' : '') +
+          '<span class="small" style="color:#93370D">Fields that may be wrong are marked red in Details. Check the website, then decide below.</span></div>' : '') +
+        '<div class="desc"><p class="label">Description</p><p>' + esc(i.desc || '—') + '</p></div>' +
+        '<div class="details"><p class="label" style="margin-bottom:6px">Details</p>' + detailsHtml +
+          '<div class="d"><span>Last edited</span><div>' + esc(i.editedBy + ' · ' + show(i.edited)) + '</div></div></div>' +
+        (open ? '<div style="display:flex;flex-direction:column;gap:18px"><p class="label">What to do</p>' + i.issues.map((x) => issueHtml(i, x)).join('') + '</div>' +
+                '<div class="impact"><b>Impact:</b><span>' + esc(impactText) + '</span></div>'
+              : '<div class="done">' + esc(i.resolution || 'No open problems.') + '</div>')) +
+    '</div>' +
+    (open && !loading ? '<div class="d-foot" style="justify-content:space-between">' +
+      '<button class="btn" data-close' + (state.saving ? ' disabled' : '') + '>← Back</button>' +
+      '<span style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">' +
+      (allDecided ? '' : '<span class="small">Choose an option for every problem to confirm.</span>') +
+      '<button class="btn primary" data-save' + (state.saving || !allDecided ? ' disabled' : '') + '>' + (state.saving ? 'Saving…' : 'Confirm') + '</button></span></div>' : '');
+}
+
+/* =========================================================================
+   ACTIONS
+   ========================================================================= */
+async function save(keepAll) {
+  const i = state.items.find((x) => x.id === state.openId); if (!i) return;
+  const plan = i.issues.map((x) => ({ x, d: keepAll ? { choice: 'keep' } : decisionFor(x) })).filter((p) => p.d.choice);
+  if (!plan.length) return;
+  state.saving = true; state.error = ''; render();
+  const isList = (x) => Array.isArray(x.use) || /languages|service_areas|required_documents/.test(x.field || '');
+  const valueOf = (p) => {
+    if (p.d.choice === 'web') return p.x.use;
+    const t = p.d.text != null ? p.d.text : (p.x.use != null ? text(p.x.use) : p.x.current);
+    return isList(p.x) ? String(t).split(',').map((s) => s.trim()).filter(Boolean) : t;
+  };
+  const today = new Date().toISOString().slice(0, 10);
+  if (state.live) {
+    const errors = [];
+    const label = (x) => LABELS[x.k] || x.field;
+    // 1) changes first
+    for (const p of plan.filter((q) => q.d.choice !== 'keep')) {
+      try {
+        if (p.d.choice === 'web') await api('/findings/' + p.x.fid + '/apply', { method: 'POST' });
+        else await api('/findings/' + p.x.fid + '/edit', { method: 'POST', body: JSON.stringify({ value: valueOf(p) }) });
+      } catch (e) { errors.push(label(p.x) + ': ' + e.message); }
+    }
+    // 2) then "keep". A change makes the server re-check the record, which can replace an open
+    //    finding with a new one, so look the finding up again by category + field.
+    const keeps = plan.filter((q) => q.d.choice === 'keep').sort((a, b) => (a.x.cat === 'stale' ? -1 : 0) - (b.x.cat === 'stale' ? -1 : 0));
+    for (const p of keeps) {
+      let open = [];
+      try { open = ((await api('/records/' + encodeURIComponent(i.id))).findings || []).filter((f) => f.status === 'open'); } catch (e) {}
+      {
+        const f = open.find((o) => o.finding_id === p.x.fid) || open.find((o) => o.category === p.x.apiCat && o.field === p.x.field);
+        if (!f) continue;
+        try {
+          if (p.x.cat === 'stale') await api('/findings/' + f.finding_id + '/edit', { method: 'POST', body: JSON.stringify({ value: today }) });
+          else await api('/findings/' + f.finding_id + '/dismiss', { method: 'POST', body: JSON.stringify({ reason: 'kept current by specialist' }) });
+        } catch (e) { errors.push(label(p.x) + ': ' + e.message); }
+      }
+    }
+    try { await loadLive(); } catch (e) { errors.push('Reload failed: ' + e.message); }
+    state.dec = {}; state.saving = false;
+    const now = state.items.find((x) => x.id === i.id);
+    if (errors.length) { state.error = 'Some changes were not saved. ' + errors.join(' · '); if (now) { now.record = null; openLive(i.id); } }
+    else if (now && now.status === 'unverified') { now.record = null; openLive(i.id); }
+    else { state.openId = null; }
+    render();
+    return;
+  }
+  // sample mode
+  const done = new Set();
+  plan.forEach((p) => {
+    done.add(p.x.fid);
+    if (p.d.choice === 'keep') return;
+    const v = text(valueOf(p));
+    if (p.x.k === 'desc') i.desc = v; else i.details[p.x.k] = v;
+  });
+  const now = nowIso();
+  const names = plan.map((p) => (LABELS[p.x.k] || p.x.field).toLowerCase() + (p.d.choice === 'keep' ? ' (kept)' : ''));
+  i.issues = i.issues.filter((x) => !done.has(x.fid));
+  Object.assign(i, { edited: now, editedBy: SAMPLE_USER, checked: now });
+  if (!i.issues.length) { i.status = 'verified'; i.resolution = 'Reviewed ' + names.join(', ') + ' — ' + SAMPLE_USER + ', ' + show(now) + '.'; state.openId = null; }
+  state.dec = {}; state.saving = false; render();
+}
+
+async function recheck(ids, all) {
+  ids.forEach((id) => (state.checking[id] = true));
+  if (all) state.allChecking = true;
+  render();
+  if (state.live) {
+    try {
+      if (all) { try { await api('/verify/batch', { method: 'POST', body: '{}' }); } catch (e) { for (const id of ids) await api('/verify/' + id, { method: 'POST' }); } }
+      else await api('/verify/' + ids[0], { method: 'POST' });
+    } catch (e) { alert('Re-check failed: ' + e.message); }
+  }
+  setTimeout(async () => {
+    if (state.live) { try { await loadLive(); } catch (e) {} }
+    else { const now = nowIso(); state.items.forEach((i) => { if (ids.includes(i.id)) i.checked = now; }); if (all) state.lastRun = now; }
+    ids.forEach((id) => (state.checking[id] = false));
+    if (all) state.allChecking = false;
+    render();
+  }, state.live ? CONFIG.RECHECK_WAIT_MS : (all ? 1800 : 1200));
+}
+
+/* ---- events ---- */
+document.addEventListener('click', (e) => {
+  const t = e.target.closest('button'); if (!t) return;
+  if (t.dataset.open) { state.openId = t.dataset.open; state.dec = {}; state.error = ''; $('filterPop').hidden = true; render(); if (state.live) openLive(t.dataset.open); }
+  else if (t.dataset.recheck) recheck([t.dataset.recheck], false);
+  else if (t.dataset.tab) { state.tab = t.dataset.tab; render(); }
+  else if (t.dataset.pick) { const cur = state.dec[t.dataset.pick] || {}; state.dec[t.dataset.pick] = { ...cur, choice: t.dataset.choice }; renderDialog(); }
+  else if ('close' in t.dataset) { state.openId = null; render(); }
+  else if ('save' in t.dataset) save(false);
+  else if ('signin' in t.dataset) { const v = $('tok').value.trim(); setToken(v); start(); }
+});
+document.addEventListener('input', (e) => {
+  const f = e.target.dataset && e.target.dataset.edit;
+  if (f) { state.dec[f] = { ...(state.dec[f] || {}), choice: 'edit', text: e.target.value }; }
+});
+$('overlay').addEventListener('click', (e) => { if (e.target.id === 'overlay') { state.openId = null; render(); } });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && state.openId) { state.openId = null; render(); } });
+$('recheckAll').addEventListener('click', () => { if (!state.allChecking) recheck(state.items.map((i) => i.id), true); });
+$('filterBtn').addEventListener('click', () => { const p = $('filterPop'); p.hidden = !p.hidden; $('filterBtn').setAttribute('aria-expanded', String(!p.hidden)); });
+$('doneFilter').addEventListener('click', () => { $('filterPop').hidden = true; $('filterBtn').setAttribute('aria-expanded', 'false'); });
+$('clearFilter').addEventListener('click', () => {
+  state.cats = Object.fromEntries(CAT_ORDER.map((k) => [k, true])); state.srcs = { report: true, ai: true }; state.from = ''; state.to = '';
+  $('from').value = ''; $('to').value = ''; buildFilterOptions(); render();
+});
+$('from').addEventListener('change', (e) => { state.from = e.target.value; render(); });
+$('to').addEventListener('change', (e) => { state.to = e.target.value; render(); });
+$('sort').addEventListener('change', (e) => { state.sort = e.target.value; render(); });
+function buildFilterOptions() {
+  $('srcOptions').innerHTML = [['report', 'User report', 'A help seeker or navigator said something is wrong.'], ['ai', 'AI check', 'The AI or a rule found a problem.']].map(([k, l, tip]) =>
+    '<label class="check"><input type="checkbox" data-src="' + k + '"' + (state.srcs[k] ? ' checked' : '') + '><span><span class="tag ' + k + '">' + l + '</span><small>' + tip + '</small></span></label>').join('');
+  $('catOptions').innerHTML = CAT_ORDER.map((k) =>
+    '<label class="check"><input type="checkbox" data-cat="' + k + '"' + (state.cats[k] ? ' checked' : '') + '><span><span class="tag ' + k + '">' + esc(CATS[k].label) + '</span><small>' + esc(CATS[k].tip) + '</small></span></label>').join('');
+}
+$('filterPop').addEventListener('change', (e) => {
+  if (e.target.dataset.cat) { state.cats[e.target.dataset.cat] = e.target.checked; render(); }
+  if (e.target.dataset.src) { state.srcs[e.target.dataset.src] = e.target.checked; render(); }
+});
+
+/* ---- start ---- */
+async function start() {
+  const m = location.hash.match(/id_token=([^&]+)/);
+  if (m) { setToken(decodeURIComponent(m[1])); history.replaceState(null, '', location.pathname + location.search); }
+  buildFilterOptions();
+  state.live = await detectBackend();
+  if (state.live) {
+    try {
+      await loadLive();
+      $('mode').className = 'mode live';
+      $('mode').innerHTML = '<b>Live data</b>&nbsp;from the Resource Engine backend.';
+      $('footnote').textContent = 'Records and findings come from the backend API. Changes are saved with your account.';
+    } catch (e) {
+      if (e.status === 401 || e.status === 403) {
+        $('mode').className = 'mode err';
+        $('mode').innerHTML = '<b>Sign in needed.</b> <a href="' + esc(CONFIG.API_BASE) + '/auth/login">Sign in</a> or paste a token: ' +
+          '<label for="tok" class="sr">Token</label><input id="tok" placeholder="id_token"><button class="btn sm" data-signin>Use token</button>';
+      } else {
+        $('mode').className = 'mode err'; $('mode').textContent = 'Could not load data from the backend: ' + e.message;
+      }
+      state.items = [];
+    }
+  } else {
+    loadSample();
+    $('mode').className = 'mode sample';
+    $('mode').innerHTML = '<b>Sample data.</b>&nbsp;This page isn’t connected to the backend. Serve it from the backend (for example at /ui/) to see live records.';
+    $('footnote').textContent = 'Records: 211 Bay Area sample (NDP). Website values, user reports and editor names are test data.';
+  }
+  render();
+}
+start();
+</script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+{
+  "mcp": {
+    "lambda": {
+      "lambdaArn": "__WEB_TOOLS_LAMBDA_ARN__",
+      "toolSchema": {
+        "inlinePayload": [
+          {"name": "fetch_page", "description": "Fetch a web page as text with links, HTTP status and content hash. Honors robots.txt; cached.",
+           "inputSchema": {"type": "object", "properties": {"url": {"type": "string"}, "max_chars": {"type": "integer"}}, "required": ["url"]}},
+          {"name": "check_site", "description": "DNS, HTTP status chain, TLS expiry and parked-domain signals for a website.",
+           "inputSchema": {"type": "object", "properties": {"url": {"type": "string"}}, "required": ["url"]}},
+          {"name": "geocode", "description": "Validate an address or ZIP with Amazon Location; returns normalized address, county and lat/long.",
+           "inputSchema": {"type": "object", "properties": {"address": {"type": "string"}}, "required": ["address"]}},
+          {"name": "places_near", "description": "Places matching a query near a ZIP code (Amazon Location), with phones and websites.",
+           "inputSchema": {"type": "object", "properties": {"zip_code": {"type": "string"}, "query": {"type": "string"}, "max_results": {"type": "integer"}}, "required": ["zip_code", "query"]}},
+          {"name": "pdf_text", "description": "Extract the text of a PDF (flyer, schedule) with Amazon Textract.",
+           "inputSchema": {"type": "object", "properties": {"url": {"type": "string"}}, "required": ["url"]}}
+        ]
+      }
+    }
+  }
+}

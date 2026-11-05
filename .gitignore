@@ -1,37 +1,94 @@
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.egg-info/
-.eggs/
-build/
-dist/
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
 
-# Virtual environments
-.venv/
-venv/
-env/
-ENV/
-backend/.venv/
+# Editors / IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
 
-# Test / coverage caches
-.pytest_cache/
-.coverage
-htmlcov/
-.mypy_cache/
-.ruff_cache/
+# Claude Code (keep shared skills/settings, ignore personal ones)
+.claude/settings.local.json
 
 # Environment / secrets
 .env
 .env.*
+!.env.example
 *.pem
 *.key
 
-# OS files
-.DS_Store
-Thumbs.db
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+.venv/
+venv/
+env/
+.python-version
 
-# Editor / IDE
-.idea/
-*.swp
-*.swo
+# Python tooling caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.nox/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+.ipynb_checkpoints/
+
+# Node (frontend)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.next/
+.nuxt/
+out/
+.cache/
+
+# Logs / temp
+*.log
+tmp/
+.tmp/
+
+# Resource Engine — deploy state and generated output
+backend/infra/.state.json
+backend/infra/.env*
+backend/infra/dynamodb/*.tmp
+*.zip
+backend/transform/work/
+backend/ingestion/work/
+backend/work/
+
+# AgentCore / LocalStack / CDK tooling
+.bedrock_agentcore/
+.bedrock_agentcore.yaml
+.agentcore/
+agentcore.json.local
+.localstack/
+cdk.out/
+
+# Playwright (AgentCore Browser local runs)
+playwright-report/
+test-results/
+
+# Terraform (state holds resource ids and can hold secrets)
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+crash.log
