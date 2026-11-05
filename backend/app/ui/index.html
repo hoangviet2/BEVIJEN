@@ -334,6 +334,10 @@ const CATS = {
   disc:   { label: 'Discrepancy', tip: 'Both sides list it, but the content doesn’t match.' },
   miss:   { label: 'Missing information', tip: 'Our record is missing a field.' },
   fail:   { label: 'Check failed', tip: 'AI couldn’t reach the site or the check errored. This is not proof the data is wrong.' },
+  manual: { label: 'Needs human check', tip: 'A staff member needs to verify this information.' },
+  clash:  { label: 'Conflicting evidence', tip: 'The available sources disagree.' },
+  stale:  { label: 'Stale', tip: 'This record has not been verified recently.' },
+  new:    { label: 'New facility', tip: 'Review this newly identified facility.' },
   dup:    { label: 'Possible duplicate', tip: 'Looks like another record in the directory.' },
   ok:     { label: 'Verified', tip: 'No open problems.' }
 };
@@ -356,11 +360,9 @@ function categoriesFromHsds(h) {
   });
   return out.size ? [...out] : ['Other'];
 }
-const CAT_ORDER = ['bad', 'disc', 'miss', 'fail', 'dup', 'ok'];
-/* Backend categories shown in this UI. Simplified on purpose:
-   needs_manual -> Check failed, clash -> Discrepancy; stale and new_facility are not shown here. */
-const API_CAT = { actively_bad: 'bad', discrepancy: 'disc', missing_information: 'miss', check_failed: 'fail', needs_manual: 'fail',
-                  clash: 'disc', possible_duplicate: 'dup' };
+const CAT_ORDER = ['bad', 'disc', 'miss', 'fail', 'manual', 'clash', 'stale', 'dup', 'new', 'ok'];
+const API_CAT = { actively_bad: 'bad', discrepancy: 'disc', missing_information: 'miss', check_failed: 'fail', needs_manual: 'manual',
+                  clash: 'clash', stale: 'stale', possible_duplicate: 'dup', new_facility: 'new' };
 const LABELS = { status: 'Status', address: 'Address', phone: 'Phone', website: 'Website', hours: 'Hours', eligibility: 'Eligibility',
                  languages: 'Languages', area: 'Area served', accessibility: 'Accessibility', desc: 'Description', verified: 'Last verified' };
 const DETAIL_ORDER = ['status', 'address', 'phone', 'website', 'hours', 'eligibility', 'languages', 'area', 'accessibility'];
@@ -600,6 +602,10 @@ const FIELD_WORDS = {
   phone: ['phone', 'call'], area: ['serve', 'residents'], eligibility: ['eligible', 'eligibility'],
   languages: ['language', 'Spanish'], fees: ['fee', 'free'], documents: ['bring', 'documents'], email: ['email']
 };
+function isPacificaDemoEvidence(url) {
+  return /^https?:\/\/bevijen-demo\.example\/review-language(?:[?#]|$)/i.test(url || '');
+}
+
 function textLink(url, snippet, field, service, value) {
   if (!url) return '';
   const u = (/^https?:\/\//.test(url) ? url : 'http://' + url).split('#')[0];
@@ -655,7 +661,7 @@ function issueHtml(i, x) {
     return '<div class="evid">' + (e.snippet ? '<q>' + esc(e.snippet) + '</q>' : '') +
       '<span class="evid-links">' +
       (e.snippet && (e.page || e.context || e.text) ? '<button class="linkbtn" data-snap="' + esc(x.fid) + '" aria-expanded="' + shown + '">' + (shown ? 'Hide' : 'Show') + ' saved copy (if the site is down)</button>' : '') +
-      (e.url ? '<a href="' + esc(textLink(e.url, e.snippet, x.k, i.service, x.proposed)) + '" target="_blank" rel="noopener">Go to this on the website ↗</a>' : '') + '</span>' +
+      (/^https?:\/\/bevijen-demo\.example(?=[:/?#]|$)/i.test(e.url || '') ? (isPacificaDemoEvidence(e.url) ? '<a href="demo-evidence.html" target="_blank" rel="noopener">View synthetic demo evidence ↗</a>' : '<span>Synthetic demo evidence</span>') : e.url ? '<a href="' + esc(textLink(e.url, e.snippet, x.k, i.service, x.proposed)) + '" target="_blank" rel="noopener">Go to this on the website ↗</a>' : '') + '</span>' +
       (shown ? snapshotHtml(e, i.checked) : '') + '</div>';
   }).join('');
   return '<div class="issue">' +
@@ -691,7 +697,8 @@ function renderDialog() {
     if (k === 'website' && v) {
       const fe = open ? firstEvidence(i) : null;
       const fx = fe ? i.issues.find((x) => (x.evidence || []).includes(fe)) : null;
-      extra = (fe && fx ? '<a href="' + esc(textLink(fe.url, fe.snippet, fx.k, i.service, fx.proposed)) + '" target="_blank" rel="noopener" class="small"><b>Go to ' + esc((LABELS[fx.k] || 'this').toLowerCase()) + ' on the website ↗</b></a>' : '') +
+      extra = (fe && fx && isPacificaDemoEvidence(fe.url) ? '<a href="demo-evidence.html" target="_blank" rel="noopener" class="small">View synthetic demo evidence ↗</a>' :
+               fe && fx && !/^https?:\/\/bevijen-demo\.example(?=[:/?#]|$)/i.test(fe.url || '') ? '<a href="' + esc(textLink(fe.url, fe.snippet, fx.k, i.service, fx.proposed)) + '" target="_blank" rel="noopener" class="small"><b>Go to ' + esc((LABELS[fx.k] || 'this').toLowerCase()) + ' on the website ↗</b></a>' : '') +
               '<a href="' + esc(/^https?:\/\//.test(v) ? v : 'http://' + v) + '" target="_blank" rel="noopener" class="small">Open agency website ↗</a>';
     }
     return '<div class="d' + (isFlag ? ' flag' : '') + '"><span>' + esc(LABELS[k]) + '</span><div><span>' + esc(v || '—') + '</span>' +
