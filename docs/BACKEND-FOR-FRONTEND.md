@@ -216,8 +216,12 @@ an **index item** (`GET /records`) holds the workflow state:
    services become `verified`.
 
 ### Record review (data management)
-- **List**: `GET /records?status=&reason=&source=&zip=&publish_state=&limit=500`. Returns index
-  items sorted by service name, max 5000.
+- **List**: `GET /records?status=unverified|verified&q=&zip=&reason=&source=&publish_state=&limit=20&cursor=`.
+  With `status`, index items come newest first (`last_seen_at`) from the status index, `limit` per page
+  (default 20, max 100). If more may exist, the **`X-Next-Cursor`** response header holds the `cursor` for
+  the next page. A page can be short (even empty) when a filter is rare, because one request reads at
+  most 5,000 rows: keep following the cursor. `q` = organization or service name contains (case-insensitive).
+  Without `status`: the first `limit` matches of a table scan, no cursor.
 - **Detail**: `GET /records/{id}` → `{index, hsds, rows, versions, findings}`:
   - `hsds`: the nested HSDS document to display.
   - `rows`: flat rows by table.
@@ -376,10 +380,10 @@ The body is always `{"detail": <string | object | list>}` (FastAPI).
 
 - **`#` in ZIP buckets**: always `encodeURIComponent(zip)`. Show `ZIP#94044` as "94044",
   `COUNTY#Solano` as "Solano County" and `VIRTUAL` as "Online / phone only".
-- **`GET /records` and `GET /findings` scan the whole table** on every call, with no cursor.
-  That's fine for hundreds of records, but with ~24k ODRS records it takes seconds. Filter
-  server-side (`source`, `zip`, `status`, `reason`), cache on the client, and ask for
-  backend paging if it becomes a problem. `/services` (HSDS API) *is* paged.
+- **Always pass `status` to `GET /records`** so it pages the status index (20 at a time) instead of
+  scanning. **`GET /findings` still scans** all open findings (tens of thousands with ODRS): use
+  `GET /records/{id}` for one record's findings and the index item's `unverified_reason` /
+  `open_flag_count` in lists. `/services` (HSDS API) is paged too.
 - **AI actions cost money**: `POST /verify/{id}`, `POST /verify/batch` and
   `POST /discovery/runs` start Bedrock agent runs. Confirm before starting, and never
   call them automatically or in loops.

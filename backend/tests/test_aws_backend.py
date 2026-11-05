@@ -91,3 +91,26 @@ def test_agent_runtime_client_waits_for_the_whole_run_and_never_retries():
     from app import aws
     cfg = aws._client("bedrock-agentcore", "us-west-2", "").meta.config
     assert cfg.read_timeout >= 1200 and cfg.retries["total_max_attempts"] == 1
+
+
+def test_records_paging_on_dynamodb(aws_ctx):
+    """GET /records pages the status-index with an ExclusiveStartKey built from the last item."""
+    from fastapi.testclient import TestClient
+
+    from app import context as context_mod
+    from app.main import create_app
+    run_ingest(aws_ctx, ndp_sample([NDP_1]))
+    context_mod.set_context(aws_ctx)
+    try:
+        c = TestClient(create_app())
+        want = {i["service_id"] for i in aws_ctx.repo.index_items() if i["verification_status"] == "unverified"}
+        seen, cursor = [], None
+        while True:
+            r = c.get("/records", params={"status": "unverified", "limit": 7, **({"cursor": cursor} if cursor else {})})
+            assert r.status_code == 200, r.text
+            seen += [i["service_id"] for i in r.json()]
+            if not (cursor := r.headers.get("x-next-cursor")):
+                break
+        assert len(seen) == len(set(seen)) and set(seen) == want
+    finally:
+        context_mod.set_context(None)

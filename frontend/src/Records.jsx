@@ -1,44 +1,52 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { api, enc, post } from './api.js';
 import { CATS, fieldLabel, serviceSummary, text, toValue, when } from './lib.js';
 import { ErrorBox, Evidence, Facts, Tag, Values } from './ui.jsx';
 
-// Record review, ported from UI_prototype.html: list flagged records, open one, decide each finding.
+const PAGE = 20; // the server reads the status index newest-first; never pull the whole table
+
+// Record review: list flagged records 20 at a time, open one, decide each finding.
 export default function Records({ user }) {
   const [tab, setTab] = useState('unverified');
-  const [zip, setZip] = useState('');
   const [q, setQ] = useState('');
-  const [category, setCategory] = useState('');
+  const [zip, setZip] = useState('');
+  const [typed, setTyped] = useState({ q: '', zip: '' }); // q / zip once typing pauses
+  const [reason, setReason] = useState('');
   const [rows, setRows] = useState(null);
-  const [findings, setFindings] = useState([]);
+  const [next, setNext] = useState(null);
+  const [more, setMore] = useState(false);
   const [openId, setOpenId] = useState(null);
   const [err, setErr] = useState('');
+  const latest = useRef(0); // only the newest request may fill the list (switching tabs fast mixed them up)
 
-  const load = useCallback(async () => {
-    setRows(null); setErr('');
-    const f = zip ? `&zip=${enc(zip)}` : '';
+  useEffect(() => {
+    const t = setTimeout(() => setTyped({ q: q.trim(), zip: zip.trim() }), 350);
+    return () => clearTimeout(t);
+  }, [q, zip]);
+
+  const fetchPage = useCallback(async (cursor) => {
+    const id = ++latest.current;
+    const p = new URLSearchParams({ status: tab, limit: PAGE });
+    if (typed.q) p.set('q', typed.q);
+    if (typed.zip) p.set('zip', typed.zip);
+    if (tab === 'unverified' && reason) p.set('reason', reason);
+    if (cursor) p.set('cursor', cursor);
     try {
-      // /records and /findings scan the whole table: always filter server-side as much as possible.
-      const [r, fs] = await Promise.all([
-        api(`/records?status=${tab}&limit=500${f}`),
-        tab === 'unverified' ? api(`/findings?status=open${f}`) : Promise.resolve([]),
-      ]);
-      setRows(r); setFindings(fs);
-    } catch (e) { setErr(e.message); setRows([]); }
-  }, [tab, zip]);
-  useEffect(() => { load(); }, [load]);
+      const { data, next: n } = await api('/records?' + p, { withNext: true });
+      if (id !== latest.current) return;
+      setRows((old) => (cursor ? [...(old || []), ...data] : data));
+      setNext(n);
+      setErr('');
+    } catch (e) {
+      if (id !== latest.current) return;
+      setErr('Could not load records: ' + e.message);
+      if (!cursor) setRows([]);
+    }
+  }, [tab, typed, reason]);
 
-  const bySvc = useMemo(() => {
-    const m = {};
-    findings.forEach((f) => (m[f.service_id] = m[f.service_id] || []).push(f));
-    return m;
-  }, [findings]);
-
-  const visible = (rows || []).filter((r) => {
-    const cats = (bySvc[r.service_id] || []).map((f) => f.category).concat(r.unverified_reason || []);
-    const hay = `${r.org_name} ${r.service_name}`.toLowerCase();
-    return (!category || cats.includes(category)) && (!q || hay.includes(q.toLowerCase()));
-  });
+  const reload = useCallback(() => { setRows(null); setNext(null); fetchPage(null); }, [fetchPage]);
+  useEffect(() => { reload(); }, [reload]);
+  const loadMore = async () => { setMore(true); await fetchPage(next); setMore(false); };
 
   return (
     <section className="card">
@@ -46,48 +54,58 @@ export default function Records({ user }) {
         <div className="tabs" role="tablist">
           {['unverified', 'verified'].map((t) => (
             <button key={t} role="tab" aria-selected={tab === t} className={'tab' + (tab === t ? ' on' : '')} onClick={() => setTab(t)}>
-              {t[0].toUpperCase() + t.slice(1)}{tab === t && rows ? ` (${rows.length})` : ''}
+              {t[0].toUpperCase() + t.slice(1)}
             </button>
           ))}
         </div>
         <div className="tools">
-          <input aria-label="Search" placeholder="Search by name" value={q} onChange={(e) => setQ(e.target.value)} />
-          <input aria-label="ZIP" placeholder="ZIP" value={zip} onChange={(e) => setZip(e.target.value.trim())} style={{ width: 90 }} />
+          <input aria-label="Search" placeholder="Search by name" value={q} maxLength={100} onChange={(e) => setQ(e.target.value)} />
+          <input aria-label="ZIP" placeholder="ZIP" value={zip} onChange={(e) => setZip(e.target.value)} style={{ width: 90 }} />
           {tab === 'unverified' && (
-            <select aria-label="Problem" value={category} onChange={(e) => setCategory(e.target.value)}>
+            <select aria-label="Main problem" value={reason} onChange={(e) => setReason(e.target.value)}>
               <option value="">All problems</option>
               {Object.entries(CATS).map(([k, v]) => <option key={k} value={k}>{v.label}</option>)}
             </select>
           )}
-          <button className="btn sm" onClick={load}>Reload</button>
+          <button className="btn sm" onClick={reload}>Reload</button>
         </div>
       </div>
       <ErrorBox>{err}</ErrorBox>
-      {!rows ? <p className="muted pad">Loading…</p> : !visible.length ? (
-        <div className="empty"><b>Nothing to show</b><p className="muted">No records match this tab and filter.</p></div>
-      ) : (
+      {!rows ? <p className="muted pad">Loading…</p> : (
         <>
-          {visible.map((r) => {
-            const fs = bySvc[r.service_id] || [];
-            const cats = [...new Set(fs.map((f) => f.category))];
-            return (
-              <button key={r.service_id} className="task-row" onClick={() => setOpenId(r.service_id)}>
-                <span className="grow">
-                  <b>{r.org_name || '—'}</b>
-                  <span className="small">{r.service_name} · {r.primary_zip || 'no ZIP'}</span>
-                  <span className="tags">
-                    {cats.length ? cats.map((c) => <Tag key={c} c={c} />) : r.unverified_reason ? <Tag c={r.unverified_reason} /> : <span className="tag ok">Verified</span>}
-                    {fs.length > 0 && <span className="small">{[...new Set(fs.map((f) => fieldLabel(f.field)))].join(' · ')}</span>}
-                  </span>
+          {!rows.length && (
+            <div className="empty">
+              <b>{next ? 'No matches yet' : 'Nothing to show'}</b>
+              <p className="muted">{next ? 'None in the records checked so far.' : 'No records match this tab and filter.'}</p>
+            </div>
+          )}
+          {rows.map((r) => (
+            <button key={r.service_id} className="task-row" onClick={() => setOpenId(r.service_id)}>
+              <span className="grow">
+                <b>{r.org_name || '—'}</b>
+                <span className="small">{r.service_name} · {r.primary_zip || 'no ZIP'}</span>
+                <span className="tags">
+                  {r.verification_status === 'verified' ? <span className="tag ok">Verified</span>
+                    : r.unverified_reason ? <Tag c={r.unverified_reason} /> : <span className="tag stale">Unverified</span>}
+                  {r.verification_status !== 'verified' && r.open_flag_count > 0 && (
+                    <span className="small">{r.open_flag_count} open problem{r.open_flag_count === 1 ? '' : 's'}</span>
+                  )}
                 </span>
-                <span className="small right">checked {when(r.last_check_at || r.last_seen_at)}<br />{(r.verified_by || r.updated_by || '').replace(/^(user|source):/, '')}</span>
-              </button>
-            );
-          })}
-          {rows.length === 500 && <p className="muted pad">Showing the first 500. Narrow by ZIP to see others.</p>}
+              </span>
+              <span className="small right">
+                {r.verification_status === 'verified' ? `verified ${when(r.verified_at || r.last_check_at)}` : `updated ${when(r.last_seen_at)}`}
+                <br />{[r.verified_by, r.updated_by].find((x) => x?.startsWith('user:'))?.slice(5) || (r.verified_by?.startsWith('agent:') ? 'AI check' : '')}
+              </span>
+            </button>
+          ))}
+          {next && (
+            <div className="pad" style={{ textAlign: 'center' }}>
+              <button className="btn" onClick={loadMore} disabled={more}>{more ? 'Loading…' : rows.length ? 'Load more' : 'Keep looking'}</button>
+            </div>
+          )}
         </>
       )}
-      {openId && <RecordDialog id={openId} user={user} onClose={() => setOpenId(null)} onSaved={load} />}
+      {openId && <RecordDialog id={openId} user={user} onClose={() => setOpenId(null)} onSaved={reload} />}
     </section>
   );
 }

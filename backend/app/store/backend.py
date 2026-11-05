@@ -128,6 +128,8 @@ class Table(Protocol):
     def query(self, hash_value: str, *, index: str | None = None, prefix: str | None = None,
               limit: int | None = None, descending: bool = False) -> list[dict]: ...
     def scan(self) -> Iterator[dict]: ...
+    def iter_query(self, hash_value: str, *, index: str, descending: bool = False,
+                   start: dict | None = None) -> Iterator[dict]: ...
     def put_many(self, items: Iterable[dict]) -> None: ...
 
 
@@ -175,6 +177,16 @@ class MemoryTable:
         if rk:
             rows.sort(key=lambda r: str(r.get(rk, "")), reverse=descending)
         return rows[:limit] if limit else rows
+
+    def iter_query(self, hash_value, *, index, descending=False, start=None):
+        """Lazy index query that resumes after `start` (an item's keys), like DynamoDB's ExclusiveStartKey."""
+        ix = next(i for i in self.spec.indexes if i.name == index)
+        order = lambda r: (str(r.get(ix.range_key, "")), str(r.get(self.spec.hash_key, "")))  # noqa: E731
+        rows = sorted(self.query(hash_value, index=index), key=order, reverse=descending)
+        if start:
+            s = order(start)
+            rows = [r for r in rows if (order(r) < s if descending else order(r) > s)]
+        yield from rows
 
     def scan(self):
         with self._lock:
@@ -239,6 +251,22 @@ class DynamoTable:
                 return out[:limit]
             if "LastEvaluatedKey" not in resp:
                 return out
+            kwargs["ExclusiveStartKey"] = resp["LastEvaluatedKey"]
+
+    def iter_query(self, hash_value, *, index, descending=False, start=None):
+        """Lazy index query (one page at a time) that resumes after `start` (an item's keys)."""
+        ix = next(i for i in self.spec.indexes if i.name == index)
+        kwargs: dict[str, Any] = {"IndexName": index, "KeyConditionExpression": Key(ix.hash_key).eq(hash_value),
+                                  "ScanIndexForward": not descending}
+        if start:
+            keys = {ix.hash_key, ix.range_key, self.spec.hash_key, self.spec.range_key} - {None}
+            kwargs["ExclusiveStartKey"] = {k: start[k] for k in keys}
+        while True:
+            resp = self._t.query(**kwargs)
+            for item in resp.get("Items", []):
+                yield from_ddb(item)
+            if "LastEvaluatedKey" not in resp:
+                return
             kwargs["ExclusiveStartKey"] = resp["LastEvaluatedKey"]
 
     def scan(self):

@@ -2,10 +2,12 @@
 
 from __future__ import annotations
 
+import base64
+import itertools
 import json
 from datetime import datetime, timezone
 
-from fastapi import APIRouter, Body, Depends, File, Header, HTTPException, Query, UploadFile
+from fastapi import APIRouter, Body, Depends, File, Header, HTTPException, Query, Response, UploadFile
 from fastapi.responses import PlainTextResponse
 
 from .. import adapters
@@ -111,18 +113,61 @@ def post_batch(body: BatchIntakeRequest, ctx: Context = Depends(ctx_dep), user: 
     return BatchIntakeResult(received=len(results), stored=len(results) - q, quarantined=q, results=results)
 
 
+MAX_SCAN = 5000  # rows read per request: bounds latency on ~15k+ records; the cursor continues from there
+
+
+def _cursor_out(item: dict) -> str:
+    keys = {k: item[k] for k in ("service_id", "status_pk", "last_seen_at") if k in item}
+    return base64.urlsafe_b64encode(json.dumps(keys).encode()).decode()
+
+
+def _cursor_in(cursor: str) -> dict:
+    try:
+        keys = json.loads(base64.urlsafe_b64decode(cursor.encode()))
+        assert isinstance(keys, dict) and {"service_id", "status_pk", "last_seen_at"} <= keys.keys()
+        return keys
+    except Exception:
+        raise HTTPException(422, "invalid cursor") from None
+
+
 @router.get("/records", tags=["Records"])
-def list_records(status: str | None = None, reason: str | None = None, source: str | None = None,
-                 zip: str | None = None, publish_state: str | None = None, limit: int = Query(500, le=5000),
+def list_records(response: Response, status: str | None = None, reason: str | None = None,
+                 source: str | None = None, zip: str | None = None, publish_state: str | None = None,
+                 q: str | None = Query(None, max_length=100, description="name contains (organization or service)"),
+                 limit: int = Query(20, ge=1, le=100), cursor: str | None = None,
                  ctx: Context = Depends(ctx_dep), user: User = Depends(current_user)):
-    out = []
-    for i in ctx.repo.index_items():
-        if (status and i.get("verification_status") != status) or (reason and i.get("unverified_reason") != reason) \
-                or (source and i.get("source") != source) or (zip and i.get("primary_zip") != zip) \
-                or (publish_state and i.get("publish_state") != publish_state):
-            continue
-        out.append(i)
-    return sorted(out, key=lambda i: i.get("service_name") or "")[:limit]
+    """With `status`: newest first from the status index, `limit` per page. When more may exist the
+    `X-Next-Cursor` response header holds the cursor for the next page (a page can come back short
+    when a filter is rare: keep following the cursor). Without `status`: first `limit` matches of a scan."""
+    needle = (q or "").strip().lower()
+
+    def keep(i: dict) -> bool:
+        return not ((status and i.get("verification_status") != status)
+                    or (reason and i.get("unverified_reason") != reason) or (source and i.get("source") != source)
+                    or (zip and i.get("primary_zip") != zip)
+                    or (publish_state and i.get("publish_state", "published") != publish_state)
+                    or (needle and needle not in f"{i.get('org_name', '')} {i.get('service_name', '')}".lower()))
+
+    if not status:
+        if cursor:
+            raise HTTPException(422, "cursor paging needs status")
+        return list(itertools.islice(filter(keep, ctx.repo.index_items()), limit))
+    out, last, scanned = [], None, 0
+    for item in ctx.stores.index.iter_query(status, index="status-index", descending=True,
+                                            start=_cursor_in(cursor) if cursor else None):
+        scanned += 1
+        last = item
+        if keep(item):
+            out.append(item)
+            if len(out) == limit:
+                break
+        if scanned >= MAX_SCAN:
+            break
+    else:
+        last = None  # index exhausted: no next page
+    if last is not None:
+        response.headers["X-Next-Cursor"] = _cursor_out(last)
+    return out
 
 
 @router.get("/records/{service_id}", tags=["Records"])

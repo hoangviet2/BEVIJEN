@@ -174,3 +174,33 @@ def test_auth_logout_ends_the_cognito_session(ctx):
     r = TestClient(create_app(), base_url="https://re.example").get("/auth/logout", follow_redirects=False)
     assert r.headers["location"] == ("https://re-1.auth.us-west-2.amazoncognito.com/logout?client_id=cid"
                                      "&logout_uri=https%3A%2F%2Fre.example%2Fui%2F")
+
+
+def test_records_pages_newest_first_with_cursor(client, ctx, monkeypatch):
+    upload(client)
+    unverified = {i["service_id"] for i in ctx.repo.index_items() if i["verification_status"] == "unverified"}
+    seen, cursor, pages = [], None, 0
+    while True:
+        r = client.get("/records", params={"status": "unverified", "limit": 6, **({"cursor": cursor} if cursor else {})})
+        assert r.status_code == 200 and len(r.json()) <= 6
+        seen += [i["service_id"] for i in r.json()]
+        pages += 1
+        cursor = r.headers.get("x-next-cursor")
+        if not cursor:
+            break
+    assert len(seen) == len(set(seen)) and set(seen) == unverified and pages >= 3
+    first = client.get("/records", params={"status": "unverified"}).json()
+    assert len(first) == min(20, len(unverified))
+    assert [i["last_seen_at"] for i in first] == sorted((i["last_seen_at"] for i in first), reverse=True)
+
+    hit = client.get("/records", params={"status": "unverified", "q": "LEGAL assist"}).json()
+    assert [i["service_name"] for i in hit] == ["Legal Assistance"]
+    assert client.get("/records", params={"status": "unverified", "zip": "00000"}).json() == []
+    assert client.get("/records", params={"status": "verified", "limit": 5}).headers.get("x-next-cursor") is None
+
+    from app.routers import internal
+    monkeypatch.setattr(internal, "MAX_SCAN", 2)  # a rare filter stops early but hands back a cursor
+    r = client.get("/records", params={"status": "unverified", "q": "zzz-no-match"})
+    assert r.json() == [] and r.headers.get("x-next-cursor")
+    assert client.get("/records", params={"status": "unverified", "cursor": "garbage"}).status_code == 422
+    assert client.get("/records", params={"limit": 101}).status_code == 422

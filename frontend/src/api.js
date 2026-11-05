@@ -33,7 +33,8 @@ export function captureTokenFromHash() {
   history.replaceState(null, '', location.pathname + location.search);
 }
 
-export async function api(path, { method = 'GET', body, headers = {} } = {}) {
+/** `withNext: true` returns {data, next} with the X-Next-Cursor paging header. */
+export async function api(path, { method = 'GET', body, headers = {}, withNext = false } = {}) {
   const s = getSession() || {};
   const h = { ...headers };
   if (body !== undefined) h['Content-Type'] = 'application/json';
@@ -48,7 +49,8 @@ export async function api(path, { method = 'GET', body, headers = {} } = {}) {
     err.status = res.status;
     throw err;
   }
-  return res.status === 204 ? null : res.json();
+  const data = res.status === 204 ? null : await res.json();
+  return withNext ? { data, next: res.headers.get('X-Next-Cursor') } : data;
 }
 
 export const post = (path, body = {}) => api(path, { method: 'POST', body });

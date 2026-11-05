@@ -47,7 +47,7 @@ def create_app() -> FastAPI:
     if origins:  # a browser UI on another origin (e.g. a local dev server); same-origin /ui needs none
         app.add_middleware(CORSMiddleware, allow_origins=origins, allow_credentials=False,
                            allow_methods=["*"], allow_headers=["Authorization", "Content-Type", "If-Match"],
-                           expose_headers=["ETag"])
+                           expose_headers=["ETag", "X-Next-Cursor"])
     app.include_router(ops.router)
     app.include_router(hsds_api.router)
     app.include_router(internal.router)
