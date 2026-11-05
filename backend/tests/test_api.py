@@ -161,3 +161,16 @@ def test_cors_is_off_by_default_and_on_for_configured_origins(monkeypatch):
     finally:
         monkeypatch.delenv("CORS_ORIGINS")
         get_settings.cache_clear()
+
+
+def test_auth_logout_ends_the_cognito_session(ctx):
+    from fastapi.testclient import TestClient
+
+    from app import context as context_mod
+    from app.main import create_app
+    cctx = make_ctx(auth_mode="cognito", cognito_client_id="cid")
+    object.__setattr__(cctx.settings, "cognito_domain", "re-1.auth.us-west-2.amazoncognito.com")
+    context_mod.set_context(cctx)
+    r = TestClient(create_app(), base_url="https://re.example").get("/auth/logout", follow_redirects=False)
+    assert r.headers["location"] == ("https://re-1.auth.us-west-2.amazoncognito.com/logout?client_id=cid"
+                                     "&logout_uri=https%3A%2F%2Fre.example%2Fui%2F")

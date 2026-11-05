@@ -122,20 +122,17 @@ def wake_snoozed(ctx: Context) -> int:
     return n
 
 
-def resolve(ctx: Context, task_id: str, *, user: str, method: str, findings: list[dict], notes: str = "") -> dict:
-    """One outcome per finding; HSDS changes are committed with the user as actor."""
-    if method not in METHODS:
-        raise TaskError(f"method must be one of {METHODS}")
-    task = get_task(ctx, task_id)
-    actor = f"user:{user}"
+def _apply_outcomes(ctx: Context, findings: list[dict], allowed: set, actor: str, method: str,
+                    scope: str) -> tuple[list[dict], bool]:
+    """Applies one outcome per finding (shared by task and record resolve). Returns (results, unreachable)."""
     results = []
     unreachable = False
     for entry in findings:
         fid, outcome = entry.get("finding_id"), entry.get("outcome")
         if outcome not in OUTCOMES:
             raise TaskError(f"outcome must be one of {OUTCOMES}")
-        if fid not in task.get("finding_ids", []):
-            raise TaskError(f"finding {fid} is not on this task")
+        if fid not in allowed:
+            raise TaskError(f"finding {fid} is not on this {scope}")
         f = ctx.findings.get(fid)
         if not f or f["status"] != "open":
             results.append({"finding_id": fid, "skipped": "not open"})
@@ -160,6 +157,24 @@ def resolve(ctx: Context, task_id: str, *, user: str, method: str, findings: lis
             _commit_field(ctx, sid, "status", entry.get("value") or "defunct", actor)
             ctx.findings.set_status(fid, "applied", by=actor, value=entry.get("value") or "defunct")
         results.append({"finding_id": fid, "outcome": outcome})
+    return results, unreachable
+
+
+def _mark_verified(ctx: Context, service_id: str, actor: str, method: str) -> dict:
+    item = ctx.stores.index.get(service_id) or {"service_id": service_id}
+    item.update(verification_status="verified", status_pk="verified", unverified_reason=None,
+                verified_by=actor, verified_method=method, verified_at=now_iso(), open_flag_count=0)
+    ctx.stores.index.put(item)
+    return item
+
+
+def resolve(ctx: Context, task_id: str, *, user: str, method: str, findings: list[dict], notes: str = "") -> dict:
+    """One outcome per finding; HSDS changes are committed with the user as actor."""
+    if method not in METHODS:
+        raise TaskError(f"method must be one of {METHODS}")
+    task = get_task(ctx, task_id)
+    actor = f"user:{user}"
+    results, unreachable = _apply_outcomes(ctx, findings, set(task.get("finding_ids", [])), actor, method, "task")
 
     if notes:
         task.setdefault("notes", []).append({"by": user, "at": now_iso(), "text": notes})
@@ -174,10 +189,7 @@ def resolve(ctx: Context, task_id: str, *, user: str, method: str, findings: lis
         ctx.stores.tasks.delete(f"DEDUPE#LOC#{task['location_id']}")
         for sid in task.get("service_ids", []):
             if ctx.findings.open_count(sid) == 0:
-                item = ctx.stores.index.get(sid) or {"service_id": sid}
-                item.update(verification_status="verified", status_pk="verified", unverified_reason=None,
-                            verified_by=actor, verified_method=method, verified_at=now_iso(), open_flag_count=0)
-                ctx.stores.index.put(item)
+                _mark_verified(ctx, sid, actor, method)
         if task.get("org_id"):
             ctx.memory.add(task["org_id"], f"Confirmed by {method} on {date.today().isoformat()} by {user}."
                            + (f" Notes: {notes}" if notes else ""), author=actor)
@@ -186,6 +198,30 @@ def resolve(ctx: Context, task_id: str, *, user: str, method: str, findings: lis
     task["updated_at"] = now_iso()
     ctx.stores.tasks.put(task_keys(task))
     return {"task": task, "results": results, "open_findings": remaining}
+
+
+def resolve_record(ctx: Context, service_id: str, *, user: str, method: str, findings: list[dict],
+                   notes: str = "") -> dict:
+    """A specialist verifies one record outside the call queue: one outcome per open finding; when none
+    are left open the record becomes verified and assured_date is set to today (HSDS: date last verified)."""
+    if method not in METHODS:
+        raise TaskError(f"method must be one of {METHODS}")
+    item = ctx.stores.index.get(service_id)
+    if not item:
+        raise TaskError("record not found")
+    if any(e.get("outcome") == "unreachable" for e in findings):
+        raise TaskError("unreachable only applies to call-queue tasks")
+    actor = f"user:{user}"
+    allowed = {f["finding_id"] for f in ctx.findings.for_service(service_id)}  # resolved ones are skipped
+    results, _ = _apply_outcomes(ctx, findings, allowed, actor, method, "record")
+    remaining = sorted(f["finding_id"] for f in ctx.findings.for_service(service_id) if f["status"] == "open")
+    if not remaining:
+        _commit_field(ctx, service_id, "assured_date", date.today().isoformat(), actor)
+        item = _mark_verified(ctx, service_id, actor, method)
+        if item.get("org_id"):
+            ctx.memory.add(item["org_id"], f"Verified by {method} on {date.today().isoformat()} by {user}."
+                           + (f" Notes: {notes}" if notes else ""), author=actor)
+    return {"index": ctx.stores.index.get(service_id), "results": results, "open_findings": remaining}
 
 
 def _commit_field(ctx: Context, service_id: str, field: str, value, actor: str) -> None:

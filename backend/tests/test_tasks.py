@@ -94,3 +94,37 @@ def test_crawler_closes_tasks_resolved_elsewhere(ctx, ndp_loaded):
         ctx.findings.set_status(fid, "dismissed", by="test")
     assert crawl(ctx)["closed"] >= 1
     assert ctx.stores.tasks.get(t["PK"])["status"] == "done"
+
+
+def test_resolve_record_verifies_through_the_api(client, ctx, ndp_loaded):
+    sid = service_named(ctx, "Legal Assistance")["service_id"]
+    open_ids = [f["finding_id"] for f in ctx.findings.for_service(sid, "open")]
+    assert open_ids  # the NDP sample flags it (stale at least)
+    body = {"method": "web", "notes": "matches website",
+            "findings": [{"finding_id": open_ids[0], "outcome": "unreachable"}]}
+    assert client.post(f"/records/{sid}/resolve", json=body).status_code == 409  # queue-only outcome
+    body["findings"] = [{"finding_id": fid, "outcome": "dismiss", "reason": "checked"} for fid in open_ids[:-1]]
+    partial = client.post(f"/records/{sid}/resolve", json=body).json()
+    assert partial["open_findings"] == [open_ids[-1]] and partial["index"]["verification_status"] == "unverified"
+    body["findings"] = [{"finding_id": open_ids[-1], "outcome": "confirmed"}]
+    out = client.post(f"/records/{sid}/resolve", json=body).json()
+    assert out["open_findings"] == [] and out["index"]["verification_status"] == "verified"
+    assert out["index"]["verified_by"] == "user:dev@local" and out["index"]["verified_method"] == "web"
+    from datetime import date
+    assert ctx.repo.render_service(sid)["assured_date"] == date.today().isoformat()
+    assert client.post(f"/records/{sid}/resolve", json=body).json()["results"][0]["skipped"] == "not open"
+    assert client.post("/records/nope/resolve", json={"method": "web"}).status_code == 404
+
+
+def test_rule_labels_and_text_values_can_be_edited(ctx, ndp_loaded):
+    """Rule findings use labels (eligibility, schedule, contact, accessibility); a specialist types plain text."""
+    sid = service_named(ctx, "Legal Assistance")["service_id"]
+    for field, value in [("eligibility", "Anyone in San Mateo County"), ("schedule", "24 hours, 7 days a week"),
+                         ("contact", "(650) 555-0100"), ("accessibility", "Ramp at the side entrance")]:
+        tasks._commit_field(ctx, sid, field, value, "user:x")
+    doc = ctx.repo.render_service(sid)
+    assert doc["eligibility_description"] == "Anyone in San Mateo County"
+    assert [s.get("description") for s in doc["schedules"]] == ["24 hours, 7 days a week"]
+    assert [p["number"] for p in doc["phones"]] == ["(650) 555-0100"]
+    acc = [a["description"] for sal in doc["service_at_locations"] for a in sal["location"].get("accessibility", [])]
+    assert acc and set(acc) == {"Ramp at the side entrance"}

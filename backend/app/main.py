@@ -54,7 +54,9 @@ def create_app() -> FastAPI:
     app.include_router(work.router)
     app.include_router(tools.router)
     app.include_router(accounts.router)
-    app.mount("/ui", StaticFiles(directory=Path(__file__).parent / "ui", html=True), name="ui")
+    ui_dir = Path(get_settings().ui_dir)
+    if ui_dir.is_dir():  # absent in tests and before `npm run build`
+        app.mount("/ui", StaticFiles(directory=ui_dir, html=True), name="ui")
     return app
    
 

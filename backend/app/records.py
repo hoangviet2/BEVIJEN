@@ -45,12 +45,16 @@ def _replace_children(rows: Rows, table: str, service_id: str, new: list[dict]) 
     return changes
 
 
+# Rule findings name fields by completeness label (app/completeness.py), not by HSDS path.
+FIELD_ALIASES = {"eligibility": "eligibility_description", "schedule": "schedules", "contact": "phones"}
+
+
 def apply_field(rows: Rows, service_id: str, field: str, value: Any) -> tuple[Rows, list[str]]:
     """Return (changed rows, ids of rows to retire) for one field update."""
     svc = rows.get("service", {}).get(service_id)
     if svc is None:
         raise EditError("service not found")
-    field = field.strip()
+    field = FIELD_ALIASES.get(field.strip(), field.strip())
     if field.startswith("organization."):
         col = field.split(".", 1)[1]
         if col not in ORG_COLUMNS:
@@ -73,9 +77,21 @@ def apply_field(rows: Rows, service_id: str, field: str, value: Any) -> tuple[Ro
         new = [{"document": v} if isinstance(v, str) else v for v in as_list]
         return (_replace_children(rows, "required_document", service_id, new),
                 _child_rows(rows, "required_document", service_id))
+    if field in ("accessibility", "locations[].accessibility"):  # HSDS keeps it on the service's locations
+        locs = [r["location_id"] for r in rows.get("service_at_location", {}).values() if r.get("service_id") == service_id]
+        if not locs:
+            raise EditError("this service has no location to attach accessibility to")
+        new_rows = {}
+        for lid in locs:
+            for v in as_list:
+                rid = str(uuid.uuid5(_NS, f"accessibility|{lid}|{v}"))
+                new_rows[rid] = {"id": rid, "location_id": lid, **({"description": v} if isinstance(v, str) else v)}
+        old = [rid for rid, r in rows.get("accessibility", {}).items() if r.get("location_id") in locs and rid not in new_rows]
+        return {"accessibility": new_rows}, old
     if field in ("schedules", "schedules[]"):
+        as_list = [{"description": v} if isinstance(v, str) else v for v in as_list]  # free-text hours
         if not all(isinstance(v, dict) for v in as_list):
-            raise EditError("schedules must be a list of schedule objects")
+            raise EditError("schedules must be a list of schedule objects or text")
         return _replace_children(rows, "schedule", service_id, as_list), _child_rows(rows, "schedule", service_id)
     if field in ("phones[].number", "phones"):
         new = [{"number": v, "type": "voice"} if isinstance(v, str) else v for v in as_list]

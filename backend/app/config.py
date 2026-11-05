@@ -8,6 +8,7 @@ DynamoDB and SQS (local dev and tests); `aws` (default) uses real AWS.
 from __future__ import annotations
 
 import os
+from pathlib import Path
 from dataclasses import dataclass, field
 from functools import lru_cache
 
@@ -85,6 +86,8 @@ class Settings:
     cognito_client_id: str = field(default_factory=lambda: _env("COGNITO_CLIENT_ID"))
     cognito_domain: str = field(default_factory=lambda: _env("COGNITO_DOMAIN"))
     ui_url: str = field(default_factory=lambda: _env("UI_URL", "/ui/"))  # /auth/callback sends the browser here
+    # React build served at /ui (frontend/: npm run build). The image sets UI_DIR=/srv/ui.
+    ui_dir: str = field(default_factory=lambda: _env("UI_DIR", str(Path(__file__).resolve().parents[2] / "frontend" / "dist")))
     cors_origins: str = field(default_factory=lambda: _env("CORS_ORIGINS"))  # comma list; empty = no CORS
     # Discovery runtime inbound auth (AgentCore Identity): sigv4 | jwt (Cognito client_credentials token)
     discovery_auth: str = field(default_factory=lambda: _env("DISCOVERY_AUTH", "sigv4"))

@@ -8,6 +8,10 @@ COPY requirements.txt /srv/requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 COPY app /srv/app
 COPY gateway /srv/gateway
+# Specialist UI: the React build from ../frontend, passed as a named build context
+# (infra/deploy.sh and docker-compose.yml do this; build it first with `cd ../frontend && npm run build`).
+COPY --from=ui / /srv/ui
+ENV UI_DIR=/srv/ui
 RUN useradd -r -u 10001 re && chown -R re /srv
 USER re
 EXPOSE 8000

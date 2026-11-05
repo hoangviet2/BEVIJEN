@@ -6,6 +6,7 @@ export const DEV_AUTH = import.meta.env.VITE_AUTH_MODE === 'dev';
 export const BACKEND_URL = (import.meta.env.VITE_BACKEND_URL || 'https://52-41-36-135.sslip.io').replace(/\/$/, '');
 // Absolute on purpose: /auth/login sets a state cookie that /auth/callback (on the server's origin) must see.
 export const LOGIN_URL = BACKEND_URL + '/auth/login';
+const LOGOUT_URL = BACKEND_URL + '/auth/logout';
 
 const KEY = 're_session';
 export function getSession() {
@@ -16,6 +17,13 @@ export function setSession(s) {
   window.dispatchEvent(new Event('re-auth'));
 }
 export const currentUser = () => sessionUser(getSession());
+
+/** Drop our token, then end the Cognito Hosted UI session too, or the next sign-in skips the password. */
+export function signOut() {
+  const hadToken = !!getSession()?.token;
+  setSession(null);
+  if (hadToken) location.href = LOGOUT_URL;
+}
 
 /** /auth/callback lands here with #id_token=…; keep it and clean the URL. */
 export function captureTokenFromHash() {

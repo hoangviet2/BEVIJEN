@@ -106,6 +106,12 @@ class ResolveTask(BaseModel):
     findings: list[ResolveFinding]
 
 
+class ResolveRecord(BaseModel):
+    method: str = Field(..., pattern="^(phone|visit|email|web)$")
+    notes: str = Field("", max_length=2000)
+    findings: list[ResolveFinding] = Field(default_factory=list, description="May be empty when nothing is open.")
+
+
 class SnoozeTask(BaseModel):
     days: int = Field(3, ge=1, le=90)
     reason: str = ""

@@ -159,6 +159,7 @@ step_cognito() {
       --allowed-o-auth-flows code --allowed-o-auth-scopes openid email --allowed-o-auth-flows-user-pool-client \
       --supported-identity-providers COGNITO \
       --callback-urls "${RE_PUBLIC_URL:-https://localhost:8000}/auth/callback" \
+      --logout-urls "${RE_PUBLIC_URL:-https://localhost:8000}/ui/" \
       --query UserPoolClient.ClientId --output text)"
   fi
   local domain="re-${ACCOUNT_ID}"
@@ -309,7 +310,9 @@ step_agents() {
   log "Agent image (linux/arm64, AgentCore Runtime requirement)"
   quiet aws ecr create-repository --repository-name re-agents --image-scanning-configuration scanOnPush=true
   ecr_login
+  # Uncommitted changes get a unique tag so the image of the last commit is never overwritten.
   local tag; tag="$(git -C "$BACKEND" rev-parse --short HEAD 2>/dev/null || date +%s)"
+  git -C "$BACKEND" diff --quiet HEAD -- "$BACKEND" "$BACKEND/../frontend" 2>/dev/null || tag="$tag-dirty-$(date +%s)"
   local uri="$ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/re-agents:$tag"
   docker buildx build --platform linux/arm64 -t "$uri" --push "$BACKEND/agents"
   for kind in verifier discovery; do
@@ -410,9 +413,13 @@ step_server() {
   log "Server image"
   quiet aws ecr create-repository --repository-name re-server --image-scanning-configuration scanOnPush=true
   ecr_login
+  # Uncommitted changes get a unique tag so the image of the last commit is never overwritten.
   local tag; tag="$(git -C "$BACKEND" rev-parse --short HEAD 2>/dev/null || date +%s)"
+  git -C "$BACKEND" diff --quiet HEAD -- "$BACKEND" "$BACKEND/../frontend" 2>/dev/null || tag="$tag-dirty-$(date +%s)"
   local uri="$ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/re-server:$tag"
-  docker buildx build --platform linux/amd64 -t "$uri" --push "$BACKEND"
+  log "Specialist UI (frontend/ -> served at /ui)"
+  (cd "$BACKEND/../frontend" && npm ci --no-audit --no-fund && npm run build)
+  docker buildx build --platform linux/amd64 --build-context ui="$BACKEND/../frontend/dist" -t "$uri" --push "$BACKEND"
   step_env > "$HERE/.env.server"
   aws s3 cp "$HERE/.env.server" "s3://$BUCKET/deploy/.env" --sse aws:kms --sse-kms-key-id "$(get kms_key_arn)" >/dev/null
   aws s3 cp "$BACKEND/docker-compose.yml" "s3://$BUCKET/deploy/docker-compose.yml" >/dev/null

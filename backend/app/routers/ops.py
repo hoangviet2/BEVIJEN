@@ -90,6 +90,17 @@ def login(request: Request, ctx: Context = Depends(ctx_dep)):
     return resp
 
 
+@router.get("/auth/logout")
+def logout(request: Request, ctx: Context = Depends(ctx_dep)):
+    """Ends the Cognito Hosted UI session too; otherwise the next /auth/login signs straight back in.
+    The UI drops its own token first. logout_uri must be in the app client's LogoutURLs."""
+    ui = ctx.settings.ui_url
+    if not ui.startswith("http"):
+        ui = str(request.base_url).rstrip("/") + ui
+    q = urllib.parse.urlencode({"client_id": ctx.settings.cognito_client_id, "logout_uri": ui})
+    return RedirectResponse(f"{_cognito_base(ctx)}/logout?{q}")
+
+
 @router.get("/auth/callback", name="auth_callback")
 def callback(request: Request, code: str, state: str, ctx: Context = Depends(ctx_dep)):
     """Exchanges the code for tokens (public client, no secret) and sends the browser to UI_URL with them

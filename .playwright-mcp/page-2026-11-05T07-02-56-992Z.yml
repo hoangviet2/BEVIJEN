@@ -1,0 +1,20 @@
+- generic [ref=e4]:
+  - paragraph [ref=e5]: One Degree · Resource Engine
+  - heading "Specialist sign-in" [level=1] [ref=e6]
+  - paragraph [ref=e7]: "Verify the facilities the AI and the data feeds couldn’t confirm: call them, check the evidence, and fix the record."
+  - generic [ref=e8]:
+    - link "Sign in with your account" [ref=e9] [cursor=pointer]:
+      - /url: https://52-41-36-135.sslip.io/auth/login
+    - paragraph [ref=e10]:
+      - text: After sign-in the server sends you to its
+      - code [ref=e11]: UI_URL
+      - text: . Until that points at this app you land on the server’s
+      - code [ref=e12]: /ui/
+      - text: "page: copy"
+      - code [ref=e13]: localStorage.re_token
+      - text: there and paste it below.
+  - paragraph [ref=e14]:
+    - text: No account?
+    - button "Request access" [ref=e15] [cursor=pointer]
+  - group [ref=e16]:
+    - generic "Paste an id_token instead" [ref=e17] [cursor=pointer]

@@ -4,7 +4,9 @@ React app (Vite) for **specialists**: they sign in, work the call queue, and ver
 that the AI agents and data feeds couldn't confirm. It talks only to the backend REST API, never to AWS.
 
 **Backend reference:** [`../docs/BACKEND-FOR-FRONTEND.md`](../docs/BACKEND-FOR-FRONTEND.md).
-`UI_prototype.html` is the old single-file review page; its record-review flow is now the **Records** tab.
+Live at **https://52-41-36-135.sslip.io/ui/** (the backend serves `frontend/dist`; `backend/infra/deploy.sh server`
+builds it into the image). `UI_prototype.html` is the old single-file review page; its record-review flow is now the
+**Records** tab.
 
 ## Run
 
@@ -34,9 +36,9 @@ login page asks for an email and a role, and sends them as `X-Dev-User` / `X-Dev
 `#id_token=…`. The app reads that, keeps it in `localStorage.re_session`, and sends `Authorization: Bearer`.
 Tokens last 1 h with no refresh: on expiry or any 401 the app goes back to the login page.
 
-To make the redirect land in this app, set `UI_URL` (and `CORS_ORIGINS`, when it's hosted on another origin) on the
-server. Until then, sign in on the server's `/ui/`, copy `localStorage.re_token`, and paste it under
-"Paste an id_token instead".
+Served at `/ui/`, which is the server's default `UI_URL`, so the redirect lands here. New people use
+**Request access** on the login page; an admin approves them in the **Team** tab (only admins see it). Signed-in
+users without a role see "Waiting for approval".
 
 ## Screens
 
@@ -46,7 +48,8 @@ server. Until then, sign in on the server's `/ui/`, copy `localStorage.re_token`
 | Call queue: tasks in an area / my tasks | `GET /tasks?zip=…&status=…`, `GET /tasks?assignee=me&status=claimed` |
 | Task detail | `GET /tasks/{id}` · `POST …/claim`, `…/release`, `…/snooze`, `…/resolve` · lead: `…/assign` |
 | Records | `GET /records?status=…`, `GET /findings?status=open`, `GET /records/{id}` |
+| Sign-up / Team (admin) | `POST /auth/signup` · `GET /admin/signups`, `…/approve`, `…/reject` · `GET /admin/users`, `POST /admin/users/{email}/role` |
 | Record decisions | `POST /findings/{id}/apply`, `…/edit`, `…/dismiss` · `POST /verify/{id}` (paid AI run, asks first) |
 
 Files: `src/api.js` (fetch + session), `src/lib.js` (pure helpers, tested), `src/App.jsx` (login + shell),
-`src/Queue.jsx`, `src/Records.jsx`, `src/ui.jsx`, `src/styles.css`.
+`src/Queue.jsx`, `src/Records.jsx`, `src/Team.jsx`, `src/ui.jsx`, `src/styles.css`.

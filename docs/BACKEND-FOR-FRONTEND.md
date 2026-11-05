@@ -40,7 +40,7 @@ The UI you build is mainly for **specialists, leads and admins**:
 |---|---|---|
 | **Deployed (AWS)** | `https://52-41-36-135.sslip.io` | EC2 + Caddy (Let's Encrypt). Real data: 20 NDP records; ~24k ODRS records loading (re-ingest started 2026-11-05) |
 | Interactive API docs | `<base>/docs` (Swagger), `<base>/openapi.json` | Always current: generate client types from `openapi.json` |
-| Existing UI | `<base>/ui/` | `backend/app/ui/index.html`, a single-file review page (same as `frontend/UI_prototype.html`) |
+| Specialist UI | `<base>/ui/` | the React app in `frontend/`, built into the server image (`UI_DIR=/srv/ui`) |
 | **Local** | `http://127.0.0.1:8000` | In-memory stores, no AWS, fake sign-in (see §3) |
 
 ### Run the backend locally (recommended for UI work)
@@ -59,8 +59,8 @@ curl -X POST http://127.0.0.1:8000/tasks/crawl
 - Memory mode loses all data when the server restarts.
 - `AGENT_MODE=off` means no AI runs locally, so `POST /verify/{id}` only queues a job.
 - `CORS_ORIGINS` is only needed if your dev server runs on another origin. If you build
-  static files into `backend/app/ui/`, they are served at `/ui/` from the same origin
-  and need no CORS.
+  `frontend/` (`npm run build`), the backend serves `frontend/dist` at `/ui/` from the same
+  origin, so no CORS is needed.
 
 ---
 
@@ -122,8 +122,14 @@ The flow (implemented in `backend/app/routers/ops.py`):
 - The only registered Cognito callback is `https://52-41-36-135.sslip.io/auth/callback`.
   For a different flow (e.g. PKCE directly from the SPA) you must add callback URLs to
   the app client.
-- **There are no Cognito users yet.** An admin creates them; self sign-up is off. Cognito
-  emails a temporary password.
+- **Accounts come from sign-up requests.** `POST /auth/signup {email, name, organization, reason}`
+  (public, 202) stores a request; an admin approves it in the UI's Team tab
+  (`GET /admin/signups`, `POST /admin/signups/{email}/approve {role}` / `reject`), which creates the
+  Cognito user and emails a temporary password. `GET /admin/users` and
+  `POST /admin/users/{email}/role {role|null}` manage roles; `null` revokes access.
+  **A signed-in user with no group gets 403 on every staff endpoint.**
+  The first admin is created on the server with `python -m app.cli grant --email … --role admin`,
+  or with the AWS CLI:
   ```bash
   aws cognito-idp admin-create-user --region us-west-2 --user-pool-id us-west-2_JyQS3sDGH --username you@example.org
   aws cognito-idp admin-add-user-to-group --region us-west-2 --user-pool-id us-west-2_JyQS3sDGH --username you@example.org --group-name admin
@@ -394,5 +400,6 @@ The body is always `{"detail": <string | object | list>}` (FastAPI).
   ```
   This builds the image and restarts the API and worker on EC2 over SSM. Deploy-time
   settings (`UI_URL`, `CORS_ORIGINS`, …) are env vars read by `infra/deploy.sh env`.
-- To serve the built UI from the backend, put the static build in `backend/app/ui/`. It's
-  served at `/ui/` on the same origin, so no CORS or extra Cognito callback URLs are needed.
+- `deploy.sh server` also builds `frontend/` and copies `frontend/dist` into the image, served at
+  `/ui/` (same origin, so no CORS or extra Cognito callback URLs). Set `RE_PUBLIC_URL` and
+  `WEBSITE_SOURCE=live` when you run it, or the regenerated `.env` changes the live server's settings.

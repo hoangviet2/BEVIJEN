@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { DEV_AUTH, LOGIN_URL, currentUser, post, setSession } from './api.js';
+import { DEV_AUTH, LOGIN_URL, currentUser, post, setSession, signOut } from './api.js';
 import { ROLES, hasRole, sessionUser } from './lib.js';
 import Queue from './Queue.jsx';
 import Records from './Records.jsx';
@@ -38,7 +38,7 @@ export default function App() {
         </div>
         <div className="who">
           <span><b>{user.name || user.email}</b><span className="small">{user.groups.join(', ') || 'no role'}</span></span>
-          <button className="btn sm" onClick={() => setSession(null)}>Sign out</button>
+          <button className="btn sm" onClick={signOut}>Sign out</button>
         </div>
       </header>
       {tab === 'queue' ? <Queue user={user} /> : tab === 'records' ? <Records user={user} /> : <Team user={user} />}
@@ -54,7 +54,7 @@ function Pending({ user }) {
         <p className="eyebrow">One Degree · Resource Engine</p>
         <h1>Waiting for approval</h1>
         <p className="sub">You’re signed in as <b>{user.email}</b>, but an admin hasn’t given your account a role yet. Sign in again once you hear back.</p>
-        <button className="btn" onClick={() => setSession(null)}>Sign out</button>
+        <button className="btn" onClick={signOut}>Sign out</button>
       </div>
     </div>
   );

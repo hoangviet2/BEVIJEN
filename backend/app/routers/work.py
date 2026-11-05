@@ -7,7 +7,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from ..auth import User, ctx_dep, current_user, require
 from ..context import Context
 from ..discovery import service as discovery
-from ..models import AssignTask, DiscoveryRunRequest, ResolveTask, SnoozeTask
+from ..models import AssignTask, DiscoveryRunRequest, ResolveRecord, ResolveTask, SnoozeTask
 from ..tasks import service as tasks
 from ..tasks.crawler import crawl
 
@@ -59,6 +59,15 @@ def release(task_id: str, ctx: Context = Depends(ctx_dep), user: User = Depends(
 @router.post("/tasks/{task_id}/resolve", tags=["Tasks"])
 def resolve(task_id: str, body: ResolveTask, ctx: Context = Depends(ctx_dep), user: User = Depends(current_user)):
     return _task(tasks.resolve, ctx, task_id, user=user.email, method=body.method, notes=body.notes,
+                 findings=[f.model_dump() for f in body.findings])
+
+
+@router.post("/records/{service_id}/resolve", tags=["Records"])
+def resolve_record(service_id: str, body: ResolveRecord, ctx: Context = Depends(ctx_dep),
+                   user: User = Depends(current_user)):
+    """Specialist verification of one record: one outcome per open finding (confirmed | apply | edit |
+    dismiss | closed). When nothing is left open the record becomes verified, with assured_date = today."""
+    return _task(tasks.resolve_record, ctx, service_id, user=user.email, method=body.method, notes=body.notes,
                  findings=[f.model_dump() for f in body.findings])
 
 

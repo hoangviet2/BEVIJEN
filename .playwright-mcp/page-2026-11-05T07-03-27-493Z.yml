@@ -1,0 +1,41 @@
+- generic [ref=f4e3]:
+  - banner [ref=f4e4]:
+    - generic [ref=f4e5]:
+      - paragraph [ref=f4e6]: One Degree · Resource Engine
+      - tablist [ref=f4e7]:
+        - tab "Call queue" [ref=f4e8] [cursor=pointer]
+        - tab "Records" [active] [selected] [ref=f4e9] [cursor=pointer]
+        - tab "Team" [ref=f4e10] [cursor=pointer]
+    - generic [ref=f4e11]:
+      - generic [ref=f4e12]:
+        - generic [ref=f4e13]: admin@iloveyou.com
+        - generic [ref=f4e14]: admin
+      - button "Sign out" [ref=f4e15] [cursor=pointer]
+  - generic [ref=f4e28]:
+    - generic [ref=f4e29]:
+      - tablist [ref=f4e30]:
+        - tab "Unverified" [selected] [ref=f4e31] [cursor=pointer]
+        - tab "Verified" [ref=f4e32] [cursor=pointer]
+      - generic [ref=f4e33]:
+        - textbox "Search" [ref=f4e34]:
+          - /placeholder: Search name or ID
+        - textbox "ZIP" [ref=f4e35]
+        - combobox "Source" [ref=f4e36]:
+          - option "All sources" [selected]
+          - option "NDP"
+          - option "ODRS"
+          - option "Agent discovery"
+        - combobox "Problem" [ref=f4e37]:
+          - option "All problems" [selected]
+          - option "Actively bad"
+          - option "Check failed"
+          - option "Needs manual check"
+          - option "New facility"
+          - option "Discrepancy"
+          - option "Missing information"
+          - option "Stale"
+          - option "Clash"
+          - option "Possible duplicate"
+          - option "Agent discovered"
+        - button "Reload" [ref=f4e38] [cursor=pointer]
+    - paragraph [ref=f4e39]: Loading…
