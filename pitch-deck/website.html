@@ -412,12 +412,11 @@ footer a:hover{color:var(--accent)}
           <span class="step-num r" style="--i:0">1</span>
           <p class="eyebrow r" style="--i:0">sources</p>
           <h2 class="r" style="--i:1">Three sources become one foundation</h2>
-          <p class="lede r" style="--i:2">Records from NDP, ODR and a spreadsheet are merged into a single Foundation Database. Every later check compares against it.</p>
+          <p class="lede r" style="--i:2">Records from NDP, ODR and a spreadsheet arrive in different shapes. We standardize every file into the HSDS format first, then merge them into a single Foundation Database. Every later check compares against it.</p>
           <ul class="steps-list r" style="--i:3">
-            <li><span><b>NDP</b> records come in</span></li>
-            <li><span><b>ODR</b> records come in</span></li>
-            <li><span><b>Spreadsheet</b> records come in</span></li>
-            <li><span><b>Merge</b> all three into the Foundation Database</span></li>
+            <li><span><b>Three sources</b>: NDP, ODR and a spreadsheet</span></li>
+            <li><span><b>Standardize</b> every file into the HSDS format</span></li>
+            <li><span><b>Merge</b> them into the Foundation Database</span></li>
           </ul>
         </article>
 
@@ -449,9 +448,9 @@ footer a:hover{color:var(--accent)}
           <span class="step-num r" style="--i:0">4</span>
           <p class="eyebrow r" style="--i:0">verify</p>
           <h2 class="r" style="--i:1">Specialists only see what needs a person</h2>
-          <p class="lede r" style="--i:2">Each record comes out verified or unverified. Verified records go straight into the database with no manual work, so specialists spend their time only where a person is needed.</p>
+          <p class="lede r" style="--i:2">Each record comes out verified or unverified. Verified records go straight into the database with no manual work, and specialists can view them there. Only unverified records need a person&rsquo;s attention.</p>
           <ul class="steps-list r" style="--i:3">
-            <li><span><b>Verified</b> records are saved to the database automatically</span></li>
+            <li><span><b>Verified</b> records are saved to the database automatically, where specialists can view them</span></li>
             <li><span><b>Unverified</b> records go to a specialist&rsquo;s queue</span></li>
             <li><span><b>Sorted by zip code</b> so specialists can work area by area</span></li>
           </ul>
@@ -565,33 +564,35 @@ footer a:hover{color:var(--accent)}
 <script>
 (function(){
   var NS = 'http://www.w3.org/2000/svg';
-  var FULL = [0, 0, 940, 1000];
+  var FULL = [0, 0, 940, 1100];
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // The mind map, same as the slide deck. s = stage (1-5).
   var N = {
-    ndp:    {x:260, y:40,  w:90,  t:['NDP'], s:1},
-    odr:    {x:420, y:40,  w:90,  t:['ODR'], s:1},
-    sheet:  {x:580, y:40,  w:150, t:['Spreadsheet'], s:1},
-    found:  {x:420, y:140, w:250, t:['Foundation Database','merges all three sources'], s:1},
-    store:  {x:420, y:240, w:150, t:['Data Store'], s:2},
-    handle: {x:420, y:340, w:250, t:['Database Handle','cleaning · removing duplicates'], s:2},
-    ai:     {x:420, y:440, w:190, t:['AI Maintenance'], s:3},
-    agent:  {x:420, y:540, w:250, t:['Bedrock AgentCore','searches each record’s link'], s:3},
-    verify: {x:200, y:650, w:110, t:['Verify'], s:4},
-    unver:  {x:110, y:750, w:130, t:['Unverified'], s:4},
-    ver:    {x:290, y:750, w:120, t:['Verified'], s:4},
-    spec:   {x:110, y:850, w:130, t:['Specialist'], s:4},
-    db:     {x:290, y:850, w:120, t:['Database'], s:4},
-    zip:    {x:110, y:950, w:170, t:['Categorize','by zip code'], s:4},
-    update: {x:640, y:650, w:110, t:['Update'], s:5},
-    newsrc: {x:455, y:760, w:160, t:['New sources','search for more'], s:5},
-    cmp:    {x:640, y:760, w:170, t:['Compare','with foundation DB'], s:5},
-    sweep:  {x:830, y:760, w:190, t:['Every 2 weeks','delete dead or stale sites'], s:5}
+    ndp:    {x:260, y:40,   w:90,  t:['NDP'], s:1},
+    odr:    {x:420, y:40,   w:90,  t:['ODR'], s:1},
+    sheet:  {x:580, y:40,   w:150, t:['Spreadsheet'], s:1},
+    std:    {x:420, y:140,  w:230, t:['Standardize','into the HSDS format'], s:1},
+    found:  {x:420, y:240,  w:250, t:['Foundation Database','merges all three sources'], s:1},
+    store:  {x:420, y:340,  w:150, t:['Data Store'], s:2},
+    handle: {x:420, y:440,  w:250, t:['Database Handle','cleaning · removing duplicates'], s:2},
+    ai:     {x:420, y:540,  w:190, t:['AI Maintenance'], s:3},
+    agent:  {x:420, y:640,  w:250, t:['Bedrock AgentCore','searches each record’s link'], s:3},
+    verify: {x:200, y:750,  w:110, t:['Verify'], s:4},
+    unver:  {x:110, y:850,  w:130, t:['Unverified'], s:4},
+    ver:    {x:290, y:850,  w:120, t:['Verified'], s:4},
+    spec:   {x:110, y:950,  w:130, t:['Specialist'], s:4},
+    db:     {x:290, y:950,  w:120, t:['Database'], s:4},
+    zip:    {x:110, y:1050, w:170, t:['Categorize','by zip code'], s:4},
+    dbspec: {x:290, y:1050, w:170, t:['Specialist','views the records'], s:4},
+    update: {x:640, y:750,  w:110, t:['Update'], s:5},
+    newsrc: {x:455, y:860,  w:160, t:['New sources','search for more'], s:5},
+    cmp:    {x:640, y:860,  w:170, t:['Compare','with foundation DB'], s:5},
+    sweep:  {x:830, y:860,  w:190, t:['Every 2 weeks','delete dead or stale sites'], s:5}
   };
-  var E = [['ndp','found'],['odr','found'],['sheet','found'],['found','store'],['store','handle'],['handle','ai'],['ai','agent'],
+  var E = [['ndp','std'],['odr','std'],['sheet','std'],['std','found'],['found','store'],['store','handle'],['handle','ai'],['ai','agent'],
            ['agent','verify'],['agent','update'],['verify','unver'],['verify','ver'],['unver','spec'],['spec','zip'],
-           ['ver','db'],['update','newsrc'],['update','cmp'],['update','sweep']];
+           ['ver','db'],['db','dbspec'],['update','newsrc'],['update','cmp'],['update','sweep']];
 
   var depth = {ndp:0, odr:0, sheet:0};
   for (var k = 0; k < 12; k++) E.forEach(function(e){ if (depth[e[0]] !== undefined) depth[e[1]] = Math.max(depth[e[1]] || 0, depth[e[0]] + 1); });
