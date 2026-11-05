@@ -14,6 +14,7 @@ import threading
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
+from fastapi.responses import FileResponse, RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pathlib import Path
 from fastapi.staticfiles import StaticFiles
@@ -57,6 +58,11 @@ def create_app() -> FastAPI:
     ui_dir = Path(get_settings().ui_dir)
     if ui_dir.is_dir():  # absent in tests and before `npm run build`
         app.mount("/ui", StaticFiles(directory=ui_dir, html=True), name="ui")
+    pitch = Path(get_settings().pitch_dir)
+    if (pitch / "website.html").is_file():  # public, no auth; the trailing slash keeps relative links inside
+        app.add_api_route("/pitch-deck", lambda: RedirectResponse("/pitch-deck/"), include_in_schema=False)
+        app.add_api_route("/pitch-deck/", lambda: FileResponse(pitch / "website.html"), include_in_schema=False)
+        app.mount("/pitch-deck", StaticFiles(directory=pitch), name="pitch-deck")
     return app
    
 

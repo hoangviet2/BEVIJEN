@@ -11,7 +11,8 @@ COPY gateway /srv/gateway
 # Specialist UI: the React build from ../frontend, passed as a named build context
 # (infra/deploy.sh and docker-compose.yml do this; build it first with `cd ../frontend && npm run build`).
 COPY --from=ui / /srv/ui
-ENV UI_DIR=/srv/ui
+COPY --from=pitch / /srv/pitch-deck
+ENV UI_DIR=/srv/ui PITCH_DIR=/srv/pitch-deck
 RUN useradd -r -u 10001 re && chown -R re /srv
 USER re
 EXPOSE 8000

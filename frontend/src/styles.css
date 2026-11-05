@@ -124,6 +124,9 @@ label.opt input { width: 16px; min-height: 0; margin: 0; flex: none; }
 .opt.on { border: 2px solid var(--blue); background: var(--blue-bg); padding: 9px 11px; }
 .opt .t { font-size: 12px; color: var(--muted); }
 .opt .v { font-size: 15px; line-height: 1.45; color: var(--ink); }
+.opt-input { min-height: 64px; width: 100%; resize: vertical; font-size: 15px; line-height: 1.45; color: var(--ink); cursor: text; }
+.opt-input::placeholder { color: var(--muted); }
+.opt-input:focus { outline: none; }
 .svc summary { cursor: pointer; font-weight: 600; }
 .svc p { font-size: 15px; line-height: 1.55; }
 .details { display: flex; flex-direction: column; }

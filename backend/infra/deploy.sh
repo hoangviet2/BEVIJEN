@@ -415,11 +415,12 @@ step_server() {
   ecr_login
   # Uncommitted changes get a unique tag so the image of the last commit is never overwritten.
   local tag; tag="$(git -C "$BACKEND" rev-parse --short HEAD 2>/dev/null || date +%s)"
-  git -C "$BACKEND" diff --quiet HEAD -- "$BACKEND" "$BACKEND/../frontend" 2>/dev/null || tag="$tag-dirty-$(date +%s)"
+  git -C "$BACKEND" diff --quiet HEAD -- "$BACKEND" "$BACKEND/../frontend" "$BACKEND/../pitch-deck" 2>/dev/null || tag="$tag-dirty-$(date +%s)"
   local uri="$ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/re-server:$tag"
   log "Specialist UI (frontend/ -> served at /ui)"
   (cd "$BACKEND/../frontend" && npm ci --no-audit --no-fund && npm run build)
-  docker buildx build --platform linux/amd64 --build-context ui="$BACKEND/../frontend/dist" -t "$uri" --push "$BACKEND"
+  docker buildx build --platform linux/amd64 --build-context ui="$BACKEND/../frontend/dist" \
+    --build-context pitch="$BACKEND/../pitch-deck" -t "$uri" --push "$BACKEND"
   step_env > "$HERE/.env.server"
   aws s3 cp "$HERE/.env.server" "s3://$BUCKET/deploy/.env" --sse aws:kms --sse-kms-key-id "$(get kms_key_arn)" >/dev/null
   aws s3 cp "$BACKEND/docker-compose.yml" "s3://$BUCKET/deploy/docker-compose.yml" >/dev/null

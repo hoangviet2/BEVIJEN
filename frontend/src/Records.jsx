@@ -128,7 +128,10 @@ function RecordDialog({ id, onClose, onSaved }) {
   }, [onClose]);
 
   const open = (rec?.findings || []).filter((f) => f.status === 'open');
-  const allDecided = open.length > 0 && open.every((f) => dec[f.finding_id]?.choice);
+  const allDecided = open.length > 0 && open.every((f) => {
+    const d = dec[f.finding_id];
+    return d?.choice && (d.choice !== 'edit' || String(d.text ?? '').trim());
+  });
   const idx = rec?.index || {};
 
   // One call: the server applies every decision and marks the record verified when nothing is left open.
@@ -185,7 +188,7 @@ function RecordDialog({ id, onClose, onSaved }) {
               {open.length > 0 ? (
                 <div className="stack">
                   <p className="label">What to do</p>
-                  {open.map((f) => <Decide key={f.finding_id} f={f} d={dec[f.finding_id] || {}} set={(x) => setDec({ ...dec, [f.finding_id]: { ...dec[f.finding_id], ...x } })} />)}
+                  {open.map((f) => <Decide key={f.finding_id} f={f} d={dec[f.finding_id] || {}} set={(x) => setDec((cur) => ({ ...cur, [f.finding_id]: { ...cur[f.finding_id], ...x } }))} />)}
                 </div>
               ) : idx.verification_status === 'verified' ? <div className="done">Verified. No open problems.</div>
                 : <div className="ask">No open problems, but the record isn’t verified yet. Check it, then press <b>Mark verified</b>.</div>}
@@ -219,7 +222,7 @@ function Decide({ f, d, set }) {
   const hasProposed = f.proposed_value != null && f.proposed_value !== '';
   const opt = (choice, title, value) => (
     <button className={'opt' + (d.choice === choice ? ' on' : '')} aria-pressed={d.choice === choice}
-      onClick={() => set({ choice, text: choice === 'edit' && d.text == null ? text(f.proposed_value ?? f.current_value) : d.text })}>
+      onClick={() => set({ choice })}>
       <span className="t">{title}</span>{value != null && <span className="v">{value || '(empty)'}</span>}
     </button>
   );
@@ -233,11 +236,10 @@ function Decide({ f, d, set }) {
       <div className="opts">
         {opt('keep', stale ? 'Still correct: mark as checked today' : 'Keep our record', stale ? null : text(f.current_value))}
         {hasProposed && opt('web', 'Use source value', text(f.proposed_value))}
-        {opt('edit', 'Type a new value', null)}
+        <textarea className={'opt opt-input' + (d.choice === 'edit' ? ' on' : '')} rows={2}
+          aria-label={`New ${fieldLabel(f.field).toLowerCase()}`} placeholder={`New ${fieldLabel(f.field).toLowerCase()}`}
+          value={d.text ?? ''} onFocus={() => set({ choice: 'edit' })} onChange={(e) => set({ choice: 'edit', text: e.target.value })} />
       </div>
-      {d.choice === 'edit' && (
-        <label className="field">New {fieldLabel(f.field).toLowerCase()}<input value={d.text ?? ''} onChange={(e) => set({ text: e.target.value })} /></label>
-      )}
     </div>
   );
 }

@@ -3,7 +3,7 @@
 services:
   api:
     image: ${IMAGE:-resource-engine:dev}
-    build: {context: ., additional_contexts: {ui: ../frontend/dist}}
+    build: {context: ., additional_contexts: {ui: ../frontend/dist, pitch: ../pitch-deck}}
     env_file: [{path: .env, required: false}]
     environment:
       STORE_BACKEND: ${STORE_BACKEND:-aws}

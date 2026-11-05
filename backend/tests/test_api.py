@@ -204,3 +204,13 @@ def test_records_pages_newest_first_with_cursor(client, ctx, monkeypatch):
     assert r.json() == [] and r.headers.get("x-next-cursor")
     assert client.get("/records", params={"status": "unverified", "cursor": "garbage"}).status_code == 422
     assert client.get("/records", params={"limit": 101}).status_code == 422
+
+
+def test_pitch_deck_is_public_at_pitch_deck(client):
+    r = client.get("/pitch-deck", follow_redirects=False)
+    assert r.status_code == 307 and r.headers["location"] == "/pitch-deck/"
+    page = client.get("/pitch-deck/", headers={"Authorization": ""})
+    assert page.status_code == 200 and "text/html" in page.headers["content-type"]
+    assert "<title>Self-Maintaining Database</title>" in page.text
+    assert client.get("/pitch-deck/website.html").status_code == 200
+    assert client.get("/pitch-deck/../app/config.py").status_code == 404
