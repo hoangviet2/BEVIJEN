@@ -1,6 +1,12 @@
 {
   "Version": "2012-10-17",
   "Statement": [
+    {"Sid": "Knowledge", "Effect": "Allow", "Action": ["s3vectors:QueryVectors","s3vectors:GetVectors"], "Resource": "arn:aws:s3vectors:__REGION__:__ACCOUNT_ID__:bucket/re-kb-vectors/index/re-kb-index"},
+    {"Sid": "Embed", "Effect": "Allow", "Action": "bedrock:InvokeModel", "Resource": "arn:aws:bedrock:__REGION__::foundation-model/amazon.titan-embed-text-v2:0"},
+    {"Sid": "Translate", "Effect": "Allow", "Action": ["translate:TranslateText","comprehend:DetectDominantLanguage"], "Resource": "*"},
+    {"Sid": "Email", "Effect": "Allow", "Action": "ses:SendEmail", "Resource": "arn:aws:ses:__REGION__:__ACCOUNT_ID__:identity/*"},
+    {"Sid": "Sms", "Effect": "Allow", "Action": "sms-voice:SendTextMessage", "Resource": "arn:aws:sms-voice:__REGION__:__ACCOUNT_ID__:*"},
+    {"Sid": "Kms", "Effect": "Allow", "Action": ["kms:Decrypt","kms:GenerateDataKey"], "Resource": "__KMS_KEY_ARN__"},
     {"Sid": "Logs", "Effect": "Allow", "Action": ["logs:CreateLogGroup","logs:CreateLogStream","logs:PutLogEvents"], "Resource": "*"},
     {"Sid": "Cache", "Effect": "Allow", "Action": ["s3:GetObject","s3:PutObject"],
      "Resource": ["arn:aws:s3:::__BUCKET__/webcache/*","arn:aws:s3:::__BUCKET__/samples/*","arn:aws:s3:::__BUCKET__/evidence/*"]},

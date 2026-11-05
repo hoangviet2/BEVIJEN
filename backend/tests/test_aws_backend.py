@@ -84,3 +84,10 @@ def test_committed_gateway_openapi_is_current():
     assert ops == {"get_record", "match_existing", "create_record", "record_finding", "flag_for_specialist",
                    "parse_schedule"}
     assert "nullable" in json.dumps(on_disk) and '"type": "null"' not in json.dumps(_to_openapi30(on_disk))
+
+
+def test_agent_runtime_client_waits_for_the_whole_run_and_never_retries():
+    # a 60 s timeout + botocore retries started up to 4 paid agent runs per SQS delivery
+    from app import aws
+    cfg = aws._client("bedrock-agentcore", "us-west-2", "").meta.config
+    assert cfg.read_timeout >= 1200 and cfg.retries["total_max_attempts"] == 1

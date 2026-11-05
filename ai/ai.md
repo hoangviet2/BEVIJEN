@@ -124,6 +124,9 @@ What the server does with the verdict (`verify/worker.py`):
 | `pdf_text` | Lambda → Textract (async via S3) | flyers and schedules |
 | `browse` | agent → AgentCore Browser (Playwright over CDP) | JS-only pages, Facebook; screenshots to `evidence/`; falls back to `fetch_page` without Playwright |
 | `web_search` / `WebSearch` | AgentCore Web Search connector on the Gateway | results keep their URL; never copied in bulk (connector acceptable-use terms) |
+| `search_knowledge` | Lambda (target `assist-tools`) → S3 Vectors `re-kb-vectors/re-kb-index` | passages from `docs/hsds`, `docs/one-degree`, SKILL.md (Titan v2, 512 dims); load with `./infra/deploy.sh kb` / `python -m app.cli kb-load`. A managed Bedrock Knowledge Base is blocked by the hackathon SCP |
+| `translate_text` | Lambda (`assist-tools`) → Amazon Translate | non-English pages; the original-language snippet stays the evidence |
+| `send_message` | Lambda (`assist-tools`) → SES email / End User Messaging SMS | alerts the specialist team for `actively_bad`; recipients fixed by Lambda env (`ALERT_EMAIL`, `ALERT_SMS_TO`, `SMS_ORIGINATION`) — the agent can't choose them. SMS uses a simulator number until a toll-free number is registered |
 
 `WEBSITE_SOURCE=sample` makes `fetch_page`/`check_site` read `s3://…/samples/websites/{domain}/{path}.json` instead of the internet, so the evaluation set (design §13) runs offline with seeded failures (404, parked, expired TLS, wording-only changes). The agent can't tell which source is active.
 
@@ -157,6 +160,10 @@ What the server does with the verdict (`verify/worker.py`):
 | Audit | evidence in the index item and `evidence/{id}/discovery.json`, HSDS metadata rows, Observability trace |
 
 **Prompt injection.** Prompts and SKILL.md say web text is data. `fetch_page` / `browse` / `pdf_text` mark text that looks like instructions (`suspicious_instructions`), scripts are stripped, and Policy blocks any tool the agent isn't allowed regardless of what it is told.
+
+**Runtime inbound auth (AgentCore Identity).** The discovery runtime accepts only Cognito JWTs (`customJWTAuthorizer`, allowed client = the server's M2M client `re-agent-m2m`, scope `re-agents/invoke`); SigV4 calls are refused. The server gets a `client_credentials` token (secret `re/agent-m2m-secret`) and calls the `live` runtime endpoint over HTTPS (`DISCOVERY_AUTH=jwt`, `DISCOVERY_QUALIFIER=live`). `./infra/deploy.sh identity agents server`. The verifier stays on SigV4 (worker → runtime). Both runtimes have a `live` endpoint pinned to the version each deploy creates.
+
+**Observability.** `./infra/deploy.sh observability` turns on CloudWatch Transaction Search (spans → `aws/spans`, 100 % indexed); the agent image runs `opentelemetry-instrument` (ADOT). Traces: CloudWatch → GenAI Observability → Bedrock AgentCore.
 
 **Identity.** No secrets in agent code: the agents sign Gateway calls with their runtime role (SigV4); the Gateway reaches `/tools/*` with an API key held by AgentCore Identity (provider `re-tools-key`, value from Secrets Manager `re/tools-api-key`); the server compares it in constant time.
 

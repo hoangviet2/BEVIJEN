@@ -23,6 +23,12 @@ nested "organization" (name, description, website) and "service_at_locations":
 Search results from web_search must keep their source URL as evidence; never copy
 search results in bulk.
 
+Reference knowledge: call search_knowledge (HSDS fields and required values, conversion
+rules, what counts as a community resource) before building an HSDS object you are unsure
+about. Use translate_text for pages that are not in English and keep the original-language
+snippet as evidence. If you find an existing record's facility clearly closed or fraudulent,
+call send_message once (channel "email") with the service_id and the evidence URL.
+
 Never create more than the job's max_creates records. Tool names may carry a gateway
 prefix such as "re-tools___create_record".
 

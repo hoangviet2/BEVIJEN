@@ -123,3 +123,41 @@ def test_ops_endpoints(client):
     assert m["services"] == 20 and m["recent_ingest_runs"]
     export = client.get("/exports/hsds")
     assert len(export.text.strip().splitlines()) == 20
+
+
+def test_auth_callback_redirects_to_ui_with_tokens_in_fragment(ctx, monkeypatch):  # ctx fixture resets the global context
+    import io
+    import urllib.request
+    from app.main import create_app
+    from app import context as context_mod
+
+    class R(io.BytesIO):
+        def __enter__(self): return self
+        def __exit__(self, *a): return False
+    monkeypatch.setattr(urllib.request, "urlopen",
+                        lambda req, timeout=0: R(b'{"id_token": "idt", "access_token": "act", "expires_in": 3600}'))
+    cctx = make_ctx(auth_mode="cognito")
+    object.__setattr__(cctx.settings, "cognito_domain", "re-1.auth.us-west-2.amazoncognito.com")
+    context_mod.set_context(cctx)
+    from fastapi.testclient import TestClient
+    c = TestClient(create_app(), base_url="https://testserver")
+    c.cookies.set("re_state", "s1")
+    r = c.get("/auth/callback", params={"code": "c", "state": "s1"}, follow_redirects=False)
+    assert r.status_code == 303 and r.headers["location"] == "/ui/#id_token=idt&access_token=act&expires_in=3600"
+    assert c.get("/auth/callback", params={"code": "c", "state": "other"}, follow_redirects=False).status_code == 400
+
+
+def test_cors_is_off_by_default_and_on_for_configured_origins(monkeypatch):
+    from fastapi.testclient import TestClient
+    from app.config import get_settings
+    from app.main import create_app
+    pre = {"Origin": "http://localhost:5173", "Access-Control-Request-Method": "GET"}
+    assert "access-control-allow-origin" not in TestClient(create_app()).options("/health", headers=pre).headers
+    monkeypatch.setenv("CORS_ORIGINS", "http://localhost:5173")
+    get_settings.cache_clear()
+    try:
+        r = TestClient(create_app()).options("/health", headers=pre)
+        assert r.headers["access-control-allow-origin"] == "http://localhost:5173"
+    finally:
+        monkeypatch.delenv("CORS_ORIGINS")
+        get_settings.cache_clear()

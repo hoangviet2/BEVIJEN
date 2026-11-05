@@ -84,6 +84,13 @@ class Settings:
     cognito_user_pool_id: str = field(default_factory=lambda: _env("COGNITO_USER_POOL_ID"))
     cognito_client_id: str = field(default_factory=lambda: _env("COGNITO_CLIENT_ID"))
     cognito_domain: str = field(default_factory=lambda: _env("COGNITO_DOMAIN"))
+    ui_url: str = field(default_factory=lambda: _env("UI_URL", "/ui/"))  # /auth/callback sends the browser here
+    cors_origins: str = field(default_factory=lambda: _env("CORS_ORIGINS"))  # comma list; empty = no CORS
+    # Discovery runtime inbound auth (AgentCore Identity): sigv4 | jwt (Cognito client_credentials token)
+    discovery_auth: str = field(default_factory=lambda: _env("DISCOVERY_AUTH", "sigv4"))
+    discovery_qualifier: str = field(default_factory=lambda: _env("DISCOVERY_QUALIFIER"))  # runtime endpoint, e.g. live
+    agent_m2m_client_id: str = field(default_factory=lambda: _env("AGENT_M2M_CLIENT_ID"))
+    agent_m2m_secret: str = field(default_factory=lambda: _env("AGENT_M2M_SECRET", "re/agent-m2m-secret"))
 
     # --- search / metrics ---------------------------------------------------
     opensearch_endpoint: str = field(default_factory=lambda: _env("OPENSEARCH_ENDPOINT"))

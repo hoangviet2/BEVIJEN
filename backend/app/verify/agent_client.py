@@ -120,8 +120,54 @@ class AgentCoreClient:
             return check_verify_output(self._invoke(self.settings.verifier_agent_arn, retry, session), sid)
 
     def discover(self, payload):
-        out = self._invoke(self.settings.discovery_agent_arn, payload, self._session("discover"))
+        session = self._session("discover")
+        if self.settings.discovery_auth == "jwt":
+            out = self._invoke_jwt(self.settings.discovery_agent_arn, payload, session)
+        else:
+            out = self._invoke(self.settings.discovery_agent_arn, payload, session)
         return check_discovery_output(out, payload["run_id"])
+
+    _token: tuple[str, float] = ("", 0.0)
+
+    def _m2m_token(self) -> str:
+        """Cognito client_credentials access token for the discovery runtime's JWT authorizer (cached)."""
+        import base64
+        import time
+        import urllib.parse
+        import urllib.request
+
+        from .. import aws
+        token, exp = self._token
+        if token and time.time() < exp - 60:
+            return token
+        s = self.settings
+        basic = base64.b64encode(f"{s.agent_m2m_client_id}:{aws.secret(s.agent_m2m_secret)}".encode()).decode()
+        req = urllib.request.Request(
+            f"https://{s.cognito_domain}/oauth2/token", method="POST",
+            data=urllib.parse.urlencode({"grant_type": "client_credentials", "scope": "re-agents/invoke"}).encode(),
+            headers={"Authorization": f"Basic {basic}", "Content-Type": "application/x-www-form-urlencoded"})
+        with urllib.request.urlopen(req, timeout=15) as r:
+            doc = json.loads(r.read())
+        self._token = (doc["access_token"], time.time() + int(doc.get("expires_in", 3600)))
+        return self._token[0]
+
+    def _invoke_jwt(self, arn: str, payload: dict, session_id: str) -> Any:
+        """InvokeAgentRuntime over HTTPS with a Bearer token (SDKs only sign SigV4; OAuth runtimes refuse SigV4)."""
+        import urllib.parse
+        import urllib.request
+        if not arn:
+            raise AgentOutputError("agent runtime ARN not configured")
+        q = f"?qualifier={self.settings.discovery_qualifier}" if self.settings.discovery_qualifier else ""
+        url = (f"https://bedrock-agentcore.{self.settings.aws_region}.amazonaws.com/runtimes/"
+               f"{urllib.parse.quote(arn, safe='')}/invocations{q}")
+        req = urllib.request.Request(url, method="POST", data=json.dumps(payload).encode(), headers={
+            "Authorization": f"Bearer {self._m2m_token()}", "Content-Type": "application/json",
+            "Accept": "application/json", "X-Amzn-Bedrock-AgentCore-Runtime-Session-Id": session_id})
+        with urllib.request.urlopen(req, timeout=1500) as r:  # discovery runs up to 20 min
+            out = parse_json_text(r.read().decode("utf-8", "replace"))
+        if isinstance(out, dict):
+            out.setdefault("agent_session_id", session_id)
+        return out
 
 
 class InProcessClient:

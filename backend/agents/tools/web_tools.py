@@ -372,5 +372,58 @@ def browse(url: str, goal: str = "", evidence_key: str | None = None) -> dict:
     return out
 
 
+# --- assist-tools Gateway target -------------------------------------------------------------
+
+def search_knowledge(query: str, max_results: int = 5) -> dict:
+    """Search the agents' reference knowledge (HSDS 3.2.3 objects/fields, conversion rules, One Degree
+    docs, the verification skill). Returns passages with their source document."""
+    import boto3
+    emb = boto3.client("bedrock-runtime", region_name=_region()).invoke_model(  # same embedding as app.ai.embed
+        modelId="amazon.titan-embed-text-v2:0", contentType="application/json", accept="application/json",
+        body=json.dumps({"inputText": query[:8000], "dimensions": 512, "normalize": True}))
+    vec = json.loads(emb["body"].read())["embedding"]
+    resp = boto3.client("s3vectors", region_name=_region()).query_vectors(
+        vectorBucketName="re-kb-vectors", indexName="re-kb-index", topK=max(1, min(int(max_results), 10)),
+        queryVector={"float32": vec}, returnMetadata=True, returnDistance=True)
+    return {"query": query, "results": [{"source": v["metadata"]["source"], "text": v["metadata"]["text"],
+                                         "score": round(1 - v["distance"], 3)} for v in resp.get("vectors", [])]}
+
+
+def translate_text(text: str, target_language: str = "en", source_language: str = "auto") -> dict:
+    """Translate page text (Amazon Translate), e.g. a Spanish-only flyer, before comparing facts."""
+    import boto3
+    body = text.encode("utf-8")[:9500].decode("utf-8", "ignore")  # TranslateText limit: 10,000 bytes
+    resp = boto3.client("translate", region_name=_region()).translate_text(
+        Text=body, SourceLanguageCode=source_language, TargetLanguageCode=target_language)
+    return {"text": resp["TranslatedText"], "source_language": resp["SourceLanguageCode"],
+            "target_language": target_language, "truncated": len(body) < len(text)}
+
+
+def send_message(channel: str, message: str, subject: str = "", service_id: str = "") -> dict:
+    """Alert the specialist team by email or SMS. Recipients are fixed by the operator (ALERT_EMAIL /
+    ALERT_SMS_TO); the agent cannot choose who receives a message."""
+    import boto3
+    text = f"[Resource Engine{' ' + service_id if service_id else ''}] {message}".strip()
+    if channel == "email":
+        to = os.getenv("ALERT_EMAIL", "")
+        if not to:
+            return {"sent": False, "error": "email alerts not configured"}
+        resp = boto3.client("sesv2", region_name=_region()).send_email(
+            FromEmailAddress=to, Destination={"ToAddresses": [to]},
+            Content={"Simple": {"Subject": {"Data": (subject or "Resource Engine alert")[:120]},
+                                "Body": {"Text": {"Data": text[:2000]}}}})
+        return {"sent": True, "channel": "email", "message_id": resp["MessageId"]}
+    if channel == "sms":
+        to, origin = os.getenv("ALERT_SMS_TO", ""), os.getenv("SMS_ORIGINATION", "")
+        if not (to and origin):
+            return {"sent": False, "error": "sms alerts not configured"}
+        resp = boto3.client("pinpoint-sms-voice-v2", region_name=_region()).send_text_message(
+            DestinationPhoneNumber=to, OriginationIdentity=origin, MessageBody=text[:300],
+            MessageType="TRANSACTIONAL")
+        return {"sent": True, "channel": "sms", "message_id": resp["MessageId"]}
+    return {"sent": False, "error": "channel must be email or sms"}
+
+
 TOOLS = {"fetch_page": fetch_page, "check_site": check_site, "geocode": geocode, "places_near": places_near,
-         "pdf_text": pdf_text, "browse": browse}
+         "pdf_text": pdf_text, "browse": browse, "search_knowledge": search_knowledge,
+         "translate_text": translate_text, "send_message": send_message}

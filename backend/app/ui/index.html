@@ -725,6 +725,7 @@ $('filterPop').addEventListener('change', (e) => {
 
 /* ---- start ---- */
 async function start() {
+  { const h = new URLSearchParams(location.hash.slice(1)); if (h.get('id_token')) { setToken(h.get('id_token')); history.replaceState(null, '', location.pathname + location.search); } }
   const m = location.hash.match(/id_token=([^&]+)/);
   if (m) { setToken(decodeURIComponent(m[1])); history.replaceState(null, '', location.pathname + location.search); }
   buildFilterOptions();

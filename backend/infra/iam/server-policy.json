@@ -21,6 +21,9 @@
     {"Sid": "Metrics", "Effect": "Allow", "Action": "cloudwatch:PutMetricData", "Resource": "*", "Condition": {"StringEquals": {"cloudwatch:namespace": "ResourceEngine"}}},
     {"Sid": "Search", "Effect": "Allow", "Action": ["es:ESHttpGet","es:ESHttpPut","es:ESHttpPost","es:ESHttpDelete"], "Resource": "arn:aws:es:__REGION__:__ACCOUNT_ID__:domain/re-search/*"},
     {"Sid": "Logs", "Effect": "Allow", "Action": ["logs:CreateLogGroup","logs:CreateLogStream","logs:PutLogEvents"], "Resource": "arn:aws:logs:__REGION__:__ACCOUNT_ID__:log-group:/re/*"},
+    {"Sid": "Users", "Effect": "Allow", "Action": ["cognito-idp:AdminCreateUser","cognito-idp:AdminAddUserToGroup","cognito-idp:AdminRemoveUserFromGroup",
+                "cognito-idp:AdminListGroupsForUser","cognito-idp:ListUsers","cognito-idp:ListUsersInGroup"],
+     "Resource": "arn:aws:cognito-idp:__REGION__:__ACCOUNT_ID__:userpool/*"},
     {"Sid": "Pull", "Effect": "Allow", "Action": ["ecr:GetAuthorizationToken","ecr:BatchGetImage","ecr:GetDownloadUrlForLayer"], "Resource": "*"}
   ]
 }

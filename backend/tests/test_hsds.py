@@ -64,3 +64,22 @@ def test_rows_items_round_trip():
     back = items_to_rows(items)
     sid = next(iter(rows["service"]))
     assert render_service(sid, back) == render_service(sid, rows)
+
+
+def test_location_whose_partial_address_was_dropped_is_still_physical():
+    # live ODRS: street address without city/ZIP -> address dropped; location must keep a type (else quarantined)
+    from hsds_transform.mapper import Dataset
+    from app.hsds.normalize import normalize
+    ds = Dataset()
+    ds.add("location", {"id": "L1", "name": "Main office"})
+    ds.add("address", {"id": "A1", "location_id": "L1", "address_1": "1 Main St", "state_province": "CA"})
+    codes = {f.code for f in normalize(ds, "odrs")}
+    assert "address_incomplete_dropped" in codes and ds.rows["location"]["L1"]["location_type"] == "physical"
+
+
+def test_knowledge_chunks_keep_paragraphs_and_size():
+    from app.knowledge import chunks, files
+    text = "# A\n\n" + "\n\n".join(f"para {i} " + "x" * 300 for i in range(10)) + "\n\n" + "y" * 4000
+    out = chunks(text, size=1500)
+    assert all(len(c) <= 1500 for c in out) and "".join(out).count("para") == 10
+    assert any(f.name == "SKILL.md" for f in files()) and len(files()) > 20

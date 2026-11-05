@@ -97,3 +97,13 @@ def test_budget_hook_cancels_after_limit():
     for e in events:
         hook.check(e)
     assert [bool(e.cancel_tool) for e in events] == [False, False, True]
+
+
+def test_send_message_only_reaches_operator_recipients(monkeypatch):
+    from tools import web_tools
+    for k in ("ALERT_EMAIL", "ALERT_SMS_TO", "SMS_ORIGINATION"):
+        monkeypatch.delenv(k, raising=False)
+    assert web_tools.send_message("email", "closed")["sent"] is False  # nothing configured -> nothing sent
+    assert web_tools.send_message("sms", "closed")["sent"] is False
+    assert web_tools.send_message("fax", "x") == {"sent": False, "error": "channel must be email or sms"}
+    assert "to" not in web_tools.send_message.__code__.co_varnames[:web_tools.send_message.__code__.co_argcount]

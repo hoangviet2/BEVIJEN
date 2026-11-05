@@ -20,13 +20,17 @@ from .config import Settings, get_settings
 log = logging.getLogger(__name__)
 
 _CFG = Config(retries={"total_max_attempts": 4, "mode": "adaptive"})
+# InvokeAgentRuntime blocks for the whole agent run (verifier ~2-5 min, discovery up to 20 min).
+# The 60 s default timed out mid-run and botocore retried, starting a new paid run each time.
+# No retries: SQS redelivery is the retry. (Memory calls fall back to the table on error.)
+_AGENT_CFG = Config(read_timeout=1500, retries={"total_max_attempts": 1})
 # Services LocalStack can emulate; everything else always talks to real AWS.
 _LOCAL_OK = {"s3", "dynamodb", "sqs", "secretsmanager", "cloudwatch", "kms"}
 
 
 @lru_cache(maxsize=None)
 def _client(service: str, region: str, endpoint: str) -> Any:
-    kwargs: dict[str, Any] = {"region_name": region, "config": _CFG}
+    kwargs: dict[str, Any] = {"region_name": region, "config": _AGENT_CFG if service == "bedrock-agentcore" else _CFG}
     if endpoint and service in _LOCAL_OK:
         kwargs["endpoint_url"] = endpoint
     return boto3.client(service, **kwargs)

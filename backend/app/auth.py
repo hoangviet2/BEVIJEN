@@ -73,12 +73,17 @@ def verify_cognito(token: str, s: Settings) -> User:
 def current_user(request: Request, ctx: Context = Depends(ctx_dep)) -> User:
     s = ctx.settings
     if s.auth_mode == "dev":
-        return User(email=request.headers.get("x-dev-user", "dev@local"),
+        user = User(email=request.headers.get("x-dev-user", "dev@local"),
                     groups=[g for g in request.headers.get("x-dev-groups", "admin").split(",") if g])
-    auth = request.headers.get("authorization", "")
-    if not auth.lower().startswith("bearer "):
-        raise HTTPException(401, "missing bearer token")
-    return verify_cognito(auth.split(" ", 1)[1], s)
+    else:
+        auth = request.headers.get("authorization", "")
+        if not auth.lower().startswith("bearer "):
+            raise HTTPException(401, "missing bearer token")
+        user = verify_cognito(auth.split(" ", 1)[1], s)
+    # Signed in is not enough: an admin must have approved the account by putting it in a group.
+    if not any(g in ROLES for g in user.groups):
+        raise HTTPException(403, "account not approved yet: an admin must give you a role")
+    return user
 
 
 def require(role: str):

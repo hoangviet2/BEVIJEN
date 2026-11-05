@@ -92,7 +92,8 @@ def login(request: Request, ctx: Context = Depends(ctx_dep)):
 
 @router.get("/auth/callback", name="auth_callback")
 def callback(request: Request, code: str, state: str, ctx: Context = Depends(ctx_dep)):
-    """Exchanges the code for tokens (public client, no secret) and returns them to the UI."""
+    """Exchanges the code for tokens (public client, no secret) and sends the browser to UI_URL with them
+    in the URL fragment (#id_token=…&access_token=…&expires_in=…): fragments never reach servers or logs."""
     import json
     import urllib.request
     if request.cookies.get("re_state") != state:
@@ -103,5 +104,7 @@ def callback(request: Request, code: str, state: str, ctx: Context = Depends(ctx
                                  headers={"Content-Type": "application/x-www-form-urlencoded"})
     with urllib.request.urlopen(req, timeout=15) as r:
         tokens = json.loads(r.read())
-    return {"id_token": tokens.get("id_token"), "access_token": tokens.get("access_token"),
-            "expires_in": tokens.get("expires_in")}
+    frag = urllib.parse.urlencode({k: tokens[k] for k in ("id_token", "access_token", "expires_in") if tokens.get(k)})
+    resp = RedirectResponse(f"{ctx.settings.ui_url}#{frag}", status_code=303)
+    resp.delete_cookie("re_state")
+    return resp

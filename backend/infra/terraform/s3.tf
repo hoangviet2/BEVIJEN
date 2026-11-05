@@ -1,5 +1,11 @@
+variable "bucket_name" {
+  description = "S3 bucket name (globally unique)"
+  type        = string
+  default     = "team20-resource-engine-2026"
+}
+
 resource "aws_s3_bucket" "resource_engine" {
-  bucket = "team20-resource-engine-2026"
+  bucket = var.bucket_name
 
   tags = {
     Name    = "Resource Engine"

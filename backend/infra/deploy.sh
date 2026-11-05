@@ -5,6 +5,7 @@
 #   ./infra/deploy.sh all            # every step in order
 #
 # Steps (each is safe to re-run; "exists" errors are skipped):
+#   tf         Terraform for core + iam (infra/terraform); then skip core and iam
 #   core       KMS key, S3 bucket (versioning, SSE-KMS, public-access block), DynamoDB tables, SQS + DLQs
 #   secrets    re/odrs-api-key (prompted), re/tools-api-key, re/api-key-pepper
 #   iam        roles: re-server-role (+ instance profile), re-verifier-agent-role, re-discovery-agent-role,
@@ -12,11 +13,14 @@
 #   cognito    user pool + app client + groups specialist / lead / admin
 #   lambda     re-web-tools Lambda (fetch_page, check_site, geocode, places_near, pdf_text)
 #   memory     AgentCore Memory (per-organization notes)
+#   kb         agent knowledge base: docs/ embedded into S3 Vectors for the search_knowledge tool
 #   gateway    AgentCore Gateway (MCP, AWS_IAM, semantic search) + targets + API-key provider + Policy engine
+#   identity   Cognito M2M client + JWT inbound auth for the discovery runtime (AgentCore Identity)
 #   agents     build/push the agent image (arm64), create/update both AgentCore Runtimes
 #   scheduler  EventBridge Scheduler: crawl 15 min, nightly recheck, weekly discovery, daily NDP pull
 #   search     OpenSearch Service domain re-search (Priority 5; optional)
 #   server     build/push the server image, launch or update the EC2 instance via SSM
+#   observability  CloudWatch Transaction Search for AgentCore traces
 #   alarms     CloudWatch alarms: DLQ depth, quarantine spikes
 #   env        print the env file for the server (write it to /opt/re/.env)
 #
@@ -29,10 +33,10 @@ BACKEND="$(cd "$HERE/.." && pwd)"
 export AWS_REGION="${AWS_REGION:-us-west-2}"
 export AWS_PAGER=""
 ACCOUNT_ID="$(aws sts get-caller-identity --query Account --output text)"
-BUCKET="${RE_S3_BUCKET:-team20-s3-test-bucket}"
 INDEX_TABLE="${RE_DDB_INDEX_TABLE:-team20-resource-engine-index}"
 STATE="$HERE/.state.json"   # ids/arns created here (git-ignored)
 [[ -f "$STATE" ]] || echo '{}' > "$STATE"
+BUCKET="${RE_S3_BUCKET:-$(jq -r '.bucket // "team20-s3-test-bucket"' "$STATE")}"
 
 log()   { printf '\033[1;34m==> %s\033[0m\n' "$*"; }
 get()   { jq -r --arg k "$1" '.[$k] // empty' "$STATE"; }
@@ -45,6 +49,16 @@ render() {  # render <file> -> stdout with placeholders filled
       -e "s|__TOOLS_KEY_PROVIDER_ARN__|$(get tools_key_provider_arn)|g" "$1"
 }
 tmp() { local f; f="$(mktemp)"; render "$1" > "$f"; echo "$f"; }
+
+# --- tf (alternative to core + iam) -----------------------------------------------------------
+step_tf() {
+  log "Terraform: KMS, S3, DynamoDB, SQS, IAM (infra/terraform) -> outputs into $STATE"
+  terraform -chdir="$HERE/terraform" init -input=false
+  terraform -chdir="$HERE/terraform" apply -input=false ${TF_AUTO_APPROVE:+-auto-approve} ${RE_S3_BUCKET:+-var "bucket_name=$RE_S3_BUCKET"}
+  local out; out="$(terraform -chdir="$HERE/terraform" output -json)"
+  for k in kms_key_arn bucket sqs_verify_url sqs_jobs_url; do put "$k" "$(jq -r --arg k "$k" '.[$k].value' <<<"$out")"; done
+  BUCKET="$(get bucket)"
+}
 
 # --- core ----------------------------------------------------------------------------------
 step_core() {
@@ -132,11 +146,12 @@ step_cognito() {
   if [[ -z "$(get cognito_pool_id)" ]]; then
     put cognito_pool_id "$(aws cognito-idp create-user-pool --pool-name re-specialists \
       --policies 'PasswordPolicy={MinimumLength=12,RequireUppercase=true,RequireLowercase=true,RequireNumbers=true}' \
-      --mfa-configuration OPTIONAL --software-token-mfa-configuration Enabled=true \
       --auto-verified-attributes email --username-attributes email \
       --admin-create-user-config AllowAdminCreateUserOnly=true --query UserPool.Id --output text)"
   fi
   local pool; pool="$(get cognito_pool_id)"
+  aws cognito-idp set-user-pool-mfa-config --user-pool-id "$pool" --mfa-configuration OPTIONAL \
+    --software-token-mfa-configuration Enabled=true >/dev/null
   for g in specialist lead admin; do quiet aws cognito-idp create-group --user-pool-id "$pool" --group-name "$g"; done
   if [[ -z "$(get cognito_client_id)" ]]; then
     put cognito_client_id "$(aws cognito-idp create-user-pool-client --user-pool-id "$pool" --client-name re-ui \
@@ -160,7 +175,9 @@ step_lambda() {
   cp "$BACKEND/lambdas/web_tools/handler.py" "$BACKEND/agents/tools/web_tools.py" "$dir/"
   (cd "$dir" && zip -q -r web-tools.zip handler.py web_tools.py)
   local role_arn="arn:aws:iam::$ACCOUNT_ID:role/re-web-tools-lambda-role"
-  local env="Variables={RE_S3_BUCKET=$BUCKET,WEBSITE_SOURCE=${WEBSITE_SOURCE:-sample}}"
+  local env; env="$(jq -nc --arg b "$BUCKET" --arg w "${WEBSITE_SOURCE:-sample}" --arg e "${ALERT_EMAIL:-}" \
+    --arg t "${ALERT_SMS_TO:-}" --arg o "${SMS_ORIGINATION:-}" \
+    '{Variables:{RE_S3_BUCKET:$b,WEBSITE_SOURCE:$w,ALERT_EMAIL:$e,ALERT_SMS_TO:$t,SMS_ORIGINATION:$o}}')"
   if aws lambda get-function --function-name re-web-tools >/dev/null 2>&1; then
     aws lambda update-function-code --function-name re-web-tools --zip-file "fileb://$dir/web-tools.zip" >/dev/null
     aws lambda wait function-updated --function-name re-web-tools
@@ -182,6 +199,17 @@ step_memory() {
       --event-expiry-duration 365 --encryption-key-arn "$(get kms_key_arn)" --query memory.id --output text)"
   fi
   echo "  memory id $(get memory_id)"
+}
+
+# --- kb ------------------------------------------------------------------------------------
+# Agent knowledge (search_knowledge tool): docs/ -> Titan v2 (512) -> S3 Vectors. A managed Bedrock
+# Knowledge Base is blocked in the hackathon sandbox (SCP denies CreateKnowledgeBase with any role).
+step_kb() {
+  log "Agent knowledge base: S3 Vectors re-kb-vectors/re-kb-index"
+  quiet aws s3vectors create-vector-bucket --vector-bucket-name re-kb-vectors
+  quiet aws s3vectors create-index --vector-bucket-name re-kb-vectors --index-name re-kb-index --data-type float32 \
+    --dimension 512 --distance-metric cosine --metadata-configuration 'nonFilterableMetadataKeys=text'
+  (cd "$BACKEND" && STORE_BACKEND=memory python -m app.cli kb-load)
 }
 
 # --- gateway -------------------------------------------------------------------------------
@@ -233,6 +261,12 @@ step_gateway() {
       --target-configuration "file://$(tmp "$BACKEND/gateway/targets/web-tools.json")" \
       --credential-provider-configurations "file://$BACKEND/gateway/targets/lambda-credentials.json" >/dev/null
   fi
+  if ! grep -qw assist-tools <<<"$existing"; then
+    aws bedrock-agentcore-control create-gateway-target --gateway-identifier "$gid" --name assist-tools \
+      --description 'search_knowledge (S3 Vectors), translate_text (Translate), send_message (SES / SMS)' \
+      --target-configuration "file://$(tmp "$BACKEND/gateway/targets/assist-tools.json")" \
+      --credential-provider-configurations "file://$BACKEND/gateway/targets/lambda-credentials.json" >/dev/null
+  fi
   if ! grep -qw web-search <<<"$existing"; then
     aws bedrock-agentcore-control create-gateway-target --gateway-identifier "$gid" --name web-search \
       --description 'AgentCore Web Search connector' \
@@ -244,14 +278,21 @@ step_gateway() {
   sleep 15
   # one policy per statement: split the file on blank-line-separated permit/forbid blocks
   local i=0
-  render "$BACKEND/gateway/policies/re-agents.cedar" | awk 'BEGIN{RS="";ORS="\0"} /permit\(|forbid\(/' |
+  render "$BACKEND/gateway/policies/re-agents.cedar" | python3 -c 'import re,sys; [sys.stdout.write(b+"\0") for b in re.split(r"\n\s*\n", sys.stdin.read()) if re.search(r"\b(permit|forbid)\(", b)]' |
   while IFS= read -r -d '' stmt; do
     i=$((i+1))
     stmt="$(grep -v '^//' <<<"$stmt")"
     [[ -z "${stmt// }" ]] && continue
-    aws bedrock-agentcore-control create-policy --policy-engine-id "$(get policy_engine_id)" --name "re_agents_$i" \
-      --definition "$(jq -n --arg s "$stmt" '{cedar:{statement:$s}}')" --validation-mode FAIL_ON_ANY_FINDINGS \
-      >/dev/null 2>&1 && echo "  policy re_agents_$i" || echo "  policy re_agents_$i exists or failed validation (check: aws bedrock-agentcore-control list-policies)"
+    local def pid; def="$(jq -n --arg s "$stmt" '{cedar:{statement:$s}}')"
+    pid="$(aws bedrock-agentcore-control list-policies --policy-engine-id "$(get policy_engine_id)" \
+      --query "policies[?name=='re_agents_$i'].policyId" --output text)"
+    if [[ -n "$pid" ]]; then
+      aws bedrock-agentcore-control update-policy --policy-engine-id "$(get policy_engine_id)" --policy-id "$pid" \
+        --definition "$def" --validation-mode FAIL_ON_ANY_FINDINGS >/dev/null && echo "  policy re_agents_$i updated"
+    else
+      aws bedrock-agentcore-control create-policy --policy-engine-id "$(get policy_engine_id)" --name "re_agents_$i" \
+        --definition "$def" --validation-mode FAIL_ON_ANY_FINDINGS >/dev/null && echo "  policy re_agents_$i created"
+    fi
   done
   echo "  after checking the policy decision logs: POLICY_MODE=ENFORCE ./infra/deploy.sh gateway-enforce"
 }
@@ -276,22 +317,63 @@ step_agents() {
     env="$(jq -nc --arg g "$(get gateway_url)" --arg m "${BEDROCK_MODEL_ID:-us.anthropic.claude-sonnet-4-5-20250929-v1:0}" \
       --arg r "$AWS_REGION" --arg b "$BUCKET" --arg a "${kind}_app" --arg w "${WEBSITE_SOURCE:-sample}" \
       '{GATEWAY_URL:$g,BEDROCK_MODEL_ID:$m,AWS_REGION:$r,RE_S3_BUCKET:$b,AGENT_APP:$a,WEBSITE_SOURCE:$w}')"
-    local id; id="$(get "${kind}_runtime_id")"
+    # discovery: inbound auth = Cognito JWT via AgentCore Identity (only the server's M2M client), once `identity` ran
+    local auth=()
+    [[ "$kind" == discovery && -n "$(get m2m_client_id)" ]] && auth=(--authorizer-configuration \
+      "{\"customJWTAuthorizer\":{\"discoveryUrl\":\"https://cognito-idp.$AWS_REGION.amazonaws.com/$(get cognito_pool_id)/.well-known/openid-configuration\",\"allowedClients\":[\"$(get m2m_client_id)\"]}}")
+    local id out; id="$(get "${kind}_runtime_id")"
     if [[ -z "$id" ]]; then
-      local out; out="$(aws bedrock-agentcore-control create-agent-runtime --agent-runtime-name "$name" \
+      out="$(aws bedrock-agentcore-control create-agent-runtime --agent-runtime-name "$name" \
         --agent-runtime-artifact "{\"containerConfiguration\":{\"containerUri\":\"$uri\"}}" \
-        --role-arn "arn:aws:iam::$ACCOUNT_ID:role/re-${kind}-agent-role" \
+        --role-arn "arn:aws:iam::$ACCOUNT_ID:role/re-${kind}-agent-role" ${auth[@]+"${auth[@]}"} \
         --network-configuration networkMode=PUBLIC --environment-variables "$env" --output json)"
-      put "${kind}_runtime_id" "$(jq -r .agentRuntimeId <<<"$out")"
+      id="$(jq -r .agentRuntimeId <<<"$out")"
+      put "${kind}_runtime_id" "$id"
       put "${kind}_agent_arn" "$(jq -r .agentRuntimeArn <<<"$out")"
     else
-      aws bedrock-agentcore-control update-agent-runtime --agent-runtime-id "$id" \
+      out="$(aws bedrock-agentcore-control update-agent-runtime --agent-runtime-id "$id" \
         --agent-runtime-artifact "{\"containerConfiguration\":{\"containerUri\":\"$uri\"}}" \
-        --role-arn "arn:aws:iam::$ACCOUNT_ID:role/re-${kind}-agent-role" \
-        --network-configuration networkMode=PUBLIC --environment-variables "$env" >/dev/null
+        --role-arn "arn:aws:iam::$ACCOUNT_ID:role/re-${kind}-agent-role" ${auth[@]+"${auth[@]}"} \
+        --network-configuration networkMode=PUBLIC --environment-variables "$env" --output json)"
     fi
-    echo "  $name -> $(get "${kind}_agent_arn")"
+    local ver; ver="$(jq -r .agentRuntimeVersion <<<"$out")"
+    local st; until st="$(aws bedrock-agentcore-control get-agent-runtime --agent-runtime-id "$id" --query status --output text)"; \
+      [[ "$st" == READY || "$st" == *FAILED ]]; do sleep 5; done
+    [[ "$st" == READY ]] || { echo "  $name $st: $(aws bedrock-agentcore-control get-agent-runtime --agent-runtime-id "$id" --query failureReason --output text)"; return 1; }
+    # named endpoint "live" -> this version (the server calls ?qualifier=live; DEFAULT keeps tracking latest)
+    if aws bedrock-agentcore-control get-agent-runtime-endpoint --agent-runtime-id "$id" --endpoint-name live >/dev/null 2>&1; then
+      aws bedrock-agentcore-control update-agent-runtime-endpoint --agent-runtime-id "$id" --endpoint-name live \
+        --agent-runtime-version "$ver" >/dev/null
+    else
+      aws bedrock-agentcore-control create-agent-runtime-endpoint --agent-runtime-id "$id" --name live \
+        --agent-runtime-version "$ver" --description "Resource Engine production endpoint" >/dev/null
+    fi
+    echo "  $name v$ver -> $(get "${kind}_agent_arn") (endpoint live)${auth:+, inbound: Cognito JWT}"
   done
+}
+
+# --- identity ------------------------------------------------------------------------------
+# AgentCore Identity inbound auth for the discovery runtime: Cognito resource server re-agents/invoke
+# + an M2M app client (client_credentials) the server uses. Secret: Secrets Manager re/agent-m2m-secret.
+step_identity() {
+  log "Cognito M2M client for agent runtime JWT auth"
+  local pool; pool="$(get cognito_pool_id)"
+  quiet aws cognito-idp create-resource-server --user-pool-id "$pool" --identifier re-agents --name "Resource Engine agents" \
+    --scopes ScopeName=invoke,ScopeDescription="Invoke agent runtimes"
+  if [[ -z "$(get m2m_client_id)" ]]; then
+    put m2m_client_id "$(aws cognito-idp create-user-pool-client --user-pool-id "$pool" --client-name re-agent-m2m --generate-secret \
+      --allowed-o-auth-flows client_credentials --allowed-o-auth-scopes re-agents/invoke --allowed-o-auth-flows-user-pool-client \
+      --access-token-validity 60 --token-validity-units AccessToken=minutes --query UserPoolClient.ClientId --output text)"
+  fi
+  # copy the client secret into Secrets Manager (jq -j: no trailing newline, which would break Basic auth)
+  local f; f="$(mktemp)"
+  (umask 077; aws cognito-idp describe-user-pool-client --user-pool-id "$pool" --client-id "$(get m2m_client_id)" \
+    --output json | jq -j .UserPoolClient.ClientSecret > "$f")
+  aws secretsmanager create-secret --name re/agent-m2m-secret --kms-key-id "$(get kms_key_arn)" \
+    --secret-string "file://$f" >/dev/null 2>&1 || aws secretsmanager put-secret-value --secret-id re/agent-m2m-secret \
+    --secret-string "file://$f" >/dev/null
+  rm -f "$f"
+  echo "  m2m client $(get m2m_client_id); now run: ./infra/deploy.sh agents server"
 }
 
 # --- scheduler -----------------------------------------------------------------------------
@@ -303,7 +385,8 @@ schedule() {  # schedule <name> <expression> <target file>
 step_scheduler() {
   log "EventBridge Scheduler -> SQS re-jobs"
   schedule re-crawl "rate(15 minutes)" "$HERE/scheduler/crawl-target.json"
-  schedule re-recheck-nightly "cron(17 9 * * ? *)" "$HERE/scheduler/recheck-target.json"
+  # Recheck queues every record never checked = one paid agent run each (~$1-2). Opt in: RECHECK=1.
+  [[ "${RECHECK:-}" == 1 ]] && schedule re-recheck-nightly "cron(17 9 * * ? *)" "$HERE/scheduler/recheck-target.json"
   schedule re-discovery-weekly "cron(23 10 ? * MON *)" "$HERE/scheduler/discovery-target.json"
   [[ -n "${NDP_MOCK_URL:-}" ]] && schedule re-ndp-daily "cron(7 8 * * ? *)" "$HERE/scheduler/ndp-target.json"
   true
@@ -348,6 +431,7 @@ step_server() {
       --query 'Instances[0].InstanceId' --output text)"
     aws ec2 wait instance-status-ok --instance-ids "$(get instance_id)"
   fi
+  [[ -n "${EIP_ALLOC_ID:-}" ]] && aws ec2 associate-address --allocation-id "$EIP_ALLOC_ID" --instance-id "$(get instance_id)" >/dev/null
   log "Deploy $tag via SSM"
   aws ssm send-command --instance-ids "$(get instance_id)" --document-name AWS-RunShellScript \
     --comment "re deploy $tag" --parameters "commands=[
@@ -355,6 +439,16 @@ step_server() {
       \"aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com\",
       \"IMAGE=$uri docker compose pull && IMAGE=$uri docker compose up -d --remove-orphans\"]" \
     --query Command.CommandId --output text
+}
+
+# --- observability -------------------------------------------------------------------------
+step_observability() {
+  log "CloudWatch Transaction Search (AgentCore Observability: agent spans -> aws/spans, GenAI dashboard)"
+  aws logs put-resource-policy --policy-name re-transaction-search --policy-document "$(jq -nc --arg a "$ACCOUNT_ID" --arg r "$AWS_REGION" '{Version:"2012-10-17",Statement:[{Sid:"TransactionSearchXRayAccess",Effect:"Allow",Principal:{Service:"xray.amazonaws.com"},Action:"logs:PutLogEvents",Resource:["arn:aws:logs:\($r):\($a):log-group:aws/spans:*","arn:aws:logs:\($r):\($a):log-group:/aws/application-signals/data:*"],Condition:{ArnLike:{"aws:SourceArn":"arn:aws:xray:\($r):\($a):*"},StringEquals:{"aws:SourceAccount":$a}}}]}')" >/dev/null
+  [[ "$(aws xray get-trace-segment-destination --query Destination --output text)" == CloudWatchLogs ]] || \
+    aws xray update-trace-segment-destination --destination CloudWatchLogs >/dev/null
+  aws xray update-indexing-rule --name Default --rule '{"Probabilistic":{"DesiredSamplingPercentage":100}}' >/dev/null
+  echo "  traces: CloudWatch > GenAI Observability > Bedrock AgentCore (takes ~10 min to start)"
 }
 
 # --- alarms --------------------------------------------------------------------------------
@@ -394,10 +488,17 @@ COGNITO_CLIENT_ID=$(get cognito_client_id)
 COGNITO_DOMAIN=$(get cognito_domain)
 WEBSITE_SOURCE=${WEBSITE_SOURCE:-sample}
 OPENSEARCH_ENDPOINT=${OPENSEARCH_ENDPOINT:-}
+DISCOVERY_AUTH=$([[ -n "$(get m2m_client_id)" ]] && echo jwt || echo sigv4)
+DISCOVERY_QUALIFIER=live
+AGENT_M2M_CLIENT_ID=$(get m2m_client_id)
+COMPOSE_PROFILES=aws
+UI_URL=${UI_URL:-/ui/}
+CORS_ORIGINS=${CORS_ORIGINS:-}
+RE_DOMAIN=$(sed -E 's|^https?://||; s|/.*||' <<<"${RE_PUBLIC_URL:-localhost}")
 EOF
 }
 
 steps=("$@")
-[[ ${#steps[@]} -eq 0 ]] && { sed -n '2,24p' "$0"; exit 1; }
-[[ "${steps[0]}" == "all" ]] && steps=(core secrets iam cognito lambda memory gateway agents scheduler server alarms)
+[[ ${#steps[@]} -eq 0 ]] && { sed -n '2,/^# Requires/p' "$0"; exit 1; }
+[[ "${steps[0]}" == "all" ]] && steps=(core secrets iam cognito lambda memory kb gateway identity agents scheduler server observability alarms)
 for s in "${steps[@]}"; do "step_${s//-/_}"; done

@@ -117,10 +117,12 @@ def normalize(ds: Dataset, source: str) -> list[Fix]:
 
     # 5b. Addresses HSDS can't hold (no city / ZIP, e.g. NDP "Various Locations").
     required = ("address_1", "city", "state_province", "postal_code", "country")
+    dropped_at = set()  # locations that had a (partial) street address: still physical places
     for aid, row in list(rows.get("address", {}).items()):
         missing = [c for c in required if is_missing(row.get(c))]
         if not missing:
             continue
+        dropped_at.add(row.get("location_id"))
         loc = rows.get("location", {}).get(row.get("location_id"))
         del rows["address"][aid]
         place = row.get("region") or row.get("state_province") or ""
@@ -136,7 +138,7 @@ def normalize(ds: Dataset, source: str) -> list[Fix]:
         if not is_missing(loc.get("location_type")):
             continue
         has_addr = any(a.get("location_id") == lid for a in rows.get("address", {}).values())
-        if has_addr or not is_missing(loc.get("latitude")):
+        if has_addr or lid in dropped_at or not is_missing(loc.get("latitude")):
             loc["location_type"] = "physical"
         elif not is_missing(loc.get("url")):
             loc["location_type"] = "virtual"

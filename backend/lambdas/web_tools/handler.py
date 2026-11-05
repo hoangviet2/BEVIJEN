@@ -1,4 +1,5 @@
-"""AgentCore Gateway Lambda target: fetch_page, check_site, geocode, places_near, pdf_text.
+"""AgentCore Gateway Lambda targets: web-tools (fetch_page, check_site, geocode, places_near, pdf_text)
+and assist-tools (search_knowledge, translate_text, send_message).
 
 The Gateway invokes the function with the tool arguments as the event and the
 tool name in `context.client_context.custom["bedrockAgentCoreToolName"]`
@@ -16,7 +17,8 @@ import web_tools
 log = logging.getLogger()
 log.setLevel(logging.INFO)
 
-ALLOWED = {"fetch_page", "check_site", "geocode", "places_near", "pdf_text"}
+ALLOWED = {"fetch_page", "check_site", "geocode", "places_near", "pdf_text",
+           "search_knowledge", "translate_text", "send_message"}
 
 
 def handler(event, context):

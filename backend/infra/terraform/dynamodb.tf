@@ -47,6 +47,10 @@ resource "aws_dynamodb_table" "tables" {
     kms_key_arn = aws_kms_key.re_data.arn
   }
 
+  point_in_time_recovery {
+    enabled = true
+  }
+
   tags = {
     Project = "Resource Engine"
   }

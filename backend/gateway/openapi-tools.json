@@ -28,16 +28,6 @@
             }
           },
           {
-            "name": "x-api-key",
-            "in": "header",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "default": "",
-              "title": "X-Api-Key"
-            }
-          },
-          {
             "name": "x-re-agent",
             "in": "header",
             "required": false,
@@ -78,16 +68,6 @@
         "summary": "Candidate duplicates for a facility (name, phone, address, website domain)",
         "operationId": "match_existing",
         "parameters": [
-          {
-            "name": "x-api-key",
-            "in": "header",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "default": "",
-              "title": "X-Api-Key"
-            }
-          },
           {
             "name": "x-re-agent",
             "in": "header",
@@ -140,16 +120,6 @@
         "operationId": "create_record",
         "parameters": [
           {
-            "name": "x-api-key",
-            "in": "header",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "default": "",
-              "title": "X-Api-Key"
-            }
-          },
-          {
             "name": "x-re-agent",
             "in": "header",
             "required": false,
@@ -200,16 +170,6 @@
         "summary": "Record one evidence-backed finding (writes re-findings, never HSDS)",
         "operationId": "record_finding",
         "parameters": [
-          {
-            "name": "x-api-key",
-            "in": "header",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "default": "",
-              "title": "X-Api-Key"
-            }
-          },
           {
             "name": "x-re-agent",
             "in": "header",
@@ -262,16 +222,6 @@
         "operationId": "flag_for_specialist",
         "parameters": [
           {
-            "name": "x-api-key",
-            "in": "header",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "default": "",
-              "title": "X-Api-Key"
-            }
-          },
-          {
             "name": "x-re-agent",
             "in": "header",
             "required": false,
@@ -322,16 +272,6 @@
         "summary": "Free-text hours -> HSDS schedule rows (RFC 5545 freq/byday, local HH:MM)",
         "operationId": "parse_schedule",
         "parameters": [
-          {
-            "name": "x-api-key",
-            "in": "header",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "default": "",
-              "title": "X-Api-Key"
-            }
-          },
           {
             "name": "x-re-agent",
             "in": "header",
@@ -450,7 +390,6 @@
         "properties": {
           "file": {
             "type": "string",
-            "contentMediaType": "application/octet-stream",
             "title": "File"
           }
         },

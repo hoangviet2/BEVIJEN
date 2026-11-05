@@ -85,3 +85,10 @@ cdk.out/
 # Playwright (AgentCore Browser local runs)
 playwright-report/
 test-results/
+
+# Terraform (state holds resource ids and can hold secrets)
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+crash.log

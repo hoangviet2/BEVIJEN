@@ -66,3 +66,41 @@ def test_output_schema_checks():
 def test_parse_json_text_tolerates_fences_and_prose():
     assert parse_json_text('Done.\n```json\n{"verdict": "verified"}\n```') == {"verdict": "verified"}
     assert parse_json_text('Result: {"a": 1}') == {"a": 1}
+
+
+def test_discovery_over_jwt_uses_cached_cognito_token_and_live_endpoint(monkeypatch):
+    import io
+    import json as _json
+    import urllib.request
+    from app import aws
+    from app.config import Settings
+    from app.verify.agent_client import AgentCoreClient
+    s = Settings()
+    object.__setattr__(s, "discovery_auth", "jwt")
+    object.__setattr__(s, "discovery_qualifier", "live")
+    object.__setattr__(s, "cognito_domain", "re-1.auth.us-west-2.amazoncognito.com")
+    object.__setattr__(s, "agent_m2m_client_id", "cid")
+    object.__setattr__(s, "discovery_agent_arn", "arn:aws:bedrock-agentcore:us-west-2:1:runtime/re_discovery_agent-x")
+    monkeypatch.setattr(aws, "secret", lambda _id, *a, **k: "csecret")
+    calls = []
+
+    class R(io.BytesIO):
+        def __enter__(self): return self
+        def __exit__(self, *a): return False
+
+    def fake(req, timeout=0):
+        calls.append(req)
+        if req.full_url.endswith("/oauth2/token"):
+            return R(b'{"access_token": "tok", "expires_in": 3600}')
+        return R(_json.dumps({"run_id": "dr-1", "queries": [], "candidates_seen": 0, "matched_existing": 0,
+                              "created": [], "flagged_possible_duplicates": [], "rejected": []}).encode())
+    monkeypatch.setattr(urllib.request, "urlopen", fake)
+    client = AgentCoreClient.__new__(AgentCoreClient)
+    client.settings = s
+    for _ in range(2):
+        client.discover({"run_id": "dr-1", "zip": "94590"})
+    token_calls = [c for c in calls if c.full_url.endswith("/oauth2/token")]
+    invokes = [c for c in calls if "/invocations" in c.full_url]
+    assert len(token_calls) == 1 and len(invokes) == 2  # token cached
+    assert invokes[0].get_header("Authorization") == "Bearer tok"
+    assert invokes[0].full_url.endswith("runtime%2Fre_discovery_agent-x/invocations?qualifier=live")

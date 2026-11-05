@@ -30,10 +30,11 @@ AGENTS = {
 # model from even seeing tools it may not call).
 ALLOWED = {
     "verifier": {"get_record", "check_site", "fetch_page", "browse", "web_search", "WebSearch", "geocode",
-                 "pdf_text", "parse_schedule", "record_finding", "flag_for_specialist"},
+                 "pdf_text", "parse_schedule", "record_finding", "flag_for_specialist",
+                 "search_knowledge", "translate_text", "send_message"},
     "discovery": {"web_search", "WebSearch", "places_near", "geocode", "fetch_page", "browse", "check_site",
                   "pdf_text", "parse_schedule", "match_existing", "create_record", "record_finding",
-                  "flag_for_specialist"},
+                  "flag_for_specialist", "search_knowledge", "translate_text", "send_message"},
 }
 
 
@@ -96,7 +97,9 @@ def run_agent(kind: str, payload: dict) -> dict:
         model_id=model_id,
         region_name=region,
         temperature=0,
-        max_tokens=4000,
+        # Output cap per model call. 4000 cut off ~1 in 13 verifier runs mid-answer (MaxTokensReachedException,
+        # whole run lost + SQS retry). Only generated tokens are billed, so a higher cap costs nothing extra.
+        max_tokens=16000,
         streaming=(model_id != "amazon.nova-lite-v1:0"),
     )
     hooks = [_budget_hook(spec["max_tool_calls"])]

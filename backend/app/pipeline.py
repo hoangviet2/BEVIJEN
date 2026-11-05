@@ -87,7 +87,8 @@ def _reconcile(ctx: Context, rows: Rows, source: str) -> list[tuple[str, str, An
 
 
 def process_rows(ctx: Context, rows: Rows, source: str, run: dict, fixes: list[Fix] | None = None,
-                 *, actor: str | None = None, index_extra: dict | None = None, mode: str = "new") -> dict:
+                 *, actor: str | None = None, index_extra: dict | None = None, mode: str = "new",
+                 enqueue: bool = True) -> dict:
     """Validate → dedup → commit → pre-flag → enqueue, for one mapped dataset."""
     actor = actor or f"source:{source}"
     counts: Counter = run.setdefault("counts_c", Counter())
@@ -149,7 +150,7 @@ def process_rows(ctx: Context, rows: Rows, source: str, run: dict, fixes: list[F
             outcome = {DupKind.EXACT_EXISTING: "updated", DupKind.POSSIBLE_DUPLICATE: "possible_duplicate"}.get(
                 d.kind, "inserted")
             counts[f"services_{outcome}"] += 1
-            after_commit(ctx, sid, run_id=run["run_id"], mode=mode,
+            after_commit(ctx, sid, run_id=run["run_id"], mode=mode, enqueue=enqueue,
                          extra_reasons=["possible_duplicate"] if d.kind is DupKind.POSSIBLE_DUPLICATE else [])
             results.append({"service_id": sid, "outcome": outcome,
                             **({"duplicate_of": d.existing_item.get("service_id")}
@@ -188,7 +189,7 @@ def map_envelopes(envelopes: list, source: str):
     return ds
 
 
-def run_ingest(ctx: Context, adapter: Adapter, params: dict | None = None) -> dict:
+def run_ingest(ctx: Context, adapter: Adapter, params: dict | None = None, *, enqueue: bool = True) -> dict:
     run = ctx.runs.start("ingest", {"source": adapter.source, **(params or {})})
     envelopes = []
     summary = ingest(adapter, BlobRawStore(ctx.stores.blobs, run["run_id"]), envelopes.append, adapter.source)
@@ -201,7 +202,7 @@ def run_ingest(ctx: Context, adapter: Adapter, params: dict | None = None) -> di
     fixes = normalize(ds, adapter.source)
     run["fixes"] = dict(Counter(f.code for f in fixes))
     run["errors"] += [{"stage": "mapping", **e} for e in ds.errors][:50]
-    process_rows(ctx, ds.rows, adapter.source, run, fixes)
+    process_rows(ctx, ds.rows, adapter.source, run, fixes, enqueue=enqueue)
     counts = run.pop("counts_c")
     counts["organizations_received"] = run["acquisition"]["records_received"]
     run["counts"] = dict(counts)

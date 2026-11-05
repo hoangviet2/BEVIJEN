@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from enum import Enum
-from typing import Any, Optional
+from typing import Any, Literal, Optional
 
 from pydantic import BaseModel, Field
 
@@ -168,3 +168,26 @@ class ToolCreate(BaseModel):
 
 class ToolSchedule(BaseModel):
     text: str = Field(..., max_length=4000)
+
+
+# --- accounts -------------------------------------------------------------------------
+Role = Literal["specialist", "lead", "admin"]
+
+
+class SignupRequest(BaseModel):
+    email: str = Field(..., max_length=254, pattern=r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
+    name: str = Field(..., min_length=1, max_length=100)
+    organization: str = Field("", max_length=200)
+    reason: str = Field("", max_length=1000, description="Why they need access; shown to the approving admin.")
+
+
+class ApproveSignup(BaseModel):
+    role: Role = "specialist"
+
+
+class RejectSignup(BaseModel):
+    reason: str = Field("", max_length=500)
+
+
+class SetRole(BaseModel):
+    role: Optional[Role] = Field(None, description="null removes every group (revokes access)")

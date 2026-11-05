@@ -397,6 +397,15 @@ class Mapper:
                     identity = norm(values["name"])
             rid = self.make_id(table, native, identity, path)
         values["id"] = rid
+        id_src = lambda s: s  # noqa: E731  child key used in child id paths
+        if not is_missing(native):
+            # Children of a row with a source id get ids from that row (and their key relative to it),
+            # not from the record they were read in: ODRS repeats the same location (with its address
+            # and schedules) inside every opportunity offered there, which otherwise added one copy
+            # of each child per opportunity.
+            path = f"{table}:{rid}"
+            prefix = f"{key_path}." if key_path else ""
+            id_src = lambda s: s[len(prefix):] if prefix and s.startswith(prefix) else s  # noqa: E731
 
         # ---- link to parent, then store
         if parent is not None:
@@ -422,11 +431,11 @@ class Mapper:
                 if fk in schema.table(table).columns and not is_missing(row.get(fk)) and c_table != table:
                     forced = row[fk]
                 if nk == "parent_organization":
-                    child_id = self.map_object(item, "organization", None, ctx, f"{path}/{src}", src, extra)
+                    child_id = self.map_object(item, "organization", None, ctx, f"{path}/{id_src(src)}", src, extra)
                     if child_id and is_missing(row.get("parent_organization_id")):
                         row["parent_organization_id"] = child_id
                     continue
-                self.map_object(item, c_table, (table, row), ctx, f"{path}/{src}", src, extra, forced)
+                self.map_object(item, c_table, (table, row), ctx, f"{path}/{id_src(src)}", src, extra, forced)
             elif kind == "taxonomy":
                 vocab_name, items, src = payload
                 self._add_terms(vocab_name, items, table, row, ctx, f"{path}/{src}", src)

@@ -2,7 +2,7 @@
 // Gateway authorizer is AWS_IAM, so principals are the agents' AgentCore Runtime
 // execution roles (AgentCore::IamEntity, session name removed).
 // Placeholders replaced by infra/deploy.sh: __GATEWAY_ARN__, __ACCOUNT_ID__.
-// Targets: re-tools (OpenAPI -> /tools/*), web-tools (Lambda), web-search (connector).
+// Targets: re-tools (OpenAPI -> /tools/*), web-tools + assist-tools (Lambda), web-search (connector).
 
 // 1. Research + findings tools for the verifier
 permit(
@@ -16,7 +16,10 @@ permit(
     AgentCore::Action::"web-tools___check_site",
     AgentCore::Action::"web-tools___geocode",
     AgentCore::Action::"web-tools___pdf_text",
-    AgentCore::Action::"web-search___WebSearch"
+    AgentCore::Action::"web-search___WebSearch",
+    AgentCore::Action::"assist-tools___search_knowledge",
+    AgentCore::Action::"assist-tools___translate_text",
+    AgentCore::Action::"assist-tools___send_message"
   ],
   resource == AgentCore::Gateway::"__GATEWAY_ARN__"
 );
@@ -34,7 +37,10 @@ permit(
     AgentCore::Action::"web-tools___geocode",
     AgentCore::Action::"web-tools___places_near",
     AgentCore::Action::"web-tools___pdf_text",
-    AgentCore::Action::"web-search___WebSearch"
+    AgentCore::Action::"web-search___WebSearch",
+    AgentCore::Action::"assist-tools___search_knowledge",
+    AgentCore::Action::"assist-tools___translate_text",
+    AgentCore::Action::"assist-tools___send_message"
   ],
   resource == AgentCore::Gateway::"__GATEWAY_ARN__"
 );
@@ -53,4 +59,4 @@ forbid(
   action == AgentCore::Action::"re-tools___create_record",
   resource == AgentCore::Gateway::"__GATEWAY_ARN__"
 )
-unless { principal.id == "arn:aws:sts::__ACCOUNT_ID__:assumed-role/re-discovery-agent-role" };
+unless { principal == AgentCore::IamEntity::"arn:aws:sts::__ACCOUNT_ID__:assumed-role/re-discovery-agent-role" };

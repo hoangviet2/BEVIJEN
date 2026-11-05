@@ -74,12 +74,15 @@ resource "aws_iam_role_policy" "agent" {
   policy = replace(
     replace(
       replace(
-        file("${path.module}/../iam/agent-policy.json"),
-        "__REGION__", local.region
+        replace(
+          file("${path.module}/../iam/agent-policy.json"),
+          "__REGION__", local.region
+        ),
+        "__ACCOUNT_ID__", local.account_id
       ),
-      "__ACCOUNT_ID__", local.account_id
+      "__BUCKET__", aws_s3_bucket.resource_engine.bucket
     ),
-    "__BUCKET__", aws_s3_bucket.resource_engine.bucket
+    "__KMS_KEY_ARN__", aws_kms_key.re_data.arn
   )
 }
 # Gateway role
@@ -102,12 +105,15 @@ resource "aws_iam_role_policy" "gateway" {
   policy = replace(
     replace(
       replace(
-        file("${path.module}/../iam/gateway-policy.json"),
-        "__REGION__", local.region
+        replace(
+          file("${path.module}/../iam/gateway-policy.json"),
+          "__REGION__", local.region
+        ),
+        "__ACCOUNT_ID__", local.account_id
       ),
-      "__ACCOUNT_ID__", local.account_id
+      "__BUCKET__", aws_s3_bucket.resource_engine.bucket
     ),
-    "__BUCKET__", aws_s3_bucket.resource_engine.bucket
+    "__KMS_KEY_ARN__", aws_kms_key.re_data.arn
   )
 }
 # Web Tools Lambda role
@@ -122,10 +128,16 @@ resource "aws_iam_role_policy" "lambda" {
 
   policy = replace(
     replace(
-      file("${path.module}/../iam/lambda-policy.json"),
-      "__REGION__", local.region
+      replace(
+        replace(
+          file("${path.module}/../iam/lambda-policy.json"),
+          "__REGION__", local.region
+        ),
+        "__BUCKET__", aws_s3_bucket.resource_engine.bucket
+      ),
+      "__KMS_KEY_ARN__", aws_kms_key.re_data.arn
     ),
-    "__BUCKET__", aws_s3_bucket.resource_engine.bucket
+    "__ACCOUNT_ID__", local.account_id
   )
 }
 # Scheduler role

@@ -97,3 +97,23 @@ def test_reingest_does_not_overwrite_a_person_edit_and_raises_a_clash(ctx, ndp_l
 def test_new_and_changed_services_get_verify_jobs(ctx, ndp_loaded):
     jobs = ctx.stores.verify_q.receive(100)
     assert len(jobs) == 20 and all(j.body["mode"] == "new" for j in jobs)
+
+
+def test_ingest_without_verify_stores_and_preflags_but_queues_no_agent_runs(ctx):
+    run = run_ingest(ctx, odrs_file([ODRS]), enqueue=False)
+    assert run["counts"]["services_stored"] == 50
+    assert ctx.stores.verify_q.receive(10) == []
+    assert ctx.findings.list(category="missing_information")  # rule pre-flags still ran
+
+
+def test_odrs_shared_location_children_are_not_copied_per_opportunity(ctx):
+    # ODRS repeats a location (with its address and hours) inside every opportunity offered there,
+    # and one opportunity can list the same location twice; each must become one row, not one per mention.
+    import json as _json
+    run_ingest(ctx, odrs_file([ODRS]))
+    for item in ctx.repo.index_items():
+        doc = ctx.repo.render_service(item["service_id"])
+        for loc in [sal["location"] for sal in doc.get("service_at_locations", [])] + doc["organization"].get("locations", []):
+            for key in ("addresses", "schedules"):
+                rows = [_json.dumps({k: v for k, v in r.items() if k != "id"}, sort_keys=True) for r in loc.get(key, [])]
+                assert len(rows) == len(set(rows)), (loc.get("name"), key, len(rows))
