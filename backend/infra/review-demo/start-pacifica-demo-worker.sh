@@ -1,31 +1,24 @@
 #!/usr/bin/env bash
 set -euo pipefail
-python3 - <<'PY'
+
+script_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
+worker_file="$script_dir/pacifica_demo_worker.py"
+parameters=$(mktemp)
+trap 'rm -f "$parameters"' EXIT
+
+python3 - "$worker_file" "$parameters" <<'PY'
 import json
 import shlex
-import textwrap
+import sys
 from pathlib import Path
 
-source = Path("/tmp/bevijen-test-queued-finding.json")
-script = json.loads(source.read_text())["commands"][0]
-start = "docker exec -i bevijen-backend python - <<'PY'\n"
-code = script.split(start, 1)[1].rsplit("\nPY\n", 1)[0]
-head, runner = code.split("messages = queue.receive(1, 5)", 1)
-runner = ("messages = queue.receive(1, 5)" + runner).replace(
-    'raise SystemExit("No message received. Check the queue before retrying.")',
-    "return",
-)
-worker = head + "\ndef poll_once():\n" + textwrap.indent(runner, "    ") + (
-    '\n\nprint("Pacifica demo worker ready", flush=True)\n'
-    'while True:\n'
-    '    poll_once()\n'
-)
+worker = Path(sys.argv[1]).read_text()
 compile(worker, "pacifica_demo_worker.py", "exec")
 remote = """set -eu
 umask 077
 name=bevijen-pacifica-demo-worker
 if docker container inspect "$name" >/dev/null 2>&1; then
-  echo "Worker container already exists."
+  echo "Worker already exists. Inspect it before replacing it."
   docker ps -a --filter "name=^/${name}$"
   exit 1
 fi
@@ -33,16 +26,19 @@ envfile=$(mktemp)
 trap 'rm -f "$envfile"' EXIT
 image=$(docker inspect --format '{{.Image}}' bevijen-backend)
 docker inspect --format '{{range .Config.Env}}{{println .}}{{end}}' bevijen-backend > "$envfile"
+grep -Eq '^RE_SQS_VERIFY_URL=.*/bevijen-pacifica-demo-verify$' "$envfile"
 """
-remote += ('docker run -d --name "$name" --network host --env-file "$envfile" '
-           '"$image" python -u -c ' + shlex.quote(worker) + "\n")
+remote += (
+    'docker run -d --name "$name" --network host --no-healthcheck '
+    '--env-file "$envfile" "$image" python -u -c ' + shlex.quote(worker) + "\n"
+)
 remote += 'docker ps -a --filter "name=^/${name}$"\n'
-Path("/tmp/bevijen-start-pacifica-demo-worker.json").write_text(json.dumps({"commands": [remote]}))
+Path(sys.argv[2]).write_text(json.dumps({"commands": [remote]}))
 PY
+
 aws ssm send-command \
-  --region us-west-2 \
-  --instance-ids i-07d5f8791f4e1b1d3 \
+  --region "${AWS_REGION:-us-west-2}" \
+  --instance-ids "${BEVIJEN_INSTANCE_ID:-i-07d5f8791f4e1b1d3}" \
   --document-name AWS-RunShellScript \
-  --parameters file:///tmp/bevijen-start-pacifica-demo-worker.json \
-  --query 'Command.CommandId' \
-  --output text --no-cli-pager
+  --parameters "file://$parameters" \
+  --query 'Command.CommandId' --output text --no-cli-pager
