@@ -15,7 +15,8 @@ learning, for interviews, or for handoff.
 | Learn every tool/library we used | `TECH-STACK-LEARNING-GUIDE.md` |
 | Do the Bedrock Knowledge Base (RAG) challenge | `CHALLENGE-BEDROCK-KNOWLEDGE-BASE.md` |
 | See what we actually built in AWS for the KB | `KB-BUILD-LOG-WHAT-WE-DID.md` |
-| Prepare for an interview | the Q&A sections in `AWS-CODE-WALKTHROUGH.md` + soundbites in the two learning guides |
+| Understand the infrastructure (Terraform) | `TERRAFORM-EXPLAINED.md` |
+| Prepare for an interview | the Q&A sections in `AWS-CODE-WALKTHROUGH.md` + `TERRAFORM-EXPLAINED.md` + soundbites in the learning guides |
 
 ---
 
@@ -49,6 +50,11 @@ security notes, and an interview summary.
 The actual run: resources created (bucket, vector store, IAM role, KB, data
 source), what succeeded, the ingestion failure and its fix, current state,
 remaining steps, and console URLs for screenshots.
+
+### 7. `TERRAFORM-EXPLAINED.md` - Infrastructure as Code (Terraform)
+Terraform from zero for a beginner: what it is, why we use it, and a file-by-file
+walkthrough of our `infra/terraform/` (KMS, S3, DynamoDB, SQS, IAM, outputs) with
+diagrams, real code, and interview Q&A.
 
 ---
 
