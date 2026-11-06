@@ -5,6 +5,88 @@ For each service: what it is (plain English), why we used it, and exactly where
 it shows up in the repo. Lots of diagrams. A one-liner summary of every step is
 at the very end.
 
+> The diagrams below are written in **Mermaid**, which GitHub renders as real
+> visuals (you'll see boxes and arrows, not text). The same diagrams also appear
+> as plain ASCII further down for offline reading.
+
+---
+
+## 0. Visual diagrams (rendered)
+
+### 0.1 How our app uses the AWS services
+
+```mermaid
+flowchart TD
+    DATA["Incoming record (HSDS)"] --> APP["Our app (FastAPI / Python)"]
+    APP --> VAL["validate"]
+    VAL --> DEDUP["dedup check"]
+    DEDUP --> STORE["store record"]
+    STORE --> VERIFY["AI verify"]
+
+    DEDUP -. "3 fast lookups" .-> DDB[("DynamoDB<br/>index + dedup")]
+    STORE -- "full document" --> S3[("Amazon S3<br/>full JSON files")]
+    STORE -- "index card + status" --> DDB
+    VERIFY -- "read web, draft findings" --> BR["Amazon Bedrock<br/>(Claude model)"]
+    VERIFY -- "runs as an agent" --> AC["Bedrock AgentCore<br/>runtime + memory + identity"]
+    IAM["IAM (permissions)"] -. "secures everything" .-> APP
+
+    style S3 fill:#fff4e5
+    style DDB fill:#e6f4ea
+    style BR fill:#fce8e6
+    style AC fill:#f3e8fd
+    style IAM fill:#eef2ff
+```
+
+### 0.2 S3 vs DynamoDB - why we use both
+
+```mermaid
+flowchart LR
+    REC["one incoming record"] --> S3
+    REC --> DDB
+    subgraph S3["Amazon S3"]
+        DOC["full HSDS JSON<br/>(the heavy document)"]
+    end
+    subgraph DDB["DynamoDB index item"]
+        CARD["service_id (key)<br/>content_hash, match_key<br/>verification_status<br/>s3_key - points to S3"]
+    end
+    CARD -- "s3_key points back to" --> DOC
+```
+
+### 0.3 The record pipeline (end to end)
+
+```mermaid
+flowchart TD
+    A["Incoming record<br/>(already HSDS)"] --> B["Validate HSDS<br/>(pure Python)"]
+    B -->|invalid| Q["Quarantined<br/>(never stored)"]
+    B -->|valid| C["Compute: deterministic ID,<br/>content hash, fuzzy match key"]
+    C --> D{"Dedup check<br/>(up to 3 DynamoDB lookups)"}
+    D -->|exact/identical| SKIP["skip / update"]
+    D -->|possible duplicate| FLAG["store + flag possible_duplicate"]
+    D -->|new| STORE["store"]
+    STORE --> W["Write full doc to S3<br/>+ index card to DynamoDB<br/>status = unverified"]
+    FLAG --> W
+    W --> V["AI verify agent<br/>(Bedrock + AgentCore)"]
+    V --> H["Human review:<br/>unverified → verified"]
+```
+
+### 0.4 Knowledge Base (RAG) flow
+
+```mermaid
+flowchart TD
+    subgraph INGEST["Ingestion (one-time)"]
+        DOCS["Docs in S3"] --> CHUNK["Chunk into pieces"]
+        CHUNK --> EMBED["Embed with Titan<br/>(text → vectors)"]
+        EMBED --> VEC[("Vector store<br/>S3 Vectors")]
+    end
+    subgraph ASK["Query (every question)"]
+        U(["User question"]) --> RAG["RetrieveAndGenerate"]
+        RAG -- "similarity search" --> VEC
+        VEC -- "top chunks + source" --> RAG
+        RAG --> LLM["Claude writes answer"]
+        LLM --> ANS["Answer + citation<br/>(source S3 file) = PROOF"]
+    end
+```
+
 ---
 
 ## 1. The 60-second overview
