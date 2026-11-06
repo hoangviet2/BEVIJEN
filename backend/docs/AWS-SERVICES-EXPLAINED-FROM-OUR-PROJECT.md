@@ -60,8 +60,8 @@ flowchart TD
     B -->|invalid| Q["Quarantined<br/>(never stored)"]
     B -->|valid| C["Compute: deterministic ID,<br/>content hash, fuzzy match key"]
     C --> D{"Dedup check<br/>(up to 3 DynamoDB lookups)"}
-    D -->|exact/identical| SKIP["skip / update"]
-    D -->|possible duplicate| FLAG["store + flag possible_duplicate"]
+    D -->|"exact/identical"| SKIP["skip / update"]
+    D -->|"possible duplicate"| FLAG["store + flag possible_duplicate"]
     D -->|new| STORE["store"]
     STORE --> W["Write full doc to S3<br/>+ index card to DynamoDB<br/>status = unverified"]
     FLAG --> W

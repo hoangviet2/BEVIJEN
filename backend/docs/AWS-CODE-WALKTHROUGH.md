@@ -498,9 +498,9 @@ we fetch a Cognito machine-to-machine token and send it as a Bearer header
 ### Diagram
 ```mermaid
 flowchart LR
-    APP["our client"] -->|client_credentials| COG["Cognito token endpoint"]
-    COG -->|access_token (JWT)| APP
-    APP -->|"Authorization: Bearer <JWT>"| RT["AgentCore Runtime<br/>(JWT authorizer)"]
+    APP["our client"] -->|"client_credentials"| COG["Cognito token endpoint"]
+    COG -->|"access_token (JWT)"| APP
+    APP -->|"Authorization: Bearer token"| RT["AgentCore Runtime<br/>(JWT authorizer)"]
     RT -->|valid token| RUN["agent runs"]
     RT -. "no / bad token" .-> REJECT["401 / 403"]
 ```
